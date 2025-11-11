@@ -1,0 +1,155 @@
+<!-- ### /* 增加图片点击查看效果 */
+好的！实现点击放大需要添加三部分：CSS、HTML和JavaScript
+
+---
+
+## 1. 添加CSS样式（放在你的 `<style>` 标签内）
+
+```css
+/* 模态框背景 */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+}
+
+/* 模态框中的图片 */
+.image-modal img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+/* 显示模态框 */
+.image-modal.active {
+    display: block;
+}
+
+/* 关闭按钮 */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #f8dae9;
+}
+```
+
+---
+
+## 2. 修改HTML - 给图片添加点击功能
+
+**原来的：**
+```html
+<div class="project-img">
+    <img src="pics/Wonderland-p101.png" alt="项目图片">
+</div>
+```
+
+**改成：**
+```html
+<div class="project-img">
+    <img src="pics/Wonderland-p101.png" alt="项目图片" onclick="openModal(this.src)">
+</div>
+```
+
+对**每张想要放大的图片**都添加 `onclick="openModal(this.src)"`
+
+---
+
+## 3. 添加JavaScript代码（放在 `</body>` 之前）
+
+```html
+<!-- 模态框HTML结构 -->
+<div class="image-modal" id="imageModal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img id="modalImage" src="" alt="放大图片">
+</div>
+
+<script>
+function openModal(src) {
+    document.getElementById('imageModal').classList.add('active');
+    document.getElementById('modalImage').src = src;
+    document.body.style.overflow = 'hidden'; // 禁止背景滚动
+}
+
+function closeModal() {
+    document.getElementById('imageModal').classList.remove('active');
+    document.body.style.overflow = 'auto'; // 恢复滚动
+}
+
+// 按ESC键也可以关闭
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
+});
+</script>
+```
+
+---
+
+## 完整修改位置示意：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* 你原有的CSS */
+        ...
+        
+        /* 在这里添加模态框CSS ↓ */
+        .image-modal { ... }
+        .image-modal img { ... }
+        ...
+    </style>
+</head>
+<body>
+    <!-- 你的页面内容 -->
+    ...
+    
+    <!-- 在</body>之前添加 ↓ -->
+    <div class="image-modal" id="imageModal" onclick="closeModal()">
+        <span class="modal-close">&times;</span>
+        <img id="modalImage" src="" alt="放大图片">
+    </div>
+    
+    <script>
+        function openModal(src) { ... }
+        function closeModal() { ... }
+        ...
+    </script>
+</body>
+</html>
+```
+
+---
+
+## 效果说明：
+
+✅ **点击图片** → 全屏黑色背景弹出，显示放大的图片
+✅ **点击背景** → 关闭放大窗口
+✅ **点击×按钮** → 关闭放大窗口  
+✅ **按ESC键** → 关闭放大窗口
+✅ **鼠标悬停** → 指针变成手指形状（提示可点击）
+
+---
+
+**需要我把这三部分整合好发给你吗？还是你自己能找到对应位置添加？** -->

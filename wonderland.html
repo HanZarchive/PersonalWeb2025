@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonderland - Han Zhang</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -18,126 +22,142 @@
         }
 
         /* 字体定义 */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Stack Sans Notch', -apple-system, sans-serif;
+        h1, h2, h3, h4, h5, h6,.highlight-question {
+            font-family: 'Syne Mono', -apple-system, sans-serif;
+            letter-spacing: 0.03em;
         }
-
-        p, span, li, a, .methodology, .tag, .meta-info {
-            font-family: 'Ubuntu', -apple-system, sans-serif;
+        p, nav, span, li, .methodology, .meta-info, .back-link {
+            font-family: 'Text Me One', -apple-system, sans-serif;
+            letter-spacing: 0.01em;
         }
 
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 36px 36px;
-            font-size: 18px;
+            display: flex; /* 使用弹性布局（让子元素可以灵活排列） */
+            justify-content: space-between; /* 子元素两端对齐（左右分散，中间留空） */
+            align-items: center; /* 子元素垂直居中对齐 */
+            padding: 36px 36px; /* 内边距：上下36px，左右36px */
+            font-size: 16px; /* 字体大小18像素 */
         }
 
         .nav-back {
-            cursor: pointer;
-            opacity: 0.5;
-            transition: opacity 0.3s;
-            color: #fff;
-            text-decoration: none;
+            cursor: pointer; /* 鼠标悬停时显示手指图标（表示可点击） */
+            opacity: 0.5; /* 透明度50%（半透明，看起来是灰色的） */
+            transition: opacity 0.3s; /* 透明度变化时，用0.3秒平滑过渡（动画效果） */
+            color: #fff; /* 文字颜色：白色 */
+            text-decoration: none; /* 去除下划线（链接默认有下划线） */
         }
 
         .nav-back:hover {
-            opacity: 1;
+            opacity: 1; /* 鼠标悬停时，透明度变为100%（完全不透明，变亮） */
         }
 
         .project-tags-nav {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            gap: 16px; /* 子元素之间的间距16px */
+            flex-wrap: wrap; /* 如果空间不够，允许换行（在小屏幕上会自动换行） */
         }
 
         .tag-nav {
-            opacity: 0.5;
-            color: #fff;
+            opacity: 0.5;  /* 透明度50%（半透明） */
+            color: #fff;  /* 文字颜色：白色 */
             font-size: 16px;
         }
 
         /* Hero Section */
-        .hero {
-            padding: 48px 36px 80px;
+        hero {
+            padding: 80px 0px 160px 0px; 
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .hero h1 {
-            font-size: clamp(48px, 10vw, 80px);
-            font-weight: 300;
-            letter-spacing: -2px;
-            margin-bottom: 16px;
+            font-size: clamp(36px, 8vw, 56px); /*todo: 为什么不动*/
             color: #f8dae9;
-        }
-
-        .subtitle {
-            font-size: clamp(24px, 3vw, 32px);
-            font-weight: 180;
-            opacity: 0.8;
-            margin-bottom: 24px;
-            color: #fff;
         }
 
         .meta-info {
             font-size: 16px;
-            color: #999;
-            margin-bottom: 40px;
+            opacity: 0.5;
+            color: #fff;
+            margin-bottom: 18px;
+            padding: 0px 0px;
+            /* text-align: right; */
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #fff;
             font-weight: 300;
+            line-height: 1.5;
+            break-inside: auto;
+            padding: 24px 0px;
+            opacity: 0.9;
+            max-width: 1000px;
         }
 
         /* Content Sections */
         section {
-            padding: 60px 36px;
+            padding: 36px 0px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         /* 标题层级 */
-        h1 {
-            font-size: clamp(48px, 10vw, 80px);
-            font-weight: 300;
-            color: #f8dae9;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-        }
-
-        h2 {
-            font-size: clamp(36px, 6vw, 56px);
-            font-weight: 300;
-            color: #f8dae9;
-            margin-bottom: 32px;
-            letter-spacing: -1px;
-        }
-
-        h3 {
+        h1 { /* Research */
             font-size: clamp(28px, 4vw, 42px);
             font-weight: 300;
             color: #fff;
+            margin-top: 48px;
             margin-bottom: 24px;
-            margin-top: 60px;
         }
 
-        h4 {
-            font-size: clamp(20px, 3vw, 28px);
+        h2 { /* 普通的的# */
+            font-size: clamp(24px, 8vw, 36px);
             font-weight: 300;
             color: #f8dae9;
-            margin-bottom: 20px;
-            margin-top: 40px;
+            margin-top: 24px;
+            margin-bottom: 12px;
         }
+
+        h3 { /* 问题形式的# */
+            font-size: clamp(24px, 8vw, 36px);
+            font-weight: 300;
+            color: #f8dae9;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        h4 { /* ## */
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 300;
+            color: #fff;
+            margin-top: 24px;
+            margin-bottom: 0px;
+        } 
 
         p {
             font-size: 20px;
-            line-height: 1.6;
             color: #fff;
-            margin-bottom: 20px;
             font-weight: 300;
-            opacity: 0.9;
+            line-height: 1.5;
+            break-inside: auto;
+            padding: 24px 0px;
+            max-width: 1000px;
         }
 
-        .intro-text {
+        .highlight-question {
+            font-size: clamp(36px, 10vw, 56px);
+            /* padding: 12px 16px; */
+            font-weight: 300;
+            color: #f8dae9;
+            margin-top: 180px;
+            margin-bottom: 120px;
+            text-align: center;
+            letter-spacing: -0.03em;
+        }
+
+        /* .intro-text {
             font-size: clamp(18px, 2.5vw, 24px);
             font-weight: 300;
             max-width: 900px;
@@ -145,79 +165,48 @@
             opacity: 0.8;
             color: #fff;
             margin-bottom: 20px;
-        }
+        } */
 
         .methodology {
             display: inline-block;
             background: transparent;
-            padding: 8px 16px;
+            padding: 8px 12px;
             border: 1px solid #ddd;
             font-size: 16px;
             color: #ddd;
-            margin: 20px 0;
             font-weight: 300;
-        }
-
-        /* 重点文字样式 */
-        .highlight-question {
-            font-size: clamp(24px, 3.5vw, 36px);
-            text-align: center;
-            line-height: 1.4;
-            margin: 60px auto;
-            max-width: 1000px;
-            color: #fff;
-            font-weight: 300;
-        }
-
-        .highlight-question .highlight {
-            color: #f8dae9;
-            font-weight: 400;
-        }
-
-        /* 图片占位符 */
-        .image-placeholder {
-            width: 100%;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(248, 218, 233, 0.1) 0%, rgba(248, 218, 233, 0.05) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 40px 0;
-            position: relative;
-        }
-
-        .image-placeholder::before {
-            content: "📷 Image Placeholder";
-            font-size: 24px;
-            color: #999;
-            font-family: 'Avenir', -apple-system, sans-serif;
-        }
-
-        .image-placeholder.large {
-            height: 600px;
-        }
-
-        .image-placeholder.medium {
-            height: 500px;
-        }
-
-        .image-placeholder.small {
-            height: 300px;
         }
 
         .project-img {
             display: flex;
-            align-items: top;
+            align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 12px 0px;
             background: transparent
         }
 
         .project-img img {
             max-width: 100%;
             max-height: 100%;
-            object-fit: fill;
+            object-fit: contain;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-img img:hover {
+            transform: scale(1.01);
+        } 
+
+        .project-img2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0px;
+            background: transparent
+        }
+        .project-img2 img {
+            max-width: 60%;
+            max-height: 100%;
+            object-fit: contain;
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
@@ -275,10 +264,10 @@
         }
 
         /* 特殊内容区域 */
-        .section-intro {
+        /* .section-intro {
             max-width: 900px;
             margin-bottom: 40px;
-        }
+        } */
 
         /* Footer */
         footer {
@@ -376,81 +365,73 @@
 
     <section class="hero">
         <h1>Wonderland</h1>
-        <p class="subtitle">Dreams Inspire Creativity</p>
         <div class="meta-info">Individual Work · March 2024 - July 2024</div>
+        <p>Wonderland is a service that connects artists with inspiration from people's dreams through a community platform and a sleep mask.<br>The mask, equipped with LiDAR sensors, tracks eye movements to capture people's dreams, while the DALL-E AI model generates adjustable visual moon symbols from the data.<br>This project transforms chaotic dreams into intuitive visual, enabling artists to communicate with dreamers and create works inspired by their dreams, fostering a collaborative and imaginative dream-sharing community.</p>
     </section>
 
     <!-- 1. Dreams Inspires Creativity -->
     <section>
-        <h2>Dreams Inspire Creativity</h2>
-        <div class="section-intro">
-            <p class="intro-text">Dreams, filled with randomness and emotional metaphors, inspire many artists and result in numerous artworks. They offer more than just chaotic fragments, often holding profound emotions and metaphors.</p>
-            <span class="methodology">■ Methodology: Desk Research</span>
-        </div>
-
-        <h3># What artworks have been inspired by dreams?</h3>
+        <h1>RESEARCH</h1>
+        <h3># Why DREAMS are important to creativity?</h3>
+        <p>Dreams, filled with randomness and emotional metaphors, inspire many artists and result in numerous artworks. They offer more than just chaotic fragments, often holding profound emotions and metaphors.</p>
+        <span class="methodology">■ Methodology: Desk Research</span>
         <div class ="project-img">
             <img src="pics/Wonderland-p101.png">
     </section>
 
     <!-- 2. Uncover the common logic -->
     <section>
-        <h2>Uncover The Common Logic Behind Ever-Changing Dreams</h2>
-        <div class="section-intro">
-            <p class="intro-text">Many people enjoy recording their dreams and are open to others drawing inspiration from them. People also provide logical considerations that can be used as criteria to categorize various dreams.</p>
-            <span class="methodology">■ Methodology: Co-Discovery Workshop · 3 Hours, 6 Participants</span>
-        </div>
-
         <h3># Can dreams be a steady source of inspiration for creators?</h3>
-        
+        <p>Many people enjoy recording their dreams and are open to others drawing inspiration from them. People also provide logical considerations that can be used as criteria to categorize various dreams.</p>
+        <span class="methodology">■ Methodology: Co-Discovery Workshop · 3 Hours, 6 Participants</span>
         <h4>## Agenda</h4>
-        <div class="image-placeholder medium"></div>
-
+        <div class ="project-img">
+            <img src="pics/wonderland-p201.png">
+        </div>
         <h4>## Some Outputs</h4>
-        <div class="image-placeholder medium"></div>
-
-        <h4>## Insights</h4>
-        <div class="image-placeholder medium"></div>
+        <div class ="project-img">
+            <img src="pics/wonderland-p202.png">
+        </div>
+        <h2># Insights</h2>
+        <div class ="project-img">
+            <img src="pics/wonderland-p203.png">
+        </div>
     </section>
 
     <!-- 3. Ideation -->
     <section>
-        <h2>Ideation</h2>
-        <p class="highlight-question">How Might We <span class="highlight">Connect The Needs</span> Of Dream Recorders With Artists Looking For Inspiration From Dreams?</p>
-
-        <h3># Persona & Needs Analysis</h3>
-        <div class="image-placeholder large"></div>
-
-        <h3># Design Concept</h3>
-        <div class="image-placeholder large"></div>
-
-        <h3># Ideal Outputs</h3>
-        <div class="grid-2">
-            <div class="card">
-                <h4>Hardware-Eye Mask</h4>
-                <p>AI Generating Moon Symbols. Visualize dreams through eye movement detection.</p>
-            </div>
-            <div class="card">
-                <h4>Software-Mobile App</h4>
-                <p>Dream Recording And Browsing Community. Foster collaborative dream-sharing.</p>
-            </div>
+        <div class ="highlight-question">How Might We Connect The Needs Of Dream Recorders With Artists Looking For Inspiration From Dreams?</div>
+        <h1>IDEATION</h1>
+        <h2># Persona & Needs Analysis</h2>
+        <div class ="project-img2">
+            <img src="pics/wonderland-p204.png">
+        </div>
+        <h2># Design Concept</h2>
+        <div class ="project-img2">
+            <img src="pics/Wonderland-p205.png">
         </div>
     </section>
 
     <!-- 4. Key Functions -->
     <section>
-        <h2>Key Functions</h2>
-        
+        <h2>Solutions</h2>
+        <div class ="project-img">
+            <img src="pics/Wonderland-p204.png">
+        </div>
         <h3># Technical Features</h3>
 
         <h4>## LiDAR Sensors Array - Capture Dreams</h4>
-        <div class="image-placeholder medium"></div>
+        <div class ="project-img">
+            <img src="pics/Wonderland-p301.png">
+        </div>
         <p>The sleep mask is equipped with LiDAR sensors that can detect REM (Rapid Eye Movement) without physical contact with the eye. This technology monitors when a person is dreaming.</p>
 
         <h4>## DALL-E AI Model - Visualize Dreams</h4>
         <div class="grid-2">
             <div>
-                <div class="image-placeholder small"></div>
+                <div class="project-img">
+                    <img src="pics/wonderland-p302.png">
+                </div>
             </div>
             <div>
                 <p>Creates and refines images from text descriptions. The AI model generates adjustable visual moon symbols based on dream characteristics:</p>
@@ -472,11 +453,15 @@
             <p class="intro-text">There are five main sections in Wonderland: recording dreams, browsing other's dreams, creation based on other's dreams, my own dream space, and notifications.</p>
         </div>
 
-        <h3># Wireframes</h3>
-        <div class="image-placeholder large"></div>
-
         <h3># Information Architecture</h3>
-        <div class="image-placeholder large"></div>
+        <div class="project-img">
+            <img src="pics/wonderland-p304.png">
+        </div>
+
+        <h3># Wireframes</h3>
+        <div class="project-img">
+            <img src="pics/wonderland-p303.png">
+        </div>
     </section>
 
     <!-- 6. Final Outputs -->
@@ -484,17 +469,23 @@
         <h2>Final Outputs</h2>
 
         <h3># Sleep Mask Design</h3>
-        <div class="image-placeholder large"></div>
+        <div class="project-img">
+            <img src="pics/wonderland-p401.png">
+        </div>
 
         <h3># Hi-Fi (Selected)</h3>
-        <div class="image-placeholder large"></div>
+        <div class="project-img">
+            <img src="pics/wonderland-p402.png">
+        </div>
 
         <h3># User Flow*</h3>
-        <div class="image-placeholder large"></div>
+        <div class="project-img">
+            <img src="pics/wonderland-p403.png">
+        </div>
     </section>
 
     <footer>
-        <h2>Project Complete</h2>
+        <h2>Thank you!</h2>
         <a href="index.html" class="back-link">← Back to Portfolio</a>
     </footer>
 
