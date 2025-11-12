@@ -27,7 +27,7 @@
             letter-spacing: 0.03em;
         }
         p, nav, span, li, .methodology, .meta-info, .back-link {
-            font-family: 'Text Me One', -apple-system, sans-serif;
+            font-family: 'avenir', -apple-system, sans-serif;
             letter-spacing: 0.01em;
         }
 
@@ -157,16 +157,6 @@
             letter-spacing: -0.03em;
         }
 
-        /* .intro-text {
-            font-size: clamp(18px, 2.5vw, 24px);
-            font-weight: 300;
-            max-width: 900px;
-            line-height: 1.5;
-            opacity: 0.8;
-            color: #fff;
-            margin-bottom: 20px;
-        } */
-
         .methodology {
             display: inline-block;
             background: transparent;
@@ -181,7 +171,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 0px;
             background: transparent
         }
 
@@ -210,12 +199,31 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
 
+        .project-img2 img:hover {
+            transform: scale(1.01);
+        } 
+
         /* Grid布局 */
+        
+        .grid-1 { /*三等分布局-左2右1*/
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin: 40px 0;
+            gap: 24px;
+            margin-top: 36px;
+            margin-bottom: 24px;
+            align-items: start;
+        }
+
+        .grid-2 + h4 {
+            margin-top: 20px;  /* 覆盖原来的40px */
         }
 
         .grid-3 {
@@ -225,29 +233,40 @@
             margin: 40px 0;
         }
 
-        /* 卡片样式 */
-        .card {
+        .grid-4 { /*三等分布局-左1右2*/
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .card-split3 {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 36px;
             transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card-split3 .project-img {
+            height: 380px;  /* 根据你的图片调整这个值 */
+            display: flex;
+            align-items: start;
+            justify-content: center;
+        }
+
+        .card-split2 {
+            background: transparent;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card-split2 .project-img {
+            display: flex;
+            align-items: start;
+            justify-content: start;
         }
 
         .card:hover {
             transform: translateY(-8px);
             border-color: rgba(248, 218, 233, 0.3);
-        }
-
-        .card h4 {
-            margin-top: 0;
-            margin-bottom: 16px;
-        }
-
-        .card p {
-            font-size: 18px;
-            line-height: 1.6;
-            opacity: 0.8;
-            font-weight: 300;
         }
 
         .card ul {
@@ -262,12 +281,6 @@
         .card li {
             margin-bottom: 10px;
         }
-
-        /* 特殊内容区域 */
-        /* .section-intro {
-            max-width: 900px;
-            margin-bottom: 40px;
-        } */
 
         /* Footer */
         footer {
@@ -312,18 +325,6 @@
 
             .grid-2, .grid-3 {
                 grid-template-columns: 1fr;
-            }
-
-            .image-placeholder {
-                height: 300px;
-            }
-
-            .image-placeholder.large {
-                height: 400px;
-            }
-
-            .image-placeholder.medium {
-                height: 350px;
             }
         }
 
@@ -406,59 +407,60 @@
         <div class ="project-img2">
             <img src="pics/wonderland-p204.png">
         </div>
-        <h2># Design Concept</h2>
-        <div class ="project-img2">
-            <img src="pics/wonderland-p205.png">
+        <div class = "grid-1">
+            <div class ="card-split3">
+                <h2># Design Concept</h2>
+                <div class ="project-img"> <img src="pics/wonderland-p205.png">
+                </div>
+            </div>
+            <div class ="card-split3">
+                <h2># Solutions</h2>
+                <div class =".card-split3 project-img"> <img src="pics/wonderland-p206.png"> 
+                </div>
+            </div>
         </div>
+
     </section>
 
     <!-- 4. Key Functions -->
     <section>
-        <h2>Solutions</h2>
-        <div class ="project-img">
-            <img src="pics/Wonderland-p204.png">
-        </div>
-        <h3># Technical Features</h3>
-
+        <h2># Technical Features</h2>
+        <p>Wonderland consists of two main components: a sleep mask that captures dreams and an AI model that visualizes them. The sleep mask uses LiDAR sensors to monitor eye movements and detect REM sleep, while the DALL-E AI model generates visual representations of dreams based on various characteristics.</p>
         <h4>## LiDAR Sensors Array - Capture Dreams</h4>
-        <div class ="project-img">
-            <img src="pics/Wonderland-p301.png">
+        <div class ="grid-2">
+            <div class ="card-split2">
+                <div class="project-img">
+                    <img src="pics/wonderland-p301.png">
+                </div>
+            </div>
+            <div class ="card-split2">
+                <p>Equipped with LiDAR sensors, the sleep mask detects REM (Rapid Eye Movement) without physical contact with the eye. This technology monitors when a person is dreaming by tracking eye movements during sleep.</p>
+            </div>
         </div>
-        <p>The sleep mask is equipped with LiDAR sensors that can detect REM (Rapid Eye Movement) without physical contact with the eye. This technology monitors when a person is dreaming.</p>
-
         <h4>## DALL-E AI Model - Visualize Dreams</h4>
-        <div class="grid-2">
-            <div>
+        <div class ="grid-2">
+            <div class ="card-split2">
                 <div class="project-img">
                     <img src="pics/wonderland-p302.png">
                 </div>
             </div>
-            <div>
-                <p>Creates and refines images from text descriptions. The AI model generates adjustable visual moon symbols based on dream characteristics:</p>
-                <ul style="padding-left: 24px; margin-top: 20px; font-size: 18px; line-height: 1.8; opacity: 0.8;">
-                    <li>Emotion Intensity</li>
-                    <li>Luminous Intensity</li>
-                    <li>Positive/Negative Emotions (Warm/Cool Colors)</li>
-                    <li>Logic Intensity / Fullness Degree</li>
-                    <li>Reality Relevance / Detail Richness</li>
-                </ul>
+            <div class ="card-split2">
+                <p>The DALL-E AI model generates customizable moon symbols based on dream characteristics. By adjusting parameters like emotion intensity, color spectrum, logic degree, and detail richness, each dream transforms into a unique visual representation—ranging from delicate crescents to textured full moons—capturing the emotional and narrative essence of the dreamer's experience.</p>
             </div>
         </div>
     </section>
 
     <!-- 5. Prototypes -->
     <section>
-        <h2>Prototypes</h2>
-        <div class="section-intro">
-            <p class="intro-text">There are five main sections in Wonderland: recording dreams, browsing other's dreams, creation based on other's dreams, my own dream space, and notifications.</p>
-        </div>
+        <h1>DESIGN</h1>
+        <p>There are five main sections in Wonderland: recording dreams, browsing other's dreams, creation based on other's dreams, my own dream space, and notifications.</p>
 
-        <h3># Information Architecture</h3>
-        <div class="project-img">
+        <h2># Information Architecture</h2>
+        <div class="project-img2">
             <img src="pics/wonderland-p304.png">
         </div>
 
-        <h3># Wireframes</h3>
+        <h2># Wireframes</h2>
         <div class="project-img">
             <img src="pics/wonderland-p303.png">
         </div>
@@ -466,21 +468,38 @@
 
     <!-- 6. Final Outputs -->
     <section>
-        <h2>Final Outputs</h2>
-
-        <h3># Sleep Mask Design</h3>
-        <div class="project-img">
+        <h2># Final Outputs</h2>
+        <h4>## Sleep Mask Design</h4>
+        <div class ="grid-2">
+            <div class ="card-split3">
+                <p>By using a LIDAR sensors array, the movement of the cornea under the eyelid can be measured without the sensor touching the eye, thus monitoring whether a person is dreaming.</p>
+            </div>
+            <div class ="card-split3">
+                <div class="project-img">
+                    <img src="pics/wonderland-p402.png">
+                </div>
+            </div>
+        </div>
+        
+        <div class="project-img2">
             <img src="pics/wonderland-p401.png">
         </div>
 
-        <h3># Hi-Fi (Selected)</h3>
-        <div class="project-img">
-            <img src="pics/wonderland-p402.png">
+
+        <h4>## Hi-Fi (Selected)</h4>
+        <div class="project-img2">
+            <img src="pics/wonderland-p403.png">
         </div>
 
-        <h3># User Flow*</h3>
+        <h2># User Flow*</h2>
+        <div class="meta-info">*The character images in this part were generated with the assistance of AIGC tools. </div> 
+        <h4>## Dream Recorders</h4>
         <div class="project-img">
-            <img src="pics/wonderland-p403.png">
+            <img src="pics/wonderland-p404.png">
+        </div>
+        <h4>## Artists</h4>
+        <div class="project-img">
+            <img src="pics/wonderland-p405.png">
         </div>
     </section>
 
