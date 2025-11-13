@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Drift - Han Zhang</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* 字体定义 */
+        h1, h2, h3, h4, h5, h6,.highlight-question {
+            font-family: 'Syne Mono', -apple-system, sans-serif;
+            letter-spacing: 0.03em;
+        }
+        p, nav, span, li, .methodology, .meta-info, .back-link {
+            font-family: 'avenir', -apple-system, sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        nav {
+            display: flex; /* 使用弹性布局（让子元素可以灵活排列） */
+            justify-content: space-between; /* 子元素两端对齐（左右分散，中间留空） */
+            align-items: center; /* 子元素垂直居中对齐 */
+            padding: 36px 36px; /* 内边距：上下36px，左右36px */
+            font-size: 16px; /* 字体大小18像素 */
+        }
+
+        .nav-back {
+            cursor: pointer; /* 鼠标悬停时显示手指图标（表示可点击） */
+            opacity: 0.5; /* 透明度50%（半透明，看起来是灰色的） */
+            transition: opacity 0.3s; /* 透明度变化时，用0.3秒平滑过渡（动画效果） */
+            color: #fff; /* 文字颜色：白色 */
+            text-decoration: none; /* 去除下划线（链接默认有下划线） */
+        }
+
+        .nav-back:hover {
+            opacity: 1; /* 鼠标悬停时，透明度变为100%（完全不透明，变亮） */
+        }
+
+        .project-tags-nav {
+            display: flex;
+            gap: 16px; /* 子元素之间的间距16px */
+            flex-wrap: wrap; /* 如果空间不够，允许换行（在小屏幕上会自动换行） */
+        }
+
+        .tag-nav {
+            opacity: 0.5;  /* 透明度50%（半透明） */
+            color: #fff;  /* 文字颜色：白色 */
+            font-size: 16px;
+        }
+
+        /* Hero Section */
+        hero {
+            padding: 80px 0px 160px 0px; 
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 8vw, 56px); /*todo: 为什么不动*/
+            color: #B9FAF8;
+        }
+
+        .meta-info {
+            font-size: 16px;
+            opacity: 0.5;
+            color: #fff;
+            margin-bottom: 18px;
+            padding: 0px 0px;
+            /* text-align: right; */
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #fff;
+            font-weight: 300;
+            line-height: 1.5;
+            break-inside: auto;
+            padding: 24px 0px;
+            opacity: 0.9;
+            max-width: 1000px;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 36px 0px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 标题层级 */
+        h1 { /* Research */
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 300;
+            color: #fff;
+            margin-top: 48px;
+            margin-bottom: 24px;
+        }
+
+        h2 { /* 普通的的# */
+            font-size: clamp(24px, 8vw, 36px);
+            font-weight: 300;
+            color: #B9FAF8;
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        h3 { /* 问题形式的# */
+            font-size: clamp(24px, 8vw, 36px);
+            font-weight: 300;
+            color: #B9FAF8;
+            margin-top: 36px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        h4 { /* ## */
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 300;
+            color: #fff;
+            margin-top: 24px;
+            margin-bottom: 0px;
+        } 
+
+        p {
+            font-size: 20px;
+            color: #fff;
+            font-weight: 300;
+            line-height: 1.5;
+            break-inside: auto;
+            padding: 12px 0px;
+            max-width: 1000px;
+        }
+
+        .highlight-question {
+            font-size: clamp(36px, 10vw, 56px);
+            /* padding: 12px 16px; */
+            font-weight: 300;
+            color: #B9FAF8;
+            margin-top: 180px;
+            margin-bottom: 120px;
+            text-align: center;
+            letter-spacing: -0.03em;
+        }
+
+        .methodology {
+            display: inline-block;
+            background: transparent;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            color: #ddd;
+            font-weight: 300;
+        }
+
+        .project-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            margin-top: 24px;
+            margin-bottom: 36px;
+        }
+
+        .project-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-img img:hover {
+            transform: scale(1.01);
+        } 
+
+        .project-img2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 0px;
+            background: transparent
+        }
+        .project-img2 img {
+            max-width: 60%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-img2 img:hover {
+            transform: scale(1.01);
+        } 
+
+        /* .divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 120px 36px 60px 36px;
+            padding: 0px 36px;
+        } */
+
+        /* Grid布局 */
+        
+        .grid-1 { /*三等分布局-左2右1*/
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-top: 36px;
+            margin-bottom: 24px;
+            align-items: start;
+        }
+
+        .grid-2 + h4 {
+            margin-top: 20px;  /* 覆盖原来的40px */
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .grid-4 { /*三等分布局-左1右2*/
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 24px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        .card-split3 {
+            background: transparent;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card-split3 .project-img {
+            height: 420px;  /* 根据你的图片调整这个值 */
+            display: flex;
+            align-items: start;
+            justify-content: start;
+        }
+
+        .card-split2 {
+            background: transparent;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card-split2 .project-img {
+            display: flex;
+            align-items: start;
+            justify-content: start;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(248, 218, 233, 0.3);
+        }
+
+        .card ul {
+            margin-top: 16px;
+            padding-left: 24px;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: transparent;
+            color: #fff;
+            padding: 100px 36px;
+            text-align: center;
+        }
+
+        footer h2 {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: #f8dae9;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 16px 36px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            font-size: 18px;
+            transition: opacity 0.3s, transform 0.3s;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            nav {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav, .hero, section {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            footer {
+                padding: 60px 24px;
+            }
+
+            .image-placeholder {
+                height: 250px;
+            }
+
+            .image-placeholder.large {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-back">← Back to Portfolio</a>
+        <div class="project-tags-nav">
+            <span class="tag-nav">#Service Design</span>
+            <span class="tag-nav">#Jewellery</span>
+            <span class="tag-nav">#Smell Design</span>
+            <span class="tag-nav">#3D Modelling</span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Fluid Drift</h1>
+        <div class="meta-info">Individual Work · December 2023 - March 2024</div>
+        <p>Fluid Drift is a service designed for digital nomads, helping them build a sense of inner order and connection to reality to improve well-being. <br>The project features jewelry and fragrance kits, complemented by an automated vending machine service in various cities. <br>By engaging with adaptive, flowing scents, digital nomads can gradually adjust to their mobile lifestyle, fostering stability amidst constant change.</p>
+    </section>
+
+    <!--RESEARCH-->
+    <section>
+        <h1>RESEARCH - Understanding digital nomads</h1>
+        <h3># How do workforce and workspaces evolve?</h3>
+        <p>The evolution of human work has led to the emergence of digital nomads, symbolizing a more flexible and liberated approach to employment, potentially shaping the future of work.</p>
+        <div class ="project-img">
+            <img src="pics/fd-p101.png">
+        </div>
+        <h3># What is digital nomads' current situation?</h3>
+        <span class="methodology">■ Methodology: Desk Research</span>
+        <div class ="project-img">
+            <img src="pics/fd-p102.png">
+        </div>
+        <h3># What problems are they facing?</h3>
+        <span class="methodology">■ Methodology: Co-discovery Workshop - 6 people, 3 hours </span>
+        <div class="grid-4">
+            <div class="card-split3">
+                <h4>## Agenda</h4>
+                <div class ="project-img">
+                    <img src="pics/fd-p103.png">
+                </div>
+            </div>
+            <div class="card-split3">
+                <h4>## Findings</h4>
+                <div class ="project-img">
+                    <img src="pics/fd-p104.png">
+                </div>  
+            </div>
+        </div>
+        <!-- <p>Digital nomad life presents a distinct duality. Pain points center on blurred work-life boundaries—frequent relocations make it difficult to establish stable relationships and deeply explore local cultures. Remote work efficiency is hard to measure, online communication lacks body language accuracy, and sudden tasks disrupt precious leisure time. On the flip side, this lifestyle offers unique benefits: better sleep quality, productive mornings, and the excitement of switching between diverse tasks while continuously learning new skills. The appeal lies in the coexistence of freedom and challenge.</p> -->
+    </section>
+
+    <!-- <div class="divider"></div> -->
+
+    <!--IDEATION--> 
+    <section>
+        <div class ="highlight-question">How Might We <br>improve the well-being of digital nomads?</div>
+        <h1>IDEATION - Setting new orders</h1>
+        <h2># Pain-Gain Analysis</h2> 
+            <div class ="project-img">
+                <img src="pics/fd-p201.png">
+            </div>
+        <h2># Psychological Mechanisms</h2>
+        <h4>Smell - Build Existential Connection</h4>
+        <div class="grid-1">
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/fd-p202.png">
+                </div> 
+            </div>
+            <div class="card-split3">
+                <p>Through smell, individuals can perceive a sense of consistency in their identity despite all the changes. This sense of continuity allows people to maintain inner stability in the face of a constantly changing environment.</p>
+            </div>
+        </div>
+        <div class="project-img">
+            <img src="pics/divider.png">
+        </div>
+        <h2># Feature Ideation - The Möbius strip</h2>
+        <p>With its infinite loop and boundaryless form, it symbolizes digital nomads' fluid cross-cultural navigation, autonomous spirit, and highly digitalized lifestyle.</p>
+        <div class="grid-1">
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/fd-p204.png">
+                </div> 
+            </div>
+            <div class="card-split3">
+                <p>With its infinite loop and boundaryless form, it symbolizes digital nomads' fluid cross-cultural navigation, autonomous spirit, and highly digitalized lifestyle.</p>
+            </div>
+        </div>      
+        <div class="project-img2">
+            <img src="pics/fd-p204.png">
+        </div>
+        
+        
+        <h3># Can dreams be a steady source of inspiration for creators?</h3>
+        <p>Many people enjoy recording their dreams and are open to others drawing inspiration from them. People also provide logical considerations that can be used as criteria to categorize various dreams.</p>
+        <span class="methodology">■ Methodology: Co-Discovery Workshop · 3 Hours, 6 Participants</span>
+        <h4>## Agenda</h4>
+        <div class ="project-img">
+            <img src="pics/wonderland-p201.png">
+        </div>
+        <h4>## Some Outputs</h4>
+        <div class ="project-img">
+            <img src="pics/wonderland-p202.png">
+        </div>
+        <h2># Insights</h2>
+        <div class ="project-img">
+            <img src="pics/wonderland-p203.png">
+        </div>
+    </section>
+
+    <!-- 3. Ideation -->
+    <section>
+        <div class ="highlight-question">How Might We Connect The Needs Of Dream Recorders With Artists Looking For Inspiration From Dreams?</div>
+        <h1>IDEATION</h1>
+        <h2># Persona & Needs Analysis</h2>
+        <div class ="project-img2">
+            <img src="pics/wonderland-p204.png">
+        </div>
+        <div class = "grid-1">
+            <div class ="card-split3">
+                <h2># Design Concept</h2>
+                <div class ="project-img"> <img src="pics/wonderland-p205.png">
+                </div>
+            </div>
+            <div class ="card-split3">
+                <h2># Solutions</h2>
+                <div class =".card-split3 project-img"> <img src="pics/wonderland-p206.png"> 
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 4. Key Functions -->
+    <section>
+        <h2># Technical Features</h2>
+        <p>Wonderland consists of two main components: a sleep mask that captures dreams and an AI model that visualizes them. The sleep mask uses LiDAR sensors to monitor eye movements and detect REM sleep, while the DALL-E AI model generates visual representations of dreams based on various characteristics.</p>
+        <h4>## LiDAR Sensors Array - Capture Dreams</h4>
+        <div class ="grid-2">
+            <div class ="card-split2">
+                <div class="project-img">
+                    <img src="pics/wonderland-p301.png">
+                </div>
+            </div>
+            <div class ="card-split2">
+                <p>Equipped with LiDAR sensors, the sleep mask detects REM (Rapid Eye Movement) without physical contact with the eye. This technology monitors when a person is dreaming by tracking eye movements during sleep.</p>
+            </div>
+        </div>
+        <h4>## DALL-E AI Model - Visualize Dreams</h4>
+        <div class ="grid-2">
+            <div class ="card-split2">
+                <div class="project-img">
+                    <img src="pics/wonderland-p302.png">
+                </div>
+            </div>
+            <div class ="card-split2">
+                <p>The DALL-E AI model generates customizable moon symbols based on dream characteristics. By adjusting parameters like emotion intensity, color spectrum, logic degree, and detail richness, each dream transforms into a unique visual representation—ranging from delicate crescents to textured full moons—capturing the emotional and narrative essence of the dreamer's experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Prototypes -->
+    <section>
+        <h1>DESIGN</h1>
+        <p>There are five main sections in Wonderland: recording dreams, browsing other's dreams, creation based on other's dreams, my own dream space, and notifications.</p>
+
+        <h2># Information Architecture</h2>
+        <div class="project-img2">
+            <img src="pics/wonderland-p304.png">
+        </div>
+
+        <h2># Wireframes</h2>
+        <div class="project-img">
+            <img src="pics/wonderland-p303.png">
+        </div>
+    </section>
+
+    <!-- 6. Final Outputs -->
+    <section>
+        <h2># Final Outputs</h2>
+        <h4>## Sleep Mask Design</h4>
+        <div class ="grid-2">
+            <div class ="card-split3">
+                <p>By using a LIDAR sensors array, the movement of the cornea under the eyelid can be measured without the sensor touching the eye, thus monitoring whether a person is dreaming.</p>
+            </div>
+            <div class ="card-split3">
+                <div class="project-img">
+                    <img src="pics/wonderland-p402.png">
+                </div>
+            </div>
+        </div>
+        
+        <div class="project-img2">
+            <img src="pics/wonderland-p401.png">
+        </div>
+
+
+        <h4>## Hi-Fi (Selected)</h4>
+        <div class="project-img2">
+            <img src="pics/wonderland-p403.png">
+        </div>
+
+        <h2># User Flow*</h2>
+        <div class="meta-info">*The character images in this part were generated with the assistance of AIGC tools. </div> 
+        <h4>## Dream Recorders</h4>
+        <div class="project-img">
+            <img src="pics/wonderland-p404.png">
+        </div>
+        <h4>## Artists</h4>
+        <div class="project-img">
+            <img src="pics/wonderland-p405.png">
+        </div>
+    </section>
+
+    <footer>
+        <h2>Thank you!</h2>
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+    </footer>
+
+</body>
+</html>

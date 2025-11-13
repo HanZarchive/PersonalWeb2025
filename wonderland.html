@@ -10,348 +10,356 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            background: #0a0a0a;
-            color: #fff;
-            overflow-x: hidden;
-        }
+body {
+    background: #0a0a0a;
+    color: #fff;
+    overflow-x: hidden;
+}
 
-        /* 字体定义 */
-        h1, h2, h3, h4, h5, h6,.highlight-question {
-            font-family: 'Syne Mono', -apple-system, sans-serif;
-            letter-spacing: 0.03em;
-        }
-        p, nav, span, li, .methodology, .meta-info, .back-link {
-            font-family: 'avenir', -apple-system, sans-serif;
-            letter-spacing: 0.01em;
-        }
+/* 字体定义 */
+h1, h2, h3, h4, h5, h6, .highlight-question {
+    font-family: 'Syne Mono', -apple-system, sans-serif;
+    letter-spacing: 0.03em;
+}
 
-        nav {
-            display: flex; /* 使用弹性布局（让子元素可以灵活排列） */
-            justify-content: space-between; /* 子元素两端对齐（左右分散，中间留空） */
-            align-items: center; /* 子元素垂直居中对齐 */
-            padding: 36px 36px; /* 内边距：上下36px，左右36px */
-            font-size: 16px; /* 字体大小18像素 */
-        }
+p, nav, span, li, .methodology, .meta-info, .back-link {
+    font-family: 'avenir', -apple-system, sans-serif;
+    letter-spacing: 0.01em;
+}
 
-        .nav-back {
-            cursor: pointer; /* 鼠标悬停时显示手指图标（表示可点击） */
-            opacity: 0.5; /* 透明度50%（半透明，看起来是灰色的） */
-            transition: opacity 0.3s; /* 透明度变化时，用0.3秒平滑过渡（动画效果） */
-            color: #fff; /* 文字颜色：白色 */
-            text-decoration: none; /* 去除下划线（链接默认有下划线） */
-        }
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 36px 60px;
+    font-size: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-        .nav-back:hover {
-            opacity: 1; /* 鼠标悬停时，透明度变为100%（完全不透明，变亮） */
-        }
+.nav-back {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    color: #fff;
+    text-decoration: none;
+}
 
-        .project-tags-nav {
-            display: flex;
-            gap: 16px; /* 子元素之间的间距16px */
-            flex-wrap: wrap; /* 如果空间不够，允许换行（在小屏幕上会自动换行） */
-        }
+.nav-back:hover {
+    opacity: 1;
+}
 
-        .tag-nav {
-            opacity: 0.5;  /* 透明度50%（半透明） */
-            color: #fff;  /* 文字颜色：白色 */
-            font-size: 16px;
-        }
+.project-tags-nav {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-        /* Hero Section */
-        hero {
-            padding: 80px 0px 160px 0px; 
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+.tag-nav {
+    opacity: 0.5;
+    color: #fff;
+    font-size: 15px;
+}
 
-        .hero h1 {
-            font-size: clamp(36px, 8vw, 56px); /*todo: 为什么不动*/
-            color: #f8dae9;
-        }
+/* Hero Section */
+.hero {
+    padding: 80px 60px 180px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-        .meta-info {
-            font-size: 16px;
-            opacity: 0.5;
-            color: #fff;
-            margin-bottom: 18px;
-            padding: 0px 0px;
-            /* text-align: right; */
-        }
+.hero h1 {
+    font-size: clamp(36px, 5vw, 52px);
+    color: #f8dae9;
+    margin-bottom: 16px;
+}
 
-        .hero p {
-            font-size: 20px;
-            color: #fff;
-            font-weight: 300;
-            line-height: 1.5;
-            break-inside: auto;
-            padding: 24px 0px;
-            opacity: 0.9;
-            max-width: 1000px;
-        }
+.meta-info {
+    font-size: 15px;
+    opacity: 0.4;
+    color: #fff;
+    margin-bottom: 32px;
+}
 
-        /* Content Sections */
-        section {
-            padding: 36px 0px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+.hero p {
+    font-size: 18px;
+    color: #fff;
+    font-weight: 300;
+    line-height: 1.8;
+    padding: 0;
+    opacity: 0.85;
+    max-width: 900px;
+}
 
-        /* 标题层级 */
-        h1 { /* Research */
-            font-size: clamp(28px, 4vw, 42px);
-            font-weight: 300;
-            color: #fff;
-            margin-top: 48px;
-            margin-bottom: 24px;
-        }
+/* Content Sections */
+section {
+    padding: 80px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-        h2 { /* 普通的的# */
-            font-size: clamp(24px, 8vw, 36px);
-            font-weight: 300;
-            color: #f8dae9;
-            margin-top: 24px;
-            margin-bottom: 12px;
-        }
+/* 标题层级 */
+h1 {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 300;
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 60px;
+    letter-spacing: 0.05em;
+}
 
-        h3 { /* 问题形式的# */
-            font-size: clamp(24px, 8vw, 36px);
-            font-weight: 300;
-            color: #f8dae9;
-            margin-top:36px;
-            margin-bottom: 24px;
-            font-style: italic;
-        }
+h2 {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300;
+    color: #f8dae9;
+    margin-top: 80px;
+    margin-bottom: 24px;
+}
 
-        h4 { /* ## */
-            font-size: clamp(20px, 3vw, 28px);
-            font-weight: 300;
-            color: #fff;
-            margin-top: 24px;
-            margin-bottom: 0px;
-        } 
+h3 {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 300;
+    color: #f8dae9;
+    margin-top: 60px;
+    margin-bottom: 32px;
+    font-style: italic;
+}
 
-        p {
-            font-size: 20px;
-            color: #fff;
-            font-weight: 300;
-            line-height: 1.5;
-            break-inside: auto;
-            padding: 12px 0px;
-            max-width: 1000px;
-        }
+h4 {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 300;
+    color: #fff;
+    margin-top: 60px;
+    margin-bottom: 24px;
+    opacity: 0.9;
+}
 
-        .highlight-question {
-            font-size: clamp(36px, 10vw, 56px);
-            /* padding: 12px 16px; */
-            font-weight: 300;
-            color: #f8dae9;
-            margin-top: 180px;
-            margin-bottom: 120px;
-            text-align: center;
-            letter-spacing: -0.03em;
-        }
+p {
+    font-size: 18px;
+    color: #fff;
+    font-weight: 300;
+    line-height: 1.8;
+    margin: 24px 0;
+    max-width: 900px;
+    opacity: 0.85;
+}
 
-        .methodology {
-            display: inline-block;
-            background: transparent;
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            color: #ddd;
-            font-weight: 300;
-        }
+.highlight-question {
+    font-size: clamp(32px, 4.5vw, 46px);
+    font-weight: 300;
+    color: #f8dae9;
+    margin: 200px 0 160px 0;
+    text-align: center;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-        .project-img {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            margin-top: 18px;
-            margin-bottom: 12px;
-        }
+.methodology {
+    display: inline-block;
+    background: transparent;
+    padding: 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 300;
+    margin-top: 8px;
+    margin-bottom: 40px;
+}
 
-        .project-img img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+.project-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    margin: 48px 0;
+}
 
-        .project-img img:hover {
-            transform: scale(1.01);
-        } 
+.project-img img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
 
-        .project-img2 {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 0px;
-            background: transparent
-        }
-        .project-img2 img {
-            max-width: 60%;
-            max-height: 100%;
-            object-fit: contain;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+.project-img img:hover {
+    transform: scale(1.005);
+}
 
-        .project-img2 img:hover {
-            transform: scale(1.01);
-        } 
+.project-img2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 48px 0;
+    background: transparent;
+}
 
-        /* Grid布局 */
-        
-        .grid-1 { /*三等分布局-左2右1*/
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
-            margin-top: 24px;
-            margin-bottom: 12px;
-        }
+.project-img2 img {
+    max-width: 70%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 24px;
-            margin-top: 36px;
-            margin-bottom: 24px;
-            align-items: start;
-        }
+.project-img2 img:hover {
+    transform: scale(1.005);
+}
 
-        .grid-2 + h4 {
-            margin-top: 20px;  /* 覆盖原来的40px */
-        }
+/* Grid布局 */
+.grid-1 {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 48px;
+    margin: 60px 0;
+}
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 48px;
+    margin: 60px 0;
+    align-items: start;
+}
 
-        .grid-4 { /*三等分布局-左1右2*/
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 24px;
-            margin-top: 24px;
-            margin-bottom: 12px;
-        }
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 48px;
+    margin: 60px 0;
+}
 
-        .card-split3 {
-            background: transparent;
-            transition: transform 0.3s, border-color 0.3s;
-        }
+.grid-4 {
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    gap: 48px;
+    margin: 60px 0;
+}
 
-        .card-split3 .project-img {
-            height: 380px;  /* 根据你的图片调整这个值 */
-            display: flex;
-            align-items: start;
-            justify-content: center;
-        }
+.card-split3 {
+    background: transparent;
+}
 
-        .card-split2 {
-            background: transparent;
-            transition: transform 0.3s, border-color 0.3s;
-        }
+.card-split3 .project-img {
+    height: auto;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    margin: 24px 0;
+}
 
-        .card-split2 .project-img {
-            display: flex;
-            align-items: start;
-            justify-content: start;
-        }
+.card-split2 {
+    background: transparent;
+}
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(248, 218, 233, 0.3);
-        }
+.card-split2 .project-img {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    margin: 0;
+}
 
-        .card ul {
-            margin-top: 16px;
-            padding-left: 24px;
-            font-size: 18px;
-            line-height: 1.8;
-            opacity: 0.8;
-            font-weight: 300;
-        }
+.card-split2 p {
+    margin-top: 0;
+}
 
-        .card li {
-            margin-bottom: 10px;
-        }
+/* Footer */
+footer {
+    background: transparent;
+    color: #fff;
+    padding: 120px 60px;
+    text-align: center;
+}
 
-        /* Footer */
-        footer {
-            background: transparent;
-            color: #fff;
-            padding: 100px 36px;
-            text-align: center;
-        }
+footer h2 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 300;
+    margin-bottom: 48px;
+    color: #f8dae9;
+}
 
-        footer h2 {
-            font-size: clamp(36px, 6vw, 72px);
-            font-weight: 300;
-            margin-bottom: 40px;
-            color: #f8dae9;
-        }
+.back-link {
+    display: inline-block;
+    padding: 18px 40px;
+    background: transparent;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 16px;
+    transition: all 0.3s;
+    opacity: 0.7;
+    font-weight: 300;
+}
 
-        .back-link {
-            display: inline-block;
-            padding: 16px 36px;
-            background: transparent;
-            color: #fff;
-            text-decoration: none;
-            border: 1px solid #ddd;
-            font-size: 18px;
-            transition: opacity 0.3s, transform 0.3s;
-            opacity: 0.8;
-            font-weight: 300;
-        }
+.back-link:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.6);
+}
 
-        .back-link:hover {
-            opacity: 1;
-            transform: translateY(-2px);
-        }
+/* Responsive */
+@media (max-width: 1024px) {
+    nav {
+        flex-direction: column;
+        gap: 24px;
+        align-items: flex-start;
+        padding: 32px 40px;
+    }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            nav {
-                flex-direction: column;
-                gap: 20px;
-                align-items: flex-start;
-            }
+    .hero {
+        padding: 80px 40px 140px 40px;
+    }
 
-            .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-        }
+    section {
+        padding: 60px 40px;
+    }
 
-        @media (max-width: 640px) {
-            nav, .hero, section {
-                padding-left: 24px;
-                padding-right: 24px;
-            }
+    .grid-1, .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
 
-            .card {
-                padding: 24px;
-            }
+    footer {
+        padding: 100px 40px;
+    }
+}
 
-            footer {
-                padding: 60px 24px;
-            }
+@media (max-width: 640px) {
+    nav {
+        padding: 24px 24px;
+    }
 
-            .image-placeholder {
-                height: 250px;
-            }
+    .hero {
+        padding: 60px 24px 100px 24px;
+    }
 
-            .image-placeholder.large {
-                height: 300px;
-            }
-        }
+    section {
+        padding: 48px 24px;
+    }
+
+    .project-img2 img {
+        max-width: 85%;
+    }
+
+    .grid-1, .grid-2, .grid-3, .grid-4 {
+        gap: 32px;
+        margin: 40px 0;
+    }
+
+    footer {
+        padding: 80px 24px;
+    }
+
+    .highlight-question {
+        margin: 120px 0 100px 0;
+    }
+}
     </style>
 </head>
 <body>
