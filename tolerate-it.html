@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluid Drift - Han Zhang</title>
+    <title>Tolerate it? - Han Zhang</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +75,7 @@
 
     .hero h1 {
         font-size: clamp(36px, 5vw, 52px);
-        color: #B9FAF8;
+        color: #FFEE32;
         margin-bottom: 16px;
     }
 
@@ -116,7 +116,7 @@
     h2 {
         font-size: clamp(22px, 3vw, 32px);
         font-weight: 300;
-        color: #B9FAF8;
+        color: #FFEE32;
         margin-top: 80px;
         margin-bottom: 24px;
     }
@@ -124,7 +124,7 @@
     h3 {
         font-size: clamp(22px, 3vw, 32px);
         font-weight: 300;
-        color: #B9FAF8;
+        color: #FFEE32;
         margin-top: 60px;
         margin-bottom: 32px;
         font-style: italic;
@@ -152,7 +152,7 @@
     .highlight-question {
         font-size: clamp(32px, 4.5vw, 46px);
         font-weight: 300;
-        color: #B9FAF8;
+        color: #FFEE32;
         margin: 200px 0 160px 0;
         text-align: center;
         letter-spacing: -0.02em;
@@ -279,7 +279,7 @@
         font-size: clamp(36px, 4.5vw, 56px);
         font-weight: 300;
         margin-bottom: 48px;
-        color: #B9FAF8;
+        color: #FFEE32;
     }
 
     .back-link {
@@ -358,6 +358,19 @@
             margin: 120px 0 100px 0;
         }
     }
+
+        /* 在你的CSS中添加 */
+    .video-container {
+        width: 100%;
+        max-width: 1024px;  /* 与你的项目卡片宽度保持一致 */
+        margin: 2rem auto;
+        aspect-ratio: 16 / 9;  /* 保持YouTube标准比例 */
+    }
+
+    .video-container iframe {
+        width: 100%;
+        height: 100%;
+    }
         </style>
 </head>
 <body>
@@ -365,18 +378,29 @@
     <nav>
         <a href="index.html" class="nav-back">← Back to Portfolio</a>
         <div class="project-tags-nav">
-            <span class="tag-nav">#Service Design</span>
-            <span class="tag-nav">#Jewellery</span>
-            <span class="tag-nav">#Smell Design</span>
-            <span class="tag-nav">#3D Modelling</span>
+            <span class="tag-nav">#Interactive Installation</span>
+            <span class="tag-nav">#Performance</span>
+            <span class="tag-nav">#Hardware</span>
+            <span class="tag-nav">#Programming</span>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Fluid Drift</h1>
-        <div class="meta-info">Individual Work · December 2023 - March 2024</div>
-        <p>Fluid Drift is a service designed for digital nomads, helping them build a sense of inner order and connection to reality to improve well-being. <br>The project features jewelry and fragrance kits, complemented by an automated vending machine service in various cities. <br>By engaging with adaptive, flowing scents, digital nomads can gradually adjust to their mobile lifestyle, fostering stability amidst constant change.</p>
+        <h1>Tolerate it?</h1>
+        <div class="meta-info">Individual Work · July 2024 - October 2024</div>
+        <p>Tolerate it? is an interactive installation that metaphorically connects the increasing tolerance for both life's hardships and caffeine.<br>By utilizing Arduino for real-time ECG readings and Processing for visualization, the installation intuitively reflects the performer's stress levels.<br>Through this work, I aim to convey that enduring suffering doesn't guarantee success or happiness but instead fosters tolerance, potentially leading to an unhealthy state.</p>
     </section>
+
+    <div class="video-container">
+        <iframe 
+            src="https://www.youtube.com/embed/ynhN1gsm8b0?si=1H75s_pDXJVcSqwQ" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+    </div>
 
     <!--RESEARCH-->
     <section>
