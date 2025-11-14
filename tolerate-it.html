@@ -181,7 +181,7 @@
     }
 
     .project-img img {
-        max-width: 100%;
+        max-width: 80%;
         height: auto;
         object-fit: contain;
         transition: transform 0.3s;
@@ -191,16 +191,16 @@
         transform: scale(1.005);
     }
 
-    .project-img2 {
+    .project-img2 { /*中间对齐*/
         display: flex;
-        align-items: center;
+        align-items: start;
         justify-content: center;
         margin: 48px 0;
         background: transparent;
     }
 
     .project-img2 img {
-        max-width: 70%;
+        max-width: 60%;
         height: auto;
         object-fit: contain;
         transition: transform 0.3s;
@@ -209,6 +209,26 @@
     .project-img2 img:hover {
         transform: scale(1.005);
     }
+
+    .project-img3 { /*左对齐*/
+        display: flex;
+        align-items: start;
+        justify-content: left;
+        margin: 48px 0;
+        background: transparent;
+    }
+
+    .project-img3 img {
+        max-width: 60%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s;
+    }
+
+    .project-img3 img:hover {
+        transform: scale(1.005);
+    }
+
 
     /* Grid布局 */
     .grid-1 {
@@ -404,12 +424,92 @@
 
     <!--RESEARCH-->
     <section>
-        <h1>RESEARCH - Understanding digital nomads</h1>
-        <h3># How do workforce and workspaces evolve?</h3>
-        <p>The evolution of human work has led to the emergence of digital nomads, symbolizing a more flexible and liberated approach to employment, potentially shaping the future of work.</p>
+        <h1>RESEARCH - Growing caffeine dependence</h1>
+        <p>After beginning work, coffee has played an increasingly vital role in my life. Initially, it was simply a straightforward tool for me to stay alert, but now, having coffee has become a natural habit in my life, as ordinary as breathing. It has subtly integrated into my daily routine, becoming a part of my existence.</p>
+        <h2># I become a coffee enthusiast</h2>
         <div class ="project-img">
-            <img src="pics/fd-p101.png">
+            <img src="pics/ti-p101.png">
         </div>
+        <h3># Am I an exception?</h3>
+        <span class="methodology">■ Methodology: Desk Research; Questionnaire (N=117)</span>
+        <div class ="project-img">
+            <img src="pics/ti-p102.png">
+        </div>
+    </section>
+
+    <section>
+        <h1>RESEARCH - The correlation between hardship and coffee</h1>
+        <p>Suffering is merely suffering; it is we humans who have always endowed it with other meanings. Enduring pain does not necessarily lead to success, but it will certainly increase our tolerance, allowing us to bear more and more pain. However, such a process is both meaningless and lamentable.</p>
+        <h2># The mechanism of caffeine</h2>
+        <h4>## Normally...</h4>
+        <div class ="project-img3">
+            <img src="pics/ti-p201.png">
+        </div>
+        <h4>## After Drinking coffee...</h4>
+        <div class ="project-img3">
+            <img src="pics/ti-p202.png">
+        </div>
+        <h4>## After Long-term caffeine intake...</h4>
+        <div class ="project-img3">
+            <img src="pics/ti-p203.png">
+        </div>
+        <h2># Self-motivation analysis</h2>
+        <div class="grid-4">
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/ti-p204.png">
+                </div> 
+            </div>
+            <div class="card-split3">
+                <br><br><p>Initially, I couldn't stand the bitterness of coffee. But as I faced academic and work challenges, I often imagined that I could overcome the difficulties just as I had learned to tolerate the taste of coffee. Gradually, I came to see the bitterness of coffee as an inevitable part of the journey towards success and happiness.</p>
+            </div>
+        </div>
+        <h3># What happens when one's tolerance for suffering increases?</h3>
+        <p>That is called LEARNED HELPLESSNESS - a maladaptive adaptation to the tolerance of suffering.<br>Persistent uncontrollable negative events lead to a sense of powerlessness and resignation, creating a negative psychological loop, potentially harming health.</p>
+        <div class ="project-img2">
+            <img src="pics/ti-p205.png">
+        </div> 
+        <div class="grid-2">
+            <div class="card-split2">
+                <h4>## People's imagination</h4>
+                <div class ="project-img">
+                    <img src="pics/ti-p206.png">
+                </div> 
+            </div>
+            <div class="card-split2">
+                <h4>## But the fact is...</h4>
+                <div class ="project-img">
+                    <img src="pics/ti-p207.png">
+                </div> 
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h1>DESIGN</h1>
+        <h2># Installation concept</h2>
+        <p>The performer controls the infusion of coffee liquid into silicone tubes covering the body at three different flow rates, symbolizing the gradual development of caffeine tolerance. During each infusion, the performer passively endures the disruptive blare of alarms, while their ECG fluctuates from intense spikes to eventual stability—representing the increasing resilience to life's hardships.</p>
+        <div class ="project-img">
+            <img src="pics/ti-p301.png">
+        </div> 
+        <h2># Hardware setting</h2>
+        <h4>## Circuit diagram of the ECG sensor</h4>
+        <div class ="project-img2">
+            <img src="pics/ti-p302.png">
+        </div> 
+        <h2># Software setting</h2>
+        <h4>## Arduino | Signal acquisition and data transmission</h4>
+        <script src="https://gist.github.com/HanZarchive/05134e59627f6aae4b12ca9a6dbe99f4.js"></script>
+        <iframe src="https://docs.google.com/document/d/e/2PACX-1vRQmIE05JpABR4g2bkSwr7AtNNIwurjnyQtp_TeLi5lqFv3-TSlfMXCWdpPjVeYUVkjs4vv5jL7r4nJ/pub?embedded=true"></iframe>
+        <iframe src="https://triangular-gosling-61d.notion.site/ebd/2abbdf7375e88029b95efb915d7fe01d" width="100%" height="600" frameborder="0" allowfullscreen />
+        <h4>## Arduino | Filtering - for signal processing</h4>       
+        <script src="https://gist.github.com/HanZarchive/4a9006fd5c4a0d31d00c4e350d3ab60f.js"></script>
+        <div class ="project-img2">
+            <img src="pics/ti-p302.png">
+        </div> 
+    </section>
+
+
         <h3># What is digital nomads' current situation?</h3>
         <span class="methodology">■ Methodology: Desk Research</span>
         <div class ="project-img">
