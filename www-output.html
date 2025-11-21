@@ -170,15 +170,15 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log('NASA EPIC API Response:', data);
-                        if (data || data.length === 0) {
+                        if (!data || data.length === 0) {
                             console.log('Try again...');
                             tryDate(attempt + 1);
                             return;
                         }
 
-                        if (data && data.length > 0) {
+                        // if (data && data.length > 0) {
                             console.log('NASA EPIC API Response:', data);
-                            const photo = data[0];  // 取第一张
+                            const photo = data[0]; 
                             const date = new Date(photo.date);
                             const year = date.getFullYear();
                             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -193,11 +193,11 @@
                                 <h3>Earth Photo from ${randomDate}</h3>
                                 <img src="${imageUrl}" alt="Earth Image" style="max-width: 50%;">
                             `;
-                        }
+                        // }
                         })
                         .catch(error => {
                             console.error('NASA EPIC API Error:', error);
-                            tryDate(attempt + 1) // 出现错误，尝试下一个日期
+                            tryDate(attempt + 1);
                         })
             }
             tryDate(0);
