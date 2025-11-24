@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sizzle Dialogues - Han Zhang</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+            * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #0a0a0a;
+        color: #fff;
+        overflow-x: hidden;
+    }
+
+    /* 字体定义 */
+    h1, h2, h3, h4, h5, h6, .highlight-question {
+        font-family: 'Syne Mono', -apple-system, sans-serif;
+        letter-spacing: 0.03em;
+    }
+
+    p, nav, span, li, .methodology, .meta-info, .back-link {
+        font-family: 'avenir', -apple-system, sans-serif;
+        letter-spacing: 0.02em;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 36px 60px;
+        font-size: 15px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .nav-back {
+        cursor: pointer;
+        opacity: 0.5;
+        transition: opacity 0.3s;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .nav-back:hover {
+        opacity: 1;
+    }
+
+    .project-tags-nav {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .tag-nav {
+        opacity: 0.5;
+        color: #fff;
+        font-size: 15px;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 80px 60px 180px 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: clamp(36px, 5vw, 52px);
+        color: #98C9F1;
+        margin-bottom: 16px;
+    }
+
+    .meta-info {
+        font-size: 15px;
+        opacity: 0.4;
+        color: #fff;
+        margin-bottom: 32px;
+    }
+
+    .hero p {
+        font-size: 18px;
+        color: #fff;
+        font-weight: 300;
+        line-height: 1.8;
+        padding: 0;
+        opacity: 0.85;
+        max-width: 900px;
+    }
+
+    /* Content Sections */
+    section {
+        padding: 80px 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* 标题层级 */
+    h1 {
+        font-size: clamp(28px, 3.5vw, 40px);
+        font-weight: 300;
+        color: #fff;
+        margin-top: 0;
+        margin-bottom: 60px;
+        letter-spacing: 0.05em;
+    }
+
+    h2 {
+        font-size: clamp(22px, 3vw, 32px);
+        font-weight: 300;
+        color: #98C9F1;
+        margin-top: 80px;
+        margin-bottom: 24px;
+    }
+
+    h3 {
+        font-size: clamp(22px, 3vw, 32px);
+        font-weight: 300;
+        color: #98C9F1;
+        margin-top: 60px;
+        margin-bottom: 32px;
+        font-style: italic;
+    }
+
+    h4 {
+        font-size: clamp(18px, 2vw, 24px);
+        font-weight: 300;
+        color: #fff;
+        margin-top: 24px;
+        margin-bottom: 48px;
+        opacity: 0.9;
+    }
+
+    p {
+        font-size: 18px;
+        color: #fff;
+        font-weight: 300;
+        line-height: 1.8;
+        margin: 24px 0;
+        max-width: 900px;
+        opacity: 0.85;
+    }
+
+    .highlight-question {
+        font-size: clamp(32px, 4.5vw, 46px);
+        font-weight: 300;
+        color: #98C9F1;
+        margin: 200px 0 160px 0;
+        text-align: center;
+        letter-spacing: -0.02em;
+        line-height: 1.4;
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .methodology {
+        display: inline-block;
+        background: transparent;
+        padding: 10px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 300;
+    }
+
+    .project-img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        margin: 48px 0;
+    }
+
+    .project-img img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s;
+    }
+
+    .project-img img:hover {
+        transform: scale(1.005);
+    }
+
+    .project-img2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 48px 0;
+        background: transparent;
+    }
+
+    .project-img2 img {
+        max-width: 70%;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s;
+    }
+
+    .project-img2 img:hover {
+        transform: scale(1.005);
+    }
+
+    /* Grid布局 */
+    .grid-1 {
+        display: grid;
+        grid-template-columns: 1.8fr 1fr;
+        gap: 48px;
+        margin: 60px 0;
+    }
+
+    .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 48px;
+        margin: 60px 0;
+        align-items: start;
+    }
+
+    .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 48px;
+        margin: 60px 0;
+    }
+
+    .grid-4 {
+        display: grid;
+        grid-template-columns: 1fr 1.8fr;
+        gap: 48px;
+        margin: 60px 0;
+    }
+
+    .card-split3 {
+        background: transparent;
+    }
+
+    .card-split3 .project-img {
+        height: auto;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        margin: 24px 0;
+    }
+
+    .card-split2 {
+        background: transparent;
+    }
+
+    .card-split2 .project-img {
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        margin: 0;
+    }
+
+    .card-split2 p {
+        margin-top: 0;
+    }
+
+    /* Footer */
+    footer {
+        background: transparent;
+        color: #fff;
+        padding: 120px 60px;
+        text-align: center;
+    }
+
+    footer h2 {
+        font-size: clamp(36px, 4.5vw, 56px);
+        font-weight: 300;
+        margin-bottom: 48px;
+        color: #98C9F1;
+    }
+
+    .back-link {
+        display: inline-block;
+        padding: 18px 40px;
+        background: transparent;
+        color: #fff;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-size: 16px;
+        transition: all 0.3s;
+        opacity: 0.7;
+        font-weight: 300;
+    }
+
+    .back-link:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+        nav {
+            flex-direction: column;
+            gap: 24px;
+            align-items: flex-start;
+            padding: 32px 40px;
+        }
+
+        .hero {
+            padding: 80px 40px 140px 40px;
+        }
+
+        section {
+            padding: 60px 40px;
+        }
+
+        .grid-1, .grid-2, .grid-3, .grid-4 {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        footer {
+            padding: 100px 40px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        nav {
+            padding: 24px 24px;
+        }
+
+        .hero {
+            padding: 60px 24px 100px 24px;
+        }
+
+        section {
+            padding: 48px 24px;
+        }
+
+        .project-img2 img {
+            max-width: 85%;
+        }
+
+        .grid-1, .grid-2, .grid-3, .grid-4 {
+            gap: 32px;
+            margin: 40px 0;
+        }
+
+        footer {
+            padding: 80px 24px;
+        }
+
+        .highlight-question {
+            margin: 120px 0 100px 0;
+        }
+    }
+        </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-back">← Back to Portfolio</a>
+        <div class="project-tags-nav">
+            <span class="tag-nav">#Card Game</span>
+            <span class="tag-nav">#Service Design</span>
+            <span class="tag-nav">#UX/UI</span>
+            <span class="tag-nav">#Co-creation</span>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Sizzle Dialogues</h1>
+        <div class="meta-info">Individual Work · October 2024 - December 2024</div>
+        <p>This project tackles communication challenges in cross-cultural families by encouraging members to co-create a dinner, fostering mutual understanding. <br>Using two types of card games and a mobile app, it gamifies task allocation, emotion sharing, and deep conversations, helping first-generation migrants express feelings more easily and strengthening family connections.</p>
+    </section>
+
+    <!--RESEARCH-->
+    <section>
+        <h1>RESEARCH - Communication conflict in migrant families</h1>
+        <p>1st-Gen Migrants and 2nd-Gen Migrants often face communication barriers due to societal pressures and the expectation to maintain a strong self-image. <br>As a result, 1st-Gen migrants often struggle to reveal their true feelings and vulnerabilities.</p>
+        <h3># What is the current situation in migrant families?</h3>
+        <span class="methodology">■ Methodology: Desk Research</span>
+        <div class="grid-2">
+            <div class="card-split3">
+                <h4>## Widespread prevalence</h4>
+                <div class ="project-img">
+                    <img src="pics/sd-p101.png">
+                </div>
+            </div>
+            <div class="card-split3">
+                <h4>## Increasing conflicts</h4>
+                <div class ="project-img">
+                    <img src="pics/sd-p102.png">
+                </div>  
+            </div>
+        </div>
+<!-- 
+        <div class ="project-img">
+            <img src="pics/sd-p101a.png">
+        </div> -->
+        <h3># How do they feel?</h3>
+        <span class="methodology">■ Methodology: In-Depth Interview - 3 parents & 3 children, each 1.5 hr</span>
+        <div class ="project-img2">
+            <img src="pics/sd-p103.png">
+        </div>
+        <h3># Why can't 1st-Gen migrants open Up?</h3>
+        <div class="grid-2">
+            <div class="card-split3">
+                <h4>## Emotional silence</h4>
+                <div class ="project-img">
+                    <img src="pics/sd-p104.png">
+                </div>
+            </div>
+            <div class="card-split3">
+                <h4>## Role perception barriers</h4>
+                <div class ="project-img">
+                    <img src="pics/sd-p105.png">
+                </div>  
+            </div>
+        </div>
+        <div class="project-img">
+            <img src="pics/divider.png">
+        </div>
+    </section>
+
+
+    <!--IDEATION--> 
+    <section>
+        <h1>IDEATION</h1>
+         <p>The true barrier isn't just a generation gap - it's a gap in authenticity. The research revealed that 1st-gen migrants often feel compelled to hide or simplify their true struggles and achievements, leaving the second generation disconnected from their core values and cultural context. My primary design goal is to break down this self-censored expression. Therefore, I aim to create a secure mechanism that allows the first generation to authentically voice their experiences, turning their real stories into a pathway for deeper mutual understanding.</p>
+        <h2># Design framwork - Use food as an effective medium</h2> 
+        <div class ="project-img2">
+            <img src="pics/sd-p201.png">
+        </div>
+        <h2># Design concept</h2> 
+        <div class ="project-img2">
+            <img src="pics/sd-p202.png">
+        </div>
+        <h2># User journey map</h2> 
+        <div class ="project-img">
+            <img src="pics/sd-p203.png">
+        </div>
+    </section>
+
+    <!--DESIGN-->
+    <section>
+        <h1>DESIGN</h1>
+        <h2># Card game design</h2>
+        <h4>## Quick Fix - resolve minor conflicts</h4>
+        <p>The card format Quick Fix mechanism, is designed to ensure both fair decision-making and emotional relief. The front of each card contains a specific action (e.g., Who Decide, Clear the Air), while the back indicates the card's category.<br>- Decision Support (Who Decide): This function provides a fair and structured process to help users quickly reach a resolution when opinions differ.<br>- Tension Relief (Clear the Air): This mechanism uses warm or humorous prompts to immediately ease tension after a disagreement, ensuring the conversation remains efficient and pleasant.</p>
+        <div class="grid-1">
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/sd-p301.png">
+                </div> 
+            </div>
+            <div class="card-split3">
+            <p><br></p>
+                <div class ="project-img">
+                    <img src="pics/sd-p302.png">
+                </div> 
+            </div>
+        </div>
+        <h4>## Deep Talk - meaningful conservations</h4>
+        <p>Rooted in the Ecological Systems Theory, the mechanism uses food as a trigger for emotion and culture, expanding the dialogue to broader life experiences and personal feelings. By combining Deep Talk cards with a rotating draw tube, it can ensure every member can easily draw and answer deep, life-dimension-based questions, fostering profound mutual understanding.</p>
+        <div class="grid-1">
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/sd-p303.png">
+                </div> 
+            </div>
+            <div class="card-split3">
+                <div class ="project-img">
+                    <img src="pics/sd-p304.png">
+                </div> 
+            </div>
+        </div>
+        <h2># Wireframes</h2>
+        <div class ="project-img2">
+            <img src="pics/sd-p305.png">
+        </div>
+        <h2># Hi-Fi (selected)</h2>
+        <div class ="project-img2">
+            <img src="pics/sd-p306.png">
+        </div>
+        <h2># Prototypes</h2>
+        <div class ="project-img">
+            <img src="pics/sd-p307.png">
+        </div>
+        <h2># Feedbacks & Future plans</h2>
+        <p>Due to my parents' busy schedules and that we live in different places, they couldn't directly use this card game.However, I showcased my design to them via an online meeting. Here are some of their feedback:</p>
+        <div class ="project-img2">
+            <img src="pics/sd-p308.png">
+        </div>
+        <p>So, my next focuses for improvement are: <br>- Adding an electronic card feature. <br>- Inviting more migrant families like mine to test and provide feedback.</p>
+    </section>
+    <footer>
+        <h2>Thank you!</h2>
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+    </footer>
+
+</body>
+</html>
