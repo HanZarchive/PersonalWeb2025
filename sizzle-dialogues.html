@@ -153,6 +153,19 @@
         <h2>Thank you!</h2>
         <a href="index.html" class="back-link">← Back to Portfolio</a>
     </footer>
-
+<script>
+            // 放在原本的 $(document).ready(function() {...}) 外面或者里面都可以
+        window.addEventListener('scroll', function() {
+            var nav = document.querySelector('nav');
+            
+            // window.scrollY 获取当前垂直滚动的距离
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled'); // 滚动超过50px，变黑
+            } else {
+                nav.classList.remove('scrolled'); // 回到顶部，变透明
+            }
+        });
+    </script>
+</script>
 </body>
 </html>

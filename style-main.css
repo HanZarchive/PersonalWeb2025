@@ -1,4 +1,4 @@
-/* style.css - 首页样式 (V3 优化版) */
+/* style.css - 首页样式 (Final Version) */
 /* stylelint-disable */
 
 * {
@@ -8,19 +8,19 @@
 }
 
 body {
-    /* 正文主体保留 Avenir，保证长段落可读性 */
+    /* 正文主体使用 Avenir */
     font-family: 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     font-style: normal;
     overflow-x: hidden;
     width: 100vw;
     color: #fff;
-    /* 1. 全局字间距加大 */
+    /* 全局字间距加大 */
     letter-spacing: 0.04em; 
 }
 
-/* 标题、导航、标签等装饰性文字使用 Syne Mono */
-h1, h2, h3, .filter-btn, nav, .tag, .hero p {
+/* 装饰性文字使用 Syne Mono */
+h1, h2, h3, .filter-btn, nav, .tag, .hero p, .project-label, .date {
     font-family: 'Syne Mono', monospace;
 }
 
@@ -31,42 +31,74 @@ h1, h2, h3, .filter-btn, nav, .tag, .hero p {
     left: 0;
     width: 100%;  
     height: 100%;
+    /* 请确保图片路径正确 */
     background: url('pics/MacBook Pro 16_ - 1.png') no-repeat center center/cover;
     z-index: -1;
 }
 
-/* 导航栏 */
+/* === 导航栏：全宽悬浮 + 毛玻璃 === */
 nav {
+    /* 布局属性保持不变 */
     display: flex;
     justify-content: space-between;
-    padding: 48px 60px;
+    align-items: center;
+    padding: 24px 60px;
     font-size: 16px;
-    /* 3. 导航栏换回 Syne Mono */
-    font-family: 'Syne Mono', monospace; 
+    font-family: 'Syne Mono', monospace;
+    
+    /* 位置属性保持不变 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    /* === 修改部分：初始设为透明 === */
+    background: transparent; 
+    backdrop-filter: none; /* 初始没有模糊 */
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent; /* 初始没有边框 */
+    
+    /* === 关键：添加过渡动画 === */
+    transition: all 0.4s ease; /* 让颜色变化平滑过渡 */
+}
+
+nav.scrolled {
+    background: rgba(10, 10, 10, 0.8); /* 滚动后变黑 */
+    backdrop-filter: blur(12px);      /* 滚动后变模糊 */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 滚动后出现边框 */
+    padding: 16px 60px; /* 可选：滚动后让导航栏稍微变窄一点，更精致 */
 }
 
 .nav-item {
     display: flex;
-    align-items: left;
-    gap: 18px;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    align-items: center;
+    gap: 24px;
     color: #fff;
     text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
 }
 
-.nav-item:hover {
+.nav-item a {
+    color: #fff;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.nav-item:hover, .nav-item a:hover {
     opacity: 1;
 }
 
 /* Hero Section */
 .hero {
     display: flex;
-    min-height: 30vh;
+    min-height: 40vh; /* 稍微增加高度 */
     flex-direction: column;
     justify-content: center;
-    padding: 60px 60px 20px;
+    /* 顶部 padding 加大，避开悬浮导航栏 */
+    padding: 160px 60px 40px; 
 }
 
 .hero h1 {
@@ -80,13 +112,11 @@ nav {
 }
 
 .hero p {
-    /* 3. 换回 Syne Mono，且字间距加大 */
-    font-family: 'Syne Mono', monospace; 
     font-size: clamp(18px, 2.5vw, 22px);
-    font-weight: 400; /* Syne Mono 稍微加粗一点点才清晰 */
+    font-weight: 400;
     max-width: 800px;
     line-height: 1.5;
-    letter-spacing: 0.05em; /* 额外的字间距 */
+    letter-spacing: 0.05em;
     opacity: 0.9;
     color: #fff;
     text-align: left;
@@ -107,11 +137,10 @@ nav {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.4);
     color: rgba(255, 255, 255, 0.7);
-    padding: 10px 24px; /* 按钮稍微变宽一点 */
-    /* 3. 筛选标签字体加大 */
-    font-size: 18px; 
+    padding: 10px 24px;
+    font-size: 18px; /* 字体调大 */
     cursor: pointer;
-    border-radius: 50px; /* 筛选器保留圆角比较好看，和下方方角形成对比，如果你也想改成方的，这里设为0 */
+    border-radius: 50px; /* 筛选器保持圆角作为按钮隐喻 */
     transition: all 0.3s ease;
     letter-spacing: 0.05em;
 }
@@ -140,7 +169,7 @@ nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
     gap: 60px; 
-    margin-bottom: 120px; /* 增加项目间距 */
+    margin-bottom: 120px;
     transition: opacity 0.4s ease, transform 0.4s ease;
     align-items: center;
 }
@@ -185,7 +214,6 @@ nav {
 }
 
 .project-label {
-    font-family: 'Syne Mono', monospace;
     font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -211,7 +239,6 @@ nav {
 }
 
 .date {
-    font-family: 'Syne Mono', monospace; /* 日期也用 Syne Mono */
     font-size: 14px;
     color: #888;
     margin-bottom: 32px;
@@ -233,16 +260,14 @@ nav {
     margin-top: 24px;
 }
 
-/* 4. 具体标签全方形 + Syne Mono */
+/* 具体标签：全方形 + Syne Mono */
 .tag {
     background: transparent;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border: 1px solid rgba(255,255,255,0.4);
     font-size: 14px;
     color: rgba(255,255,255,0.9);
-    /* 全直角 */
-    border-radius: 0px; 
-    font-family: 'Syne Mono', monospace;
+    border-radius: 0px; /* 全直角 */
     letter-spacing: 0.05em;
 }
 
@@ -273,7 +298,7 @@ footer h2 {
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s;
-    font-family: 'Syne Mono', monospace; /* 链接也统一 */
+    font-family: 'Syne Mono', monospace;
     letter-spacing: 0.05em;
 }
 
@@ -283,15 +308,15 @@ footer h2 {
 
 /* Responsive */
 @media (max-width: 1024px) {
-    nav { padding: 32px 30px; }
-    .hero { padding: 40px 30px 20px; }
+    nav { padding: 24px 30px; }
+    .hero { padding: 140px 30px 40px; }
     .filter-menu { padding: 0 30px 40px; margin-top: 40px;}
     .projects { padding: 0 30px 80px; }
     
     .project {
         grid-template-columns: 1fr;
-        gap: 40px;
-        margin-bottom: 80px;
+        gap: 60px;
+        margin-bottom: 100px;
     }
     
     .project:nth-child(even) { direction: ltr; }
@@ -299,10 +324,12 @@ footer h2 {
 }
 
 @media (max-width: 640px) {
-    nav { flex-direction: column; gap: 16px; align-items: flex-start; }
+    nav { 
+        padding: 20px 24px;
+        font-size: 14px;
+    }
     .hero h1 { font-size: 42px; }
     .filter-menu { gap: 10px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 20px; }
     .filter-btn { white-space: nowrap; font-size: 14px; padding: 8px 16px; }
-    .project-info h2 { font-size: 28px; }
-    .contact-links { flex-direction: column; gap: 20px; }
+    .contact-links { flex-direction: column; gap: 24px; }
 }

@@ -1,4 +1,4 @@
-/* project-style.css - 详情页样式 (V3 窄版优化) */
+/* project-style.css - 详情页样式 (Final Version) */
 /* stylelint-disable */
 
 * {
@@ -14,25 +14,51 @@ body {
     font-family: 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-weight: 300;
     line-height: 1.6;
-    /* 1. 全局字间距明显加大，营造稀疏感 */
+    /* 全局字间距加大 */
     letter-spacing: 0.05em;
 }
 
+/* 标题类统一使用 Syne Mono */
 h1, h2, h3, h4, h5, h6, .highlight-question, .meta-info {
     font-family: 'Syne Mono', monospace;
     letter-spacing: 0.03em;
 }
 
-/* 导航栏 - 宽度限制 */
+/* === 导航栏：全宽悬浮 + 毛玻璃 (与首页统一) === */
+/* === 1. 默认状态：透明、无边框 === */
 nav {
+    /* 布局属性保持不变 */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 48px 40px; 
-    font-size: 15px;
-    /* 2. 核心修改：最大宽度缩小，制造大留白 */
-    max-width: 1000px; 
-    margin: 0 auto;
+    padding: 24px 60px;
+    font-size: 16px;
+    font-family: 'Syne Mono', monospace;
+    
+    /* 位置属性保持不变 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    
+    /* === 修改部分：初始设为透明 === */
+    background: transparent; 
+    backdrop-filter: none; /* 初始没有模糊 */
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent; /* 初始没有边框 */
+    
+    /* === 关键：添加过渡动画 === */
+    transition: all 0.4s ease; /* 让颜色变化平滑过渡 */
+}
+
+/* === 2. 滚动状态：JS 会自动添加这个类 === */
+nav.scrolled {
+    background: rgba(10, 10, 10, 0.8); /* 滚动后变黑 */
+    backdrop-filter: blur(12px);      /* 滚动后变模糊 */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 滚动后出现边框 */
+    padding: 16px 60px; /* 可选：滚动后让导航栏稍微变窄一点，更精致 */
 }
 
 .nav-back {
@@ -65,9 +91,9 @@ nav {
 
 /* Hero Section */
 .hero {
-    /* 上下边距 */
-    padding: 100px 40px 120px 40px; 
-    /* 2. 核心修改：宽度缩小 */
+    /* 增加顶部内边距，因为 Nav 悬浮了 */
+    padding: 160px 40px 120px 40px; 
+    /* 窄版布局：限制内容宽度 */
     max-width: 1000px;
     margin: 0 auto;
 }
@@ -94,7 +120,6 @@ nav {
     font-weight: 300;
     line-height: 1.8;
     opacity: 0.9;
-    /* 既然容器已经窄了，p 就不需要再限制太窄，设为 100% 填满容器即可 */
     max-width: 100%; 
     margin-top: 0;
 }
@@ -102,7 +127,7 @@ nav {
 /* Content Sections */
 section {
     padding: 60px 40px;
-    /* 2. 核心修改：宽度缩小 */
+    /* 窄版布局 */
     max-width: 1000px;
     margin: 0 auto;
 }
@@ -119,7 +144,7 @@ h2 {
     font-size: clamp(24px, 2.5vw, 32px);
     font-weight: 400;
     color: #98C9F1;
-    margin-top: 120px; /* 增加大标题上方的间距 */
+    margin-top: 120px;
     margin-bottom: 32px;
 }
 
@@ -141,7 +166,7 @@ h4 {
     color: #98C9F1;
     margin-top: 32px;
     margin-bottom: 16px;
-    font-family: 'Syne Mono', monospace; /* 换成 Syne Mono */
+    font-family: 'Syne Mono', monospace;
 }
 
 p {
@@ -150,7 +175,6 @@ p {
     font-weight: 300;
     line-height: 1.9;
     margin-bottom: 32px;
-    /* 正文宽度 */
     max-width: 100%; 
 }
 
@@ -180,18 +204,18 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 80px 0; /* 加大图片上下留白 */
-    width: 100%; /* 确保图片容器占满缩窄后的 section */
+    margin: 80px 0;
+    width: 100%;
 }
 
 .project-img img, .project-img2 img {
-    max-width: 100%; /* 图片撑满容器 */
+    max-width: 100%;
     height: auto;
     object-fit: contain;
     border-radius: 0px; /* 去圆角 */
 }
 
-/* Grids - 既然容器窄了，Grid 的 Gap 可以稍微小一点点，或者变为上下结构 */
+/* Grids */
 .grid-1 {
     display: grid;
     grid-template-columns: 1.8fr 1fr;
@@ -265,8 +289,9 @@ footer h2 {
 
 /* Responsive */
 @media (max-width: 1024px) {
-    /* 平板上稍微放宽一点点，否则太窄 */
-    nav, section, .hero { max-width: 90vw; }
+    nav { padding: 24px 30px; }
+    /* 平板端保持一定宽度，不要太窄 */
+    nav, section, .hero { max-width: 92vw; }
     
     .grid-1, .grid-2, .grid-3, .grid-4 { 
         grid-template-columns: 1fr; 
@@ -275,6 +300,8 @@ footer h2 {
 }
 
 @media (max-width: 640px) {
+    nav { padding: 20px 24px; }
+    .hero { padding-top: 120px; } /* 手机端顶部避让 */
     .hero h1 { font-size: 36px; }
     .highlight-question { margin: 100px 0; font-size: 24px; }
     footer { padding: 100px 24px; }

@@ -124,7 +124,7 @@
                 <div class="project-label">Team Work</div>
                 <h2>Resonance</h2>
                 <div class="date">November 15th - 16th, 2024</div>
-                <p>A digital brooch concept visualizing 8Values, MBTI, and music aesthetics to explore how social boundaries are constructed.</p>
+                <p>A digital brooch concept visualizing 8Values, MBTI, and music aesthetics to explore how social boundaries are constructed.<br>Coming soon...</p>
                 <div class="tags">
                     <span class="tag">#Visual System Building</span>
                     <span class="tag">#Product Sketch</span>
@@ -218,6 +218,18 @@
                     }
                 });
             });
+        });
+
+        // 放在原本的 $(document).ready(function() {...}) 外面或者里面都可以
+        window.addEventListener('scroll', function() {
+            var nav = document.querySelector('nav');
+            
+            // window.scrollY 获取当前垂直滚动的距离
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled'); // 滚动超过50px，变黑
+            } else {
+                nav.classList.remove('scrolled'); // 回到顶部，变透明
+            }
         });
     </script>
 </body>
