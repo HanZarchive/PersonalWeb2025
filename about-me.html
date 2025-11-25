@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About me - Han Zhang</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style-project.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-back">← Main Page</a>
+        <div class="project-tags-nav">
+            <span class="tag-nav">#User Experience</span>
+            <span class="tag-nav">#Data Visualization</span>
+            <span class="tag-nav">#Hardware</span>
+            <span class="tag-nav">#3D Modelling</span>
+        </div>
+    </nav>
+<section class="hero">
+        <h2>What drives the way we interact?</h2>
+        <p>Bringing 3 years of User Research experience, my passion lies at the intersection of emerging technology and cultural trends. I am fascinated by how pop culture influences the way we interact with the digital world, and I channel this curiosity into creating solid interaction logic and grounded solutions.</p>
+        <!-- <div class="meta-info"><a href="https://docs.google.com/document/d/1an7Nv-2Ep6uyS1haPlMekOy-irYXtqHRwHgKtLwCfDg/edit?usp=sharing">See my resume here: </a></div>
+        <div class="cta-container">
+                <a href="https://docs.google.com/document/d/1an7Nv-2Ep6uyS1haPlMekOy-irYXtqHRwHgKtLwCfDg/edit?usp=sharing" class="btn-resume" target="_blank" rel="noopener noreferrer">
+                    <span class="btn-text">See my Resume here</span>
+                    <span class="btn-icon">&nearr;</span> 
+                </a>
+            </div> -->
+        <h4>
+            <a href="https://docs.google.com/document/d/1an7Nv-2Ep6uyS1haPlMekOy-irYXtqHRwHgKtLwCfDg/edit?usp=sharing" class="nav-style-link" target="_blank">See my Resume here ↗</a>
+        </h4>
+    </section>
+    
+
+<script>
+        // 放在原本的 $(document).ready(function() {...}) 外面或者里面都可以
+    window.addEventListener('scroll', function() {
+        var nav = document.querySelector('nav');
+        
+        // window.scrollY 获取当前垂直滚动的距离
+        if (window.scrollY > 50) {
+            nav.classList.add('scrolled'); // 滚动超过50px，变黑
+        } else {
+            nav.classList.remove('scrolled'); // 回到顶部，变透明
+        }
+    });
+</script>
+
+    <footer>
+        <h2>Thank you!</h2>
+        <a href="index.html" class="back-link">← Main Page</a>
+    </footer>
+</body>
+</html>
+

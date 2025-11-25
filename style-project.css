@@ -75,6 +75,33 @@ nav.scrolled {
     opacity: 1;
 }
 
+.nav-style-link {
+    text-decoration: underline; 
+    text-decoration-style:  dashed;
+    text-underline-offset: 6px;
+    color: #fff;        
+    font-weight: 500;      
+    font-size: 16px;       
+    
+    /* 交互设计的灵魂：过渡动画 */
+    /* 0.2s ease 表示所有变化在0.2秒内平滑完成，而不是生硬地切换 */
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+/* 2. 鼠标悬停 (Hover) 状态 */
+.nav-style-link:hover {  /* 悬停时变成深灰色 */
+    opacity: 0.8;     /* 或者让它稍微变淡一点，这是很高级的处理方式 */
+    cursor: pointer;  /* 确保鼠标变成小手 */
+    text-decoration: underline; 
+    text-decoration-style:  solid;
+    text-underline-offset: 6px;
+}
+
+/* 3. 鼠标点击按下 (Active) 状态 */
+.nav-style-link:active {
+    transform: scale(0.98); /* 点击时微微缩小，提供触觉反馈 */
+}
+
 .project-tags-nav {
     display: flex;
     gap: 24px;
@@ -163,7 +190,8 @@ h4 {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #98C9F1;
+    color: #fff;
+    opacity: 0.85;
     margin-top: 32px;
     margin-bottom: 16px;
     font-family: 'Syne Mono', monospace;
