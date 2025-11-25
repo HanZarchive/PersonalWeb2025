@@ -102,19 +102,26 @@ nav.scrolled {
     transform: scale(0.98); /* 点击时微微缩小，提供触觉反馈 */
 }
 
-.project-tags-nav {
+.nav-item {
     display: flex;
-    gap: 24px;
+    gap: 36px;
     flex-wrap: wrap;
+    opacity: 0.85;
+    text-decoration: wavy;
 }
 
-.tag-nav {
+/* .nav-item a {
+    text-decoration: none;
+    transition: opacity 0.3s;
+} */
+
+/* .tag-nav {
     opacity: 0.5;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 0.05em;
     font-family: 'Syne Mono', monospace;
-}
+} */
 
 /* Hero Section */
 .hero {
