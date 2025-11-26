@@ -1,6 +1,3 @@
-/* style.css - 首页样式 (Final Version) */
-/* stylelint-disable */
-
 * {
     margin: 0;
     padding: 0;
@@ -8,87 +5,80 @@
 }
 
 body {
-    /* 正文主体使用 Avenir */
     font-family: 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     font-weight: 300;
     font-style: normal;
     overflow-x: hidden;
     width: 100vw;
     color: #fff;
-    /* 全局字间距加大 */
     letter-spacing: 0.04em; 
 }
 
-/* 装饰性文字使用 Syne Mono */
-h1, h2, h3, .filter-btn, nav, .tag, .hero p, .project-label, .date {
+h1, h2, h3, nav, .nav-item, .filter-btn, .tag, .hero p, .project-label, .date, .contact-links a {
     font-family: 'Syne Mono', monospace;
 }
 
-/* 固定背景 */
+a {
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
 .bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;  
     height: 100%;
-    /* 请确保图片路径正确 */
     background: url('pics/MacBook Pro 16_ - 1.png') no-repeat center center/cover;
     z-index: -1;
 }
 
-/* === 导航栏：全宽悬浮 + 毛玻璃 === */
 nav {
-    /* 布局属性保持不变 */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 24px 60px;
     font-size: 16px;
-    font-family: 'Syne Mono', monospace;
     
-    /* 位置属性保持不变 */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
     
-    /* === 修改部分：初始设为透明 === */
-    background: transparent; 
-    backdrop-filter: none; /* 初始没有模糊 */
-    -webkit-backdrop-filter: none;
-    border-bottom: 1px solid transparent; /* 初始没有边框 */
-    
-    /* === 关键：添加过渡动画 === */
-    transition: all 0.4s ease; /* 让颜色变化平滑过渡 */
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
 }
 
 nav.scrolled {
-    background: rgba(10, 10, 10, 0.8); /* 滚动后变黑 */
-    backdrop-filter: blur(12px);      /* 滚动后变模糊 */
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* 滚动后出现边框 */
-    padding: 16px 60px; /* 可选：滚动后让导航栏稍微变窄一点，更精致 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 16px 60px;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
     gap: 24px;
-    color: #fff;
-    text-decoration: none;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+
 }
 
 .nav-item a {
     color: #fff;
-    text-decoration: none;
+    opacity: 0.75;
     transition: opacity 0.3s;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    text-underline-offset: 6px;
 }
 
-.nav-item:hover, .nav-item a:hover {
+.nav-item a:hover {
     opacity: 1;
+    text-decoration-style: solid;
 }
 
 /* Hero Section */
@@ -106,13 +96,13 @@ nav.scrolled {
     font-weight: 400;
     letter-spacing: 0.02em;
     margin-bottom: 24px;
-    color: #ffffff;
+    color: #fff;
     text-align: left;
     line-height: 1.1;
 }
 
 .hero p {
-    font-size: clamp(18px, 2.5vw, 22px);
+    font-size: clamp(16px, 2.5vw, 20px);
     font-weight: 400;
     max-width: 800px;
     line-height: 1.5;
@@ -136,9 +126,10 @@ nav.scrolled {
 .filter-btn {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    color: rgba(255, 255, 255, 0.7);
+    color: #fff;
+    opacity: 0.75;
     padding: 10px 24px;
-    font-size: 18px; /* 字体调大 */
+    font-size: 16px; /* 字体调大 */
     cursor: pointer;
     border-radius: 50px; /* 筛选器保持圆角作为按钮隐喻 */
     transition: all 0.3s ease;
@@ -147,7 +138,7 @@ nav.scrolled {
 
 .filter-btn:hover {
     border-color: #fff;
-    color: #fff;
+    opacity: 1;
 }
 
 .filter-btn.active {
@@ -161,7 +152,7 @@ nav.scrolled {
 .projects {
     padding: 0 60px 120px;
     background: transparent;
-    color: #ffffff;    
+    color: #fff;    
     min-height: 50vh;
 }
 
@@ -217,7 +208,8 @@ nav.scrolled {
     font-size: 14px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
+    color: #fff;
+    opacity: 0.6;
     margin-bottom: 16px;
 }
 
@@ -235,19 +227,21 @@ nav.scrolled {
 }
 
 .project-info h2 a:hover {
-    color: #f8dae9;
+    opacity: 0.75;
 }
 
 .date {
     font-size: 14px;
-    color: #888;
+    color: #fff;
+    opacity: 0.6;
     margin-bottom: 32px;
 }
 
 .project-info p {
     font-size: 16px;
     line-height: 1.8;
-    color: rgba(255,255,255,0.85);
+    color: #fff;
+    opacity: 0.9;
     margin-bottom: 24px;
     font-weight: 300;
     max-width: 600px;
@@ -266,7 +260,8 @@ nav.scrolled {
     padding: 8px 16px;
     border: 1px solid rgba(255,255,255,0.4);
     font-size: 14px;
-    color: rgba(255,255,255,0.9);
+    color: #fff;
+    opacity: 0.9;
     border-radius: 0px; /* 全直角 */
     letter-spacing: 0.05em;
 }
@@ -275,7 +270,6 @@ nav.scrolled {
 footer {
     padding: 80px 60px;
     text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 footer h2 {
@@ -294,7 +288,8 @@ footer h2 {
 }
 
 .contact-links a {
-    color: rgba(255,255,255,0.6);
+    color: #fff;
+    opacity: 0.6;
     text-decoration: none;
     font-size: 16px;
     transition: color 0.3s;

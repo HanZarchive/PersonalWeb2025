@@ -13,17 +13,16 @@
 <body>
 
     <nav>
-        <a href="index.html" class="nav-back">← Back to Portfolio</a>
-        <div class="project-tags-nav">
-            <span class="tag-nav">#User Experience</span>
-            <span class="tag-nav">#Data Visualization</span>
-            <span class="tag-nav">#Hardware</span>
-            <span class="tag-nav">#3D Modelling</span>
+        <a href="index.html" class="nav-back">← Home</a>
+        <div class="nav-item">
+            <span class="tag-nav"><a href="about-me.html" class="nav-style-link">About Me</a></span>
+            <span class="tag-nav"><a href="creative-coding.html" class="nav-style-link">Tech Playground</a></span>    
+            <span class="tag-nav"><a href="index.html#projects-section" class="nav-style-link">Works</a></span>
         </div>
     </nav>
 
     <section class="hero">
-        <h1>Wonderland</h1>
+        <h1 class="text-wonderland">Wonderland</h1>
         <div class="meta-info">Individual Work · March 2024 - July 2024</div>
         <p>Wonderland is a service that connects artists with inspiration from people's dreams through a community platform and a sleep mask.<br>The mask, equipped with LiDAR sensors, tracks eye movements to capture people's dreams, while the DALL-E AI model generates adjustable visual moon symbols from the data.<br>This project transforms chaotic dreams into intuitive visual, enabling artists to communicate with dreamers and create works inspired by their dreams, fostering a collaborative and imaginative dream-sharing community.</p>
     </section>
@@ -31,7 +30,7 @@
     <!-- 1. Dreams Inspires Creativity -->
     <section>
         <h1>RESEARCH</h1>
-        <h3># Why DREAMS are important to creativity?</h3>
+        <h3 class="text-wonderland"># Why DREAMS are important to creativity?</h3>
         <p>Dreams, filled with randomness and emotional metaphors, inspire many artists and result in numerous artworks. They offer more than just chaotic fragments, often holding profound emotions and metaphors.</p>
         <span class="methodology">■ Methodology: Desk Research</span>
         <div class ="project-img">
@@ -41,7 +40,7 @@
 
     <!-- 2. Uncover the common logic -->
     <section>
-        <h3># Can dreams be a steady source of inspiration for creators?</h3>
+        <h3 class="text-wonderland"># Can dreams be a steady source of inspiration for creators?</h3>
         <p>Many people enjoy recording their dreams and are open to others drawing inspiration from them. People also provide logical considerations that can be used as criteria to categorize various dreams.</p>
         <span class="methodology">■ Methodology: Co-Discovery Workshop · 3 Hours, 6 Participants</span>
         <h4>## Agenda</h4>
@@ -52,7 +51,7 @@
         <div class ="project-img">
             <img src="pics/wonderland-p202.png">
         </div>
-        <h2># Insights</h2>
+        <h2 class="text-wonderland"># Insights</h2>
         <div class ="project-img">
             <img src="pics/wonderland-p203.png">
         </div>
@@ -62,19 +61,19 @@
     <section>
         <div class ="highlight-question">How Might We Connect The Needs Of Dream Recorders With Artists Looking For Inspiration From Dreams?</div>
         <h1>IDEATION</h1>
-        <h2># Persona & Needs Analysis</h2>
+        <h2 class="text-wonderland"># Persona & Needs Analysis</h2>
         <div class ="project-img2">
             <img src="pics/wonderland-p204.png">
         </div>
-        <div class = "grid-1">
-            <div class ="card-split3">
-                <h2># Design Concept</h2>
-                <div class ="project-img"> <img src="pics/wonderland-p205.png">
+        <div class = "grid-2">
+            <div class ="card-split">
+                <h2 class="text-wonderland"># Design Concept</h2>
+                <div class =".card-split project-img"> <img src="pics/wonderland-p205.png">
                 </div>
             </div>
-            <div class ="card-split3">
-                <h2># Solutions</h2>
-                <div class =".card-split3 project-img"> <img src="pics/wonderland-p206.png"> 
+            <div class ="card-split">
+                <h2 class="text-wonderland"># Solutions</h2>
+                <div class =".card-split project-img"> <img src="pics/wonderland-p206.png"> 
                 </div>
             </div>
         </div>
@@ -83,27 +82,29 @@
 
     <!-- 4. Key Functions -->
     <section>
-        <h2># Technical Features</h2>
+        <h2 class="text-wonderland"># Technical Features</h2>
         <p>Wonderland consists of two main components: a sleep mask that captures dreams and an AI model that visualizes them. The sleep mask uses LiDAR sensors to monitor eye movements and detect REM sleep, while the DALL-E AI model generates visual representations of dreams based on various characteristics.</p>
+        <br>
         <h4>## LiDAR Sensors Array - Capture Dreams</h4>
-        <div class ="grid-2">
-            <div class ="card-split2">
+        <div class ="grid-1">
+            <div class ="card-split">
                 <div class="project-img">
                     <img src="pics/wonderland-p301.png">
                 </div>
             </div>
-            <div class ="card-split2">
+            <div class ="card-split">
                 <p>Equipped with LiDAR sensors, the sleep mask detects REM (Rapid Eye Movement) without physical contact with the eye. This technology monitors when a person is dreaming by tracking eye movements during sleep.</p>
             </div>
         </div>
+        <br>
         <h4>## DALL-E AI Model - Visualize Dreams</h4>
         <div class ="grid-2">
-            <div class ="card-split2">
+            <div class ="card-split">
                 <div class="project-img">
                     <img src="pics/wonderland-p302.png">
                 </div>
             </div>
-            <div class ="card-split2">
+            <div class ="card-split">
                 <p>The DALL-E AI model generates customizable moon symbols based on dream characteristics. By adjusting parameters like emotion intensity, color spectrum, logic degree, and detail richness, each dream transforms into a unique visual representation—ranging from delicate crescents to textured full moons—capturing the emotional and narrative essence of the dreamer's experience.</p>
             </div>
         </div>
@@ -113,13 +114,12 @@
     <section>
         <h1>DESIGN</h1>
         <p>There are five main sections in Wonderland: recording dreams, browsing other's dreams, creation based on other's dreams, my own dream space, and notifications.</p>
-
-        <h2># Information Architecture</h2>
+        <h2 class="text-wonderland"># Information Architecture</h2>
         <div class="project-img2">
             <img src="pics/wonderland-p304.png">
         </div>
 
-        <h2># Wireframes</h2>
+        <h2 class="text-wonderland"># Wireframes</h2>
         <div class="project-img">
             <img src="pics/wonderland-p303.png">
         </div>
@@ -127,13 +127,13 @@
 
     <!-- 6. Final Outputs -->
     <section>
-        <h2># Final Outputs</h2>
+        <h2 class="text-wonderland"># Final Outputs</h2>
         <h4>## Sleep Mask Design</h4>
         <div class ="grid-2">
-            <div class ="card-split3">
+            <div class ="card-split">
                 <p>By using a LIDAR sensors array, the movement of the cornea under the eyelid can be measured without the sensor touching the eye, thus monitoring whether a person is dreaming.</p>
             </div>
-            <div class ="card-split3">
+            <div class ="card-split">
                 <div class="project-img">
                     <img src="pics/wonderland-p402.png">
                 </div>
@@ -150,7 +150,7 @@
             <img src="pics/wonderland-p403.png">
         </div>
 
-        <h2># User Flow*</h2>
+        <h2 class="text-wonderland"># User Flow*</h2>
         <div class="meta-info">*The character images in this part were generated with the assistance of AIGC tools. </div> 
         <h4>## Dream Recorders</h4>
         <div class="project-img">
