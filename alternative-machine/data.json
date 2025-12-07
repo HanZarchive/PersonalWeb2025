@@ -1,0 +1,79 @@
+[
+  {
+    "id": "7dKfpVHBX-1FSzN2AAAB",
+    "timestamp": 1764799361267,
+    "word": "I love you",
+    "params": {
+      "density": 71,
+      "repetition": 109,
+      "distortion": 0,
+      "decay": 0
+    }
+  },
+  {
+    "id": "7dKfpVHBX-1FSzN2AAAB",
+    "timestamp": 1764799365306,
+    "word": "I love you",
+    "params": {
+      "density": 71,
+      "repetition": 419,
+      "distortion": 0,
+      "decay": 0
+    }
+  },
+  {
+    "id": "7dKfpVHBX-1FSzN2AAAB",
+    "timestamp": 1764799372127,
+    "word": "I love you",
+    "params": {
+      "density": 22,
+      "repetition": 419,
+      "distortion": 45,
+      "decay": 29
+    }
+  },
+  {
+    "id": "XT6DD6AYKVa_2H-UAAAX",
+    "timestamp": 1764872322045,
+    "word": "happy",
+    "params": {
+      "density": 0,
+      "repetition": 50,
+      "distortion": 0,
+      "decay": 0
+    }
+  },
+  {
+    "id": "FD7B5Ho5Q-H2Q4F9AAAd",
+    "timestamp": 1764872525334,
+    "word": "WORK",
+    "params": {
+      "density": 0,
+      "repetition": 50,
+      "distortion": 0,
+      "decay": 0
+    }
+  },
+  {
+    "id": "EJne0k6U4-xAxgK-AAAB",
+    "timestamp": 1764958423842,
+    "word": "WORK",
+    "params": {
+      "density": 10,
+      "repetition": 177,
+      "distortion": 0,
+      "decay": null
+    }
+  },
+  {
+    "id": "EJne0k6U4-xAxgK-AAAB",
+    "timestamp": 1764958437904,
+    "word": "WORK",
+    "params": {
+      "density": 36,
+      "repetition": 99,
+      "distortion": 66,
+      "decay": null
+    }
+  }
+]

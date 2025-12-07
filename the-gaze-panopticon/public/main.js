@@ -91,17 +91,17 @@ function detectGaze() {
             // 逻辑：脸部大致摆正 (yawDiff < 0.1) 且 眼睛没有完全闭上 (blink < 0.6)
             if (yawDiff < 0.05 && eyeBlinkLeft < 0.6 && eyeBlinkRight < 0.6) {
                 isGazing = true;
-                document.getElementById('debug-info').innerText = "状态: 正在被凝视 (PANIC)";
+                document.getElementById('debug-info').innerText = "Status: Being gazed at (PANIC)";
                 document.getElementById('debug-info').style.color = "red";
             } else {
                 isGazing = false;
-                document.getElementById('debug-info').innerText = "状态: 视线移开";
+                document.getElementById('debug-info').innerText = "Status: Gaze shifted away";
                 document.getElementById('debug-info').style.color = "green";
             }
         } else {
             // 没检测到人脸
             isGazing = false;
-            document.getElementById('debug-info').innerText = "状态: 无人";
+            document.getElementById('debug-info').innerText = "Status: No gaze detected";
             document.getElementById('debug-info').style.color = "gray";
         }
     }
@@ -165,9 +165,9 @@ function animate() {
     // 2. 根据 AI 结果调整压力值
     if (currentPhase === 1) {
         if (isGazing) {
-            stressLevel += 0.5; // 被凝视，压力上升
+            stressLevel += 0.3; // 被凝视，压力上升
         } else {
-            stressLevel -= 0.3; // 视线移开，压力缓解
+            stressLevel -= 0.2; // 视线移开，压力缓解
         }
         
         stressLevel = Math.max(0, Math.min(100, stressLevel));
@@ -238,11 +238,39 @@ function triggerPhase2() {
 function handlePhase2Animation() {
     if (isExploded || !myselfObj) return;
 
-    // 爆炸动画：快速膨胀并透明
-    myselfObj.scale.multiplyScalar(1.05);
-    myselfObj.material.transparent = true;
-    myselfObj.material.opacity -= 0.05;
+    const expansionSpeed = 1.005;  
+    const fadeSpeed = 0.012;      
+    const rotationSpeed = 0.10;   
+    // ----------------------------------------
 
+    // 1. 膨胀
+    myselfObj.scale.multiplyScalar(expansionSpeed);
+
+    // 2. 旋转
+    myselfObj.rotation.x += rotationSpeed;
+    myselfObj.rotation.y += rotationSpeed;
+
+    // 3. 透明度衰减
+    myselfObj.material.transparent = true;
+    myselfObj.material.opacity -= fadeSpeed;
+
+    // 4. 颤抖 (让它看起来在崩溃)
+    const positions = myselfObj.geometry.attributes.position;
+    const count = positions.count;
+    // 限制一下最大颤抖幅度，防止变得太乱
+    const shakeIntensity = Math.min(0.5, 0.1 * myselfObj.scale.x); 
+
+    for (let i = 0; i < count; i++) {
+        positions.setXYZ(
+            i,
+            positions.getX(i) + (Math.random() - 0.5) * shakeIntensity,
+            positions.getY(i) + (Math.random() - 0.5) * shakeIntensity,
+            positions.getZ(i) + (Math.random() - 0.5) * shakeIntensity
+        );
+    }
+    positions.needsUpdate = true;
+
+    // 5. 结束判断
     if (myselfObj.material.opacity <= 0) {
         scene.remove(myselfObj);
         isExploded = true;

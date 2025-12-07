@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alternative Machine</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div id="control-panel">
+        <h1>Tolerance of REPETITION</h1>
+        
+        <div class="input-group">
+            <label>Input a word you like:</label>
+            <input type="text" id="wordInput" value="WORK" maxlength="20">
+        </div>
+
+        <div id="live-preview">
+            <div id="preview-text" class="preview-content">
+                </div>
+        </div>
+
+        <div class="input-group">
+            <label>REPETITION (Volume) <span id="val-rep">0</span></label>
+            <input type="range" id="repSlider" min="1" max="500" value="50">
+        </div>
+        <div class="input-group">
+            <label>DENSITY (Crush) <span id="val-den">0</span></label>
+            <input type="range" id="denSlider" min="0" max="100" value="0">
+        </div>
+        <div class="input-group">
+            <label>DISTORTION (Skew) <span id="val-dis">0</span></label>
+            <input type="range" id="disSlider" min="0" max="100" value="0">
+        </div>
+        <!-- <div class="input-group">
+            <label>DECAY (Blur) <span id="val-dec">0</span></label>
+            <input type="range" id="decSlider" min="0" max="100" value="0">
+        </div> -->
+
+        <button id="record-btn">Record Breaking Point</button>
+    </div>
+
+    <div id="visualization-wall">
+        <h2 style="width:100%">COLLECTIVE THRESHOLDS</h2>
+        </div>
+
+    <!-- <script>
+        const socket = io();
+
+        // DOM元素集中管理
+        const inputs = {
+            word: document.getElementById('wordInput'),
+            rep: document.getElementById('repSlider'),
+            den: document.getElementById('denSlider'),
+            dis: document.getElementById('disSlider'),
+            // dec: document.getElementById('decSlider')
+        };
+        const displays = {
+            rep: document.getElementById('val-rep'),
+            den: document.getElementById('val-den'),
+            dis: document.getElementById('val-dis'),
+            // dec: document.getElementById('val-dec')
+        };
+        const preview = document.getElementById('preview-text');
+        const wall = document.getElementById('visualization-wall');
+        const btn = document.getElementById('record-btn');
+
+        // function generateDistortedHTML(word, count, dis) {
+        //     let html = '';
+        //     let safeCount = count > 500 ? 500 : count; // 预览时最多只生成500个词
+        //     for(let i=0; i<safeCount; i++) {
+        //         let style = '';
+
+        //         if (dis > 0) {
+        //             const skew = (Math.random() - 0.5) * dis / 2;
+        //             const scale = 1 + Math.random() * dis / 100;
+        //             style = `style="transform: skew(${skew}deg) scaleY(${scale})"`;
+        //         }
+        //         html += `<span class="distorted-word" ${style}>${word} </span>`;
+        //     }
+        //     return html;
+        // }
+
+        function generateDistortedHTML(word, count, dis) {
+            let html = '';
+            let safeCount = count > 500 ? 500 : count;
+            
+            for(let i=0; i<safeCount; i++) {
+                // 对每个字符单独处理
+                for(let j=0; j<word.length; j++) {
+                    const char = word[j];
+                    let style = '';
+                    
+                    if (dis > 0) {
+                        // 垂直偏移：越大越乱
+                        const offsetY = (Math.random() - 0.5) * dis / 10;
+                        // 轻微旋转
+                        const rotate = (Math.random() - 0.5) * dis / 8;
+                        // 轻微大小变化
+                        const scale = 1 + (Math.random() - 0.5) * dis / 200;
+                        
+                        style = `style="display:inline-block; transform:translateY(${offsetY}px) rotate(${rotate}deg) scale(${scale})"`;
+                    }
+                    html += `<span ${style}>${char}</span>`;
+                }
+                html += `<span> </span>`; // 词之间的空格
+            }
+            return html;
+        }
+
+        function generateStyle(params) {
+            // 参数归一化处理
+            const den = parseInt(params.density);
+            const dis = parseInt(params.distortion);
+            const dec = parseInt(params.decay);
+
+            return {
+                letterSpacing: (0 - (den / 15)) + 'px', 
+                lineHeight: (1.2 - (den / 90)),
+                color: (dis > 90) ? '#d00' : '#1a1a1a'
+            };
+        }
+
+        function updateLivePreview() {
+            const currentParams = {
+                density: inputs.den.value,
+                distortion: inputs.dis.value,
+            };
+
+            // 更新数字显示
+            displays.rep.innerText = inputs.rep.value;
+            displays.den.innerText = inputs.den.value + '%';
+            displays.dis.innerText = inputs.dis.value + '%';
+
+            let count = parseInt(inputs.rep.value);
+            let previewCount = count > 500 ? 500 : count;
+            const word = inputs.word.value;
+            const dis = parseInt(inputs.dis.value);
+
+            const htmlContent = generateDistortedHTML(word, previewCount, parseInt(inputs.rep.value), parseInt(inputs.dis.value));
+
+            preview.innerHTML = htmlContent;
+
+            const styles = generateStyle(currentParams);
+            Object.assign(preview.style, styles);
+        }
+// 绑定滑块事件
+        Object.values(inputs).forEach(el => el.addEventListener('input', updateLivePreview));
+        updateLivePreview(); // 初始化
+        
+        btn.addEventListener('click', () => {
+            const data = {
+                word: inputs.word.value,
+                repetition: inputs.rep.value,
+                density: inputs.den.value,
+                distortion: inputs.dis.value,
+            };
+            socket.emit('submit_threshold', data);
+            
+            // 按钮反馈效果
+            const originalText = btn.innerText;
+            btn.innerText = ">>> ARCHIVED <<<";
+            btn.style.background = "#000";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = ""; // 恢复 CSS 里的默认颜色
+            }, 1000);
+        });
+
+        // --- 生成右侧数据块 ---
+        function createDataSample(data) {
+            const div = document.createElement('div');
+            div.className = 'data-sample';
+            
+            const content = document.createElement('div');
+            content.style.wordBreak = "break-all";
+            content.style.width = "100%";
+            content.style.height = "100%";
+            content.style.overflow = "hidden"; // 必须隐藏溢出
+
+            // 生成文字
+            let text = "";
+            // 小图里最多只显示 100 个词，不然 DOM 太重
+            let safeRep = data.params.repetition > 100 ? 100 : data.params.repetition;
+            for(let i=0; i<safeRep; i++) text += data.word + " ";
+            content.innerText = text;
+
+            // 应用样式
+            const styles = generateStyle(data.params);
+            Object.assign(content.style, styles);
+            
+            // 小图的模糊度要稍微降低一点，不然看不清
+            if(styles.filter) content.style.filter = styles.filter.replace(/[\d\.]+/, m => parseFloat(m)/2);
+
+            div.appendChild(content);
+
+            // 底部信息条
+            const meta = document.createElement('div');
+            meta.className = 'sample-meta';
+            const date = new Date(data.timestamp);
+            const timeStr = date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
+            meta.innerHTML = `<span>${timeStr}</span> <span>DEN:${data.params.density}%</span>`;
+            div.appendChild(meta);
+
+            // 插入到标题后面（即最新的排在最前面）
+            // 注意：visualization-wall 的第一个子元素是 h2 标题
+            const title = wall.querySelector('h2');
+            if (title.nextSibling) {
+                wall.insertBefore(div, title.nextSibling);
+            } else {
+                wall.appendChild(div);
+            }
+        }
+
+        // --- Socket 监听 ---
+        socket.on('load_history', (history) => {
+            // 历史数据按时间倒序排列
+            history.reverse().forEach(data => createDataSample(data));
+        });
+
+        socket.on('new_data_point', (data) => {
+            createDataSample(data);
+        });
+
+    </script> -->
+
+    <script>
+        const socket = io();
+
+        const inputs = {
+            word: document.getElementById('wordInput'),
+            rep: document.getElementById('repSlider'),
+            den: document.getElementById('denSlider'),
+            dis: document.getElementById('disSlider'),
+        };
+        const displays = {
+            rep: document.getElementById('val-rep'),
+            den: document.getElementById('val-den'),
+            dis: document.getElementById('val-dis'),
+        };
+        const preview = document.getElementById('preview-text');
+        const wall = document.getElementById('visualization-wall');
+        const btn = document.getElementById('record-btn');
+
+        // --- 核心算法：生成扭曲的 HTML ---
+        function generateDistortedHTML(word, count, dis) {
+            let html = '';
+            // 预览限制，防止卡顿
+            let safeCount = count > 600 ? 600 : count; 
+            
+            for(let i=0; i<safeCount; i++) {
+                let style = '';
+
+                // 只有当扭曲度大于 0 时才计算，节省性能
+                if (dis > 0) {
+                    // 1. 倾斜 (Skew): 模拟精神不稳
+                    // 范围：-dis/1.5 到 +dis/1.5 度
+                    const skew = (Math.random() - 0.5) * dis / 1.5;
+                    
+                    // 2. 缩放 (Scale): 模拟墨水洇开或甚至变细
+                    const scaleY = 1 + (Math.random() * dis / 100);
+                    
+                    // 3. [新增] 垂直位移 (TranslateY): 模拟打字机对不准行
+                    // 随着 dis 增加，文字会上下乱跳。范围：-dis/5 px 到 +dis/5 px
+                    const translateY = (Math.random() - 0.5) * (dis / 3);
+
+                    style = `style="transform: skew(${skew}deg) scaleY(${scaleY}) translateY(${translateY}px)"`;
+                }
+                
+                // 注意：这里加上了 class="distorted-word"
+                html += `<span class="distorted-word" ${style}>${word} </span>`;
+            }
+            return html;
+        }
+
+        // --- 核心算法：生成容器样式 (密度控制) ---
+        function generateStyle(params) {
+            const den = parseInt(params.density);
+            const dis = parseInt(params.distortion);
+
+            return {
+                // 密度(Density)控制字间距和行高
+                // 负值越大，挤得越紧
+                letterSpacing: (0 - (den / 10)) + 'px', 
+                lineHeight: (1.2 - (den / 80)),
+                
+                // 极度扭曲时，文字变红，像《闪灵》的血
+                color: (dis > 85) ? '#d00' : '#1a1a1a'
+            };
+        }
+
+        // --- 实时预览更新 ---
+        function updateLivePreview() {
+            // 1. 获取数值
+            const word = inputs.word.value;
+            const rep = parseInt(inputs.rep.value);
+            const den = inputs.den.value;
+            const dis = parseInt(inputs.dis.value); // 确保是整数
+
+            // 2. 更新数字显示
+            displays.rep.innerText = rep;
+            displays.den.innerText = den + '%';
+            displays.dis.innerText = dis + '%';
+
+            // 3. 生成 HTML (个体的扭曲)
+            // [修复] 之前的 bug 在这里：你传了4个参数，且错把 rep 传给了 distortion
+            // 现在只传 3 个: word, count, distortion
+            const htmlContent = generateDistortedHTML(word, rep, dis);
+            preview.innerHTML = htmlContent;
+
+            // 4. 应用 CSS (整体的密度)
+            const styles = generateStyle({ density: den, distortion: dis });
+            Object.assign(preview.style, styles);
+        }
+
+        // 绑定滑块
+        Object.values(inputs).forEach(el => el.addEventListener('input', updateLivePreview));
+        updateLivePreview(); // 初始化
+
+        // --- 提交数据 ---
+        btn.addEventListener('click', () => {
+            const data = {
+                word: inputs.word.value,
+                repetition: inputs.rep.value,
+                density: inputs.den.value,
+                distortion: inputs.dis.value,
+                timestamp: Date.now()
+            };
+            socket.emit('submit_threshold', data);
+            
+            // 简单的按钮反馈
+            const originalText = btn.innerText;
+            btn.innerText = "RECORDED";
+            btn.style.background = "#d00";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = ""; 
+            }, 1000);
+        });
+
+        // --- 生成右侧数据墙 (现在逻辑和预览完全一致) ---
+        function createDataSample(data) {
+            const div = document.createElement('div');
+            div.className = 'data-sample';
+            
+            const content = document.createElement('div');
+            content.style.wordBreak = "break-all";
+            content.style.width = "100%";
+            content.style.height = "100%";
+            content.style.overflow = "hidden";
+
+            // 1. 调用同样的 HTML 生成器
+            // 限制一下数量，防止右侧太卡
+            let safeRep = data.repetition > 150 ? 150 : data.repetition;
+            
+            // 兼容性处理：防止 data.params 结构不同
+            const dis = data.distortion || (data.params && data.params.distortion) || 0;
+            const den = data.density || (data.params && data.params.density) || 0;
+            const wd = data.word || "VOID";
+
+            content.innerHTML = generateDistortedHTML(wd, safeRep, dis);
+
+            // 2. 调用同样的 CSS 生成器
+            const styles = generateStyle({ density: den, distortion: dis });
+            Object.assign(content.style, styles);
+            
+            // 针对小图的微调
+            content.style.fontSize = "10px";
+
+            div.appendChild(content);
+
+            // Meta 信息
+            const meta = document.createElement('div');
+            meta.className = 'sample-meta';
+            const date = new Date(data.timestamp || Date.now());
+            const timeStr = date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
+            meta.innerText = `${timeStr} | DIS:${dis}%`;
+            div.appendChild(meta);
+
+            const title = wall.querySelector('h2');
+            if (title.nextSibling) {
+                wall.insertBefore(div, title.nextSibling);
+            } else {
+                wall.appendChild(div);
+            }
+        }
+
+        // Socket 监听
+        socket.on('load_history', (history) => history.reverse().forEach(createDataSample));
+        socket.on('new_data_point', (data) => createDataSample(data));
+
+    </script>
+</body>
+</html>

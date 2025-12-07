@@ -1,0 +1,175 @@
+:root {
+            --bg-color: #f4f4e8;   /* 纸张背景色 */
+            --ink-color: #1a1a1a;  /* 墨水黑 */
+            --accent-color: #d00;  /* 警告红 */
+            --panel-width: 40%;  /* 左侧面板固定宽度 */
+        }
+        
+        * { box-sizing: border-box; } /* 确保边框不会撑大宽高 */
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', Courier, monospace;
+            background: var(--bg-color);
+            color: var(--ink-color);
+            height: 100vh;      /* 占满整个屏幕高度 */
+            width: 100vw;       /* 占满整个屏幕宽度 */
+            display: flex;      /* 核心：启用弹性布局，默认横向排列 */
+            overflow: hidden;   /* 禁止整个页面出现滚动条 */
+        }
+
+        /* --- 2. 左侧: 控制台 (固定宽度) --- */
+        #control-panel {
+            width: var(--panel-width);
+            min-width: var(--panel-width); /* 防止被压缩 */
+            height: 100%;
+            background: #ffffff;
+            border-right: 2px solid var(--ink-color); /* 左右分割线 */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* 内容太长时允许垂直滚动 */
+            z-index: 10;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.05); /* 稍微加点阴影增加层次 */
+        }
+
+        /* --- 3. 右侧: 数据墙 (自适应宽度) --- */
+        #visualization-wall {
+            flex: 1; /* 占据剩余所有空间 */
+            height: 100%;
+            padding: 30px;
+            background-color: #e8e8e0; /* 稍微深一点的背景，区分区域 */
+            overflow-y: auto; /* 允许垂直滚动查看历史数据 */
+            display: flex;
+            flex-wrap: wrap;       /* 允许换行 */
+            align-content: flex-start; /* 内容从上往下排 */
+            gap: 15px;             /* 每个数据块之间的间距 */
+        }
+
+        /* --- 4. 控件样式细节 --- */
+        h1 { font-size: 1.2rem; margin-top: 0; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #000; padding-bottom: 10px;}
+        h2 { width: 100%; font-size: 0.9rem; color: #666; margin-top: 0; border-bottom: 1px solid #999; padding-bottom: 5px; margin-bottom: 20px;}
+
+        .input-group { margin-bottom: 25px; }
+        label { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;}
+        
+        /* 输入框 */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 16px;
+            background: #f4f4f4;
+            border: 1px solid #000;
+            outline: none;
+        }
+        input[type="text"]:focus { background: #fff; border-bottom: 4px solid #000; }
+
+        /* 滑块 */
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px; width: 12px;
+            background: var(--ink-color);
+            cursor: pointer;
+            margin-top: -8px;
+            border-radius: 0; /* 方形滑块，更工业 */
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%; height: 2px;
+            background: #ccc;
+        }
+
+        /* 按钮 */
+        button#record-btn {
+            margin-top: auto; /* 自动把按钮推到最下面 */
+            padding: 20px;
+            background: var(--ink-color);
+            color: #fff;
+            border: none;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #000;
+        }
+        button#record-btn:hover { 
+            background: var(--accent-color); 
+            border-color: var(--accent-color);
+        }
+
+        /* --- 5. 实时预览框 (Control Panel 内部) --- */
+        #live-preview {
+            width: 100%;
+            height: 180px; /* 固定高度 */
+            margin-bottom: 30px;
+            border: 1px solid #999;
+            background: var(--bg-color);
+            overflow: hidden;
+            position: relative;
+            user-select: none; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .preview-content {
+            padding: 20px;
+            /* 确保预览文字在框内 */
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        /* 新增：让 span 能够被变形 */
+        .distorted-word {
+                display: inline-block; /* 让 span 支持 transform */
+                white-space: pre;      /* 保留单词后的空格 */
+                transform-origin: center bottom; /* 设置变形的支点在底部，像打字机一样 */
+            }
+
+        /* --- 6. 右侧数据展示块 (The Archive Items) --- */
+        .data-sample {
+            width: 180px;  /* 每个块的宽度 */
+            height: 180px; /* 每个块的高度 */
+            background: #fff;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            position: relative;
+            font-size: 10px;
+            padding: 10px;
+            opacity: 0;
+            animation: fadeIn 0.6s forwards;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .data-sample:hover {
+            transform: scale(1.05);
+            border-color: var(--ink-color);
+            z-index: 100;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sample-meta {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: var(--ink-color); 
+            color: #fff;
+            font-size: 9px; padding: 4px 8px;
+            display: flex; justify-content: space-between;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        /* 简单的滚动条样式 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f0f0f0; }
+        ::-webkit-scrollbar-thumb { background: #ccc; }
+        ::-webkit-scrollbar-thumb:hover { background: #999; }

@@ -7,8 +7,7 @@
     <style>
         body { margin: 0; overflow: hidden; background-color: #000; }
         canvas { display: block; }
-        
-        /* UI 层 */
+
         #ui {
             position: absolute;
             top: 20px;
@@ -66,13 +65,13 @@
     </script>
 </head>
 <body>
-    <div id="loading">正在启动 AI 视觉模型...<br>请允许摄像头权限</div>
+    <div id="loading">Starting the AI visual model...<br>Please allow camera access.</div>
 
     <div id="ui">
         <h1>THE PANOPTICON</h1>
         <div id="status" class="phase-text">Phase 1: The Gaze</div>
         <div id="stress-bar"><div id="stress-fill"></div></div>
-        <p style="font-size:12px; color:#888;">请注视屏幕 / Stare at the screen</p>
+        <p style="font-size:12px; color:#888;">Stare at the screen</p>
         <p id="debug-info" style="font-size:12px; color:yellow;"></p>
     </div>
     
