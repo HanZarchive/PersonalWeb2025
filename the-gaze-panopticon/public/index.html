@@ -3,81 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Panopticon - Gaze Interaction</title>
+    <title>The Gaze Space - Experience</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        body { margin: 0; overflow: hidden; background-color: #000; }
-        canvas { display: block; }
-
-        #ui {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: white;
-            font-family: 'Courier New', Courier, monospace;
-            pointer-events: none;
-            z-index: 10;
+        .experience-view #viewport-container {
+            height: 90vh;
         }
-        .phase-text { font-size: 14px; opacity: 0.7; }
-        #stress-bar {
-            width: 200px;
-            height: 10px;
-            border: 1px solid white;
-            margin-top: 10px;
+        .experience-view #interface {
+            height: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
         }
-        #stress-fill {
-            width: 0%;
-            height: 100%;
-            background-color: red;
-            transition: width 0.1s;
-        }
-        
-        /* 摄像头调试窗口 (如果你不想看到自己，可以把 opacity 设为 0) */
-        #webcam-preview {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 160px;
-            height: 120px;
-            border: 1px solid #333;
-            transform: scaleX(-1); /* 镜像翻转，像照镜子一样 */
-            opacity: 0.5; 
-            z-index: 5;
-        }
-
-        /* 加载提示 */
-        #loading {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-family: sans-serif;
-            text-align: center;
+        #transform-btn {
+            padding: 10px 30px;
+            font-size: 1em;
+            background: #ffd700;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
         }
     </style>
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
-                "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3"
-            }
-        }
-    </script>
 </head>
-<body>
-    <div id="loading">Starting the AI visual model...<br>Please allow camera access.</div>
-
-    <div id="ui">
-        <h1>THE PANOPTICON</h1>
-        <div id="status" class="phase-text">Phase 1: The Gaze</div>
-        <div id="stress-bar"><div id="stress-fill"></div></div>
-        <p style="font-size:12px; color:#888;">Stare at the screen</p>
-        <p id="debug-info" style="font-size:12px; color:yellow;"></p>
+<body class="experience-view">
+    <div id="viewport-container">
+        <canvas id="viewport"></canvas>
     </div>
     
-    <video id="webcam" style="display:none;" autoplay playsinline></video>
-    <canvas id="webcam-preview"></canvas>
-
-    <script type="module" src="./main.js"></script>
+    <div id="interface">
+        <div id="status-bar">
+            <p>WATCHERS: <span id="watcher-count">0</span></p>
+            <p>PRESSURE: <span id="pressure-level">0</span></p>
+            <p>PHASE: <span id="phase-status">WAITING</span></p>
+        </div>
+        
+        <button id="transform-btn" style="display:none;">
+            TRIGGER TRANSMUTATION
+        </button>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
