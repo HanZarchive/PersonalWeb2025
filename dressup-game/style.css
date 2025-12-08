@@ -1,0 +1,376 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: linear-gradient(135deg, #ffb6c1 0%, #e6e6fa 50%, #add8e6 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* 页面容器 */
+.screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ========== 开始页面 ========== */
+.start-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px 80px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(156, 39, 176, 0.2);
+    border: 4px solid #e1bee7;
+}
+
+.start-content h1 {
+    font-size: 36px;
+    color: #9c27b0;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 #fff;
+}
+
+.start-content .subtitle {
+    font-size: 24px;
+    color: #e91e8c;
+    margin-bottom: 10px;
+}
+
+.start-content .description {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+#start-btn {
+    background: linear-gradient(135deg, #ff69b4, #9c27b0);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    font-size: 22px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(156, 39, 176, 0.4);
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+#start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(156, 39, 176, 0.5);
+}
+
+/* ========== 游戏主页面 ========== */
+.game-container {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    max-width: 1100px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* 人物展示区 */
+.character-area {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* 关键：根据图片比例 1333:2000 ≈ 2:3 调整显示区域 */
+.character-display {
+    position: relative;
+    width: 333px;  /* 保持 2:3 比例 */
+    height: 500px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    border: 4px solid #e1bee7;
+    box-shadow: 0 10px 40px rgba(156, 39, 176, 0.15);
+    overflow: hidden;
+}
+
+.character-display .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 保持图片比例 */
+    object-position: center top; /* 从顶部开始对齐 */
+}
+
+/* 选择区 */
+.selection-area {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 25px;
+    border-radius: 20px;
+    border: 4px solid #e1bee7;
+    box-shadow: 0 10px 40px rgba(156, 39, 176, 0.15);
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.selection-area h2 {
+    text-align: center;
+    color: #9c27b0;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* 分类 */
+.category {
+    margin-bottom: 18px;
+    padding-bottom: 15px;
+    border-bottom: 2px dashed #e1bee7;
+}
+
+.category:last-of-type {
+    border-bottom: none;
+    margin-bottom: 10px;
+}
+
+.category h3 {
+    color: #e91e8c;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+/* 选项按钮 */
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.option-btn {
+    background: #f5f5f5;
+    border: 2px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.option-btn:hover {
+    background: #ffe4ec;
+    border-color: #ff69b4;
+}
+
+.option-btn.active {
+    background: linear-gradient(135deg, #ff69b4, #9c27b0);
+    color: white;
+    border-color: transparent;
+}
+
+/* 完成按钮 */
+#finish-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #ff69b4, #9c27b0);
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(156, 39, 176, 0.3);
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+#finish-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(156, 39, 176, 0.4);
+}
+
+/* ========== 结果页面 ========== */
+.result-content {
+    display: flex;
+    gap: 40px;
+    padding: 30px;
+    align-items: center;
+}
+
+.result-character {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    border: 4px solid #ffd700;
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+    overflow: hidden;
+}
+
+.result-character .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center top;
+}
+
+.result-text {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px 50px;
+    border-radius: 30px;
+    border: 4px solid #e1bee7;
+    box-shadow: 0 10px 40px rgba(156, 39, 176, 0.2);
+    max-width: 400px;
+}
+
+.result-text h1 {
+    font-size: 28px;
+    color: #9c27b0;
+    margin-bottom: 25px;
+}
+
+.percentage-display {
+    margin: 20px 0;
+}
+
+.percentage {
+    font-size: 56px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff69b4, #9c27b0, #3f51b5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.result-message {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.result-highlight {
+    font-size: 24px;
+    color: #e91e8c;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.result-subtext {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+.result-text button {
+    background: linear-gradient(135deg, #ff69b4, #9c27b0);
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    font-size: 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(156, 39, 176, 0.3);
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.result-text button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(156, 39, 176, 0.4);
+}
+
+/* ========== 响应式设计 ========== */
+@media (max-width: 800px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .character-display {
+        width: 250px;
+        height: 375px;
+    }
+    
+    .selection-area {
+        width: 100%;
+        max-width: 400px;
+        max-height: none;
+    }
+    
+    .result-content {
+        flex-direction: column;
+    }
+    
+    .result-character {
+        width: 220px;
+        height: 330px;
+    }
+    
+    .percentage {
+        font-size: 42px;
+    }
+    
+    .result-text {
+        padding: 30px;
+    }
+}
+
+/* ========== 动画效果 ========== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.screen {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+}
+
+.percentage {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* 彩虹闪烁效果 */
+@keyframes rainbow {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+
+.result-highlight {
+    animation: rainbow 3s linear infinite;
+}
+
+/* 滚动条美化 */
+.selection-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.selection-area::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.selection-area::-webkit-scrollbar-thumb {
+    background: #e1bee7;
+    border-radius: 10px;
+}
+
+.selection-area::-webkit-scrollbar-thumb:hover {
+    background: #ce93d8;
+}
