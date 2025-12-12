@@ -8,8 +8,8 @@ let currentSelection = {
 
 const imagePaths = {
     hair: 'img/hair/hair',
-    tops: 'img/tops/tops',          // 新路径
-    bottoms: 'img/bottoms/bottoms', // 新路径
+    tops: 'img/tops/tops',          
+    bottoms: 'img/bottoms/bottoms', 
     shoes: 'img/shoes/shoes',
     accessory: 'img/accessory/acc'
 };
@@ -43,11 +43,11 @@ function updateButtonState(category, activeIndex) {
         
         // 匹配分类
         let matchCategory = false;
-        if (category === 'hair' && title.includes('发型')) matchCategory = true;
+        if (category === 'hair' && title.includes('Hairstyles')) matchCategory = true;
         if (category === 'tops' && title.includes('Tops')) matchCategory = true;
         if (category === 'bottoms' && title.includes('Bottoms')) matchCategory = true;
-        if (category === 'shoes' && title.includes('鞋子')) matchCategory = true;
-        if (category === 'accessory' && title.includes('配饰')) matchCategory = true;
+        if (category === 'shoes' && title.includes('Shoes')) matchCategory = true;
+        if (category === 'accessory' && title.includes(' Accessories')) matchCategory = true;
         
         if (matchCategory) {
             const buttons = cat.querySelectorAll('.option-btn');
@@ -116,8 +116,6 @@ function restartGame() {
 
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('游戏加载完成！');
-    
     // 预加载图片
     preloadImages();
 });
