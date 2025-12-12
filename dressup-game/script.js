@@ -47,7 +47,7 @@ function updateButtonState(category, activeIndex) {
         if (category === 'tops' && title.includes('Tops')) matchCategory = true;
         if (category === 'bottoms' && title.includes('Bottoms')) matchCategory = true;
         if (category === 'shoes' && title.includes('Shoes')) matchCategory = true;
-        if (category === 'accessory' && title.includes(' Accessories')) matchCategory = true;
+        if (category === 'accessory' && title.includes('Accessories')) matchCategory = true;
         
         if (matchCategory) {
             const buttons = cat.querySelectorAll('.option-btn');
