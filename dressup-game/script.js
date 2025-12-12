@@ -1,11 +1,3 @@
-// 当前选择状态
-// let currentSelection = {
-//     hair: 1,
-//     outfit: 1,
-//     shoes: 1,
-//     accessory: 1
-// };
-
 let currentSelection = {
     hair: 1,
     tops: 1,
@@ -13,14 +5,6 @@ let currentSelection = {
     shoes: 1,
     accessory: 1
 };
-
-// 图片路径配置
-// const imagePaths = {
-//     hair: 'img/hair/hair',        // hair1.png, hair2.png, etc.
-//     outfit: 'img/outfit/outfit',  // outfit1.png, outfit2.png, etc.
-//     shoes: 'img/shoes/shoes',     // shoes1.png, shoes2.png, etc.
-//     accessory: 'img/accessory/acc' // acc1.png, acc2.png, etc.
-// };
 
 const imagePaths = {
     hair: 'img/hair/hair',
@@ -60,7 +44,6 @@ function updateButtonState(category, activeIndex) {
         // 匹配分类
         let matchCategory = false;
         if (category === 'hair' && title.includes('发型')) matchCategory = true;
-        // if (category === 'outfit' && title.includes('服装')) matchCategory = true;
         if (category === 'tops' && title.includes('Tops')) matchCategory = true;
         if (category === 'bottoms' && title.includes('Bottoms')) matchCategory = true;
         if (category === 'shoes' && title.includes('鞋子')) matchCategory = true;
@@ -86,7 +69,6 @@ function showResult() {
     
     // 更新结果页面的图片
     document.getElementById('result-hair').src = imagePaths.hair + currentSelection.hair + '.png';
-    // document.getElementById('result-outfit').src = imagePaths.outfit + currentSelection.outfit + '.png';
     document.getElementById('result-tops').src = imagePaths.tops + currentSelection.tops + '.png';
     document.getElementById('result-bottoms').src = imagePaths.bottoms + currentSelection.tops + '.png';
     document.getElementById('result-shoes').src = imagePaths.shoes + currentSelection.shoes + '.png';
@@ -101,14 +83,16 @@ function restartGame() {
     // 重置选择
     currentSelection = {
         hair: 1,
-        outfit: 1,
+        tops: 1,
+        bottoms: 1,
         shoes: 1,
         accessory: 1
     };
     
     // 重置图片
     document.getElementById('hair-layer').src = 'img/hair/hair1.png';
-    document.getElementById('outfit-layer').src = 'img/outfit/outfit1.png';
+    document.getElementById('tops-layer').src = 'img/tops/tops1.png';
+    document.getElementById('bottoms-layer').src = 'img/bottoms/bottoms1.png';
     document.getElementById('shoes-layer').src = 'img/shoes/shoes1.png';
     document.getElementById('accessory-layer').src = 'img/accessory/acc1.png';
     
@@ -143,7 +127,6 @@ function preloadImages() {
     const images = [
         'img/base.png',
         'img/hair/hair1.png', 'img/hair/hair2.png', 'img/hair/hair3.png', 'img/hair/hair4.png',
-        // 'img/outfit/outfit1.png', 'img/outfit/outfit2.png', 'img/outfit/outfit3.png', 'img/outfit/outfit4.png',
         'img/tops/tops1.png', 'img/tops/tops2.png', 'img/tops/tops3.png', 'img/tops/tops4.png', 'img/tops/tops5.png',
         'img/bottoms/bottoms1.png', 'img/bottoms/bottoms2.png', 'img/bottoms/bottoms3.png', 'img/bottoms/bottoms4.png',
         'img/shoes/shoes1.png', 'img/shoes/shoes2.png', 'img/shoes/shoes3.png',
