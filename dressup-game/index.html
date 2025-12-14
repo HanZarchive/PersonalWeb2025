@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- 开始页面 -->
     <div id="start-screen" class="screen">
         <div class="start-content">
             <h1>Come help this bisexual girl pick her dating outfit!</h1>
@@ -17,27 +16,23 @@
             <button id="start-btn" onclick="startGame()">Start Now</button>
         </div>
     </div>
-    <!-- 游戏主页面 -->
+
     <div id="game-screen" class="screen" style="display: none;">
         <div class="game-container">
-            <!-- 左侧：人物展示区 -->
             <div class="character-area">
                 <div class="character-display">
-                    <!-- 图层从下到上叠加 -->
-                    <img src="img/base.png" alt="基础人物" class="layer" id="base-layer">
-                    <img src="img/hair/hair1.png" alt="发型" class="layer" id="hair-layer">
-                    <img src="img/bottoms/bottoms1.png" alt="下装" class="layer" id="bottoms-layer">
-                    <img src="img/tops/tops1.png" alt="上衣" class="layer" id="tops-layer">
-                    <img src="img/shoes/shoes1.png" alt="鞋子" class="layer" id="shoes-layer">
-                    <img src="img/accessory/acc1.png" alt="配饰" class="layer" id="accessory-layer">
+                    <img src="img/base.png" alt="Base model" class="layer" id="base-layer">
+                    <img src="img/hair/hair1.png" alt="Hairstyles" class="layer" id="hair-layer">
+                    <img src="img/bottoms/bottoms1.png" alt="Bottoms" class="layer" id="bottoms-layer">
+                    <img src="img/tops/tops1.png" alt="Tops" class="layer" id="tops-layer">
+                    <img src="img/shoes/shoes1.png" alt="Shoes" class="layer" id="shoes-layer">
+                    <img src="img/accessory/acc1.png" alt="Accessories" class="layer" id="accessory-layer">
                 </div>
             </div>
 
-            <!-- 右侧：选择区 -->
             <div class="selection-area">
                 <h2>✨ Choose the outfits ✨</h2>
                 <p class="description">You are styling a bisexual girl - keep that in mind as you play!</p>
-                <!-- 发型选择 -->
                 <div class="category">
                     <h3>Hairstyles</h3>
                     <div class="options">
@@ -48,7 +43,6 @@
                     </div>
                 </div>
 
-                <!-- 上衣选择 -->
                 <div class="category">
                     <h3>Tops</h3>
                     <div class="options">
@@ -60,7 +54,6 @@
                     </div>
                 </div>
 
-                <!-- 下装选择 -->
                 <div class="category">
                     <h3>Bottoms</h3>
                     <div class="options">
@@ -71,7 +64,6 @@
                     </div>
                 </div>
 
-                <!-- 鞋子选择 -->
                 <div class="category">
                     <h3>Shoes</h3>
                     <div class="options">
@@ -82,7 +74,6 @@
                     </div>
                 </div>
 
-                <!-- 配饰选择 -->
                 <div class="category">
                     <h3>Accessories</h3>
                     <div class="options">
@@ -93,23 +84,20 @@
                     </div>
                 </div>
 
-                <!-- 完成按钮 -->
                 <button id="finish-btn" onclick="showResult()">All done!</button>
             </div>
         </div>
     </div>
 
-    <!-- 结果页面 -->
     <div id="result-screen" class="screen" style="display: none;">
         <div class="result-content">
             <div class="result-character">
-                <!-- 最终造型展示 -->
-                <img src="img/base.png" alt="基础人物" class="layer" id="result-base">
-                <img src="img/hair/hair1.png" alt="发型" class="layer" id="result-hair">
-                <img src="img/bottoms/bottoms1.png" alt="下装" class="layer" id="result-bottoms">
-                <img src="img/tops/tops1.png" alt="上衣" class="layer" id="result-tops">
-                <img src="img/shoes/shoes1.png" alt="鞋子" class="layer" id="result-shoes">
-                <img src="img/accessory/acc1.png" alt="配饰" class="layer" id="result-accessory">
+                <img src="img/base.png" alt="Base model" class="layer" id="result-base">
+                <img src="img/hair/hair1.png" alt="Hairstyles" class="layer" id="result-hair">
+                <img src="img/bottoms/bottoms1.png" alt="Bottoms" class="layer" id="result-bottoms">
+                <img src="img/tops/tops1.png" alt="Tops" class="layer" id="result-tops">
+                <img src="img/shoes/shoes1.png" alt="Shoes" class="layer" id="result-shoes">
+                <img src="img/accessory/acc1.png" alt="Accessories" class="layer" id="result-accessory">
             </div>
             <div class="result-text">
                 <h1>Styling Complete!</h1>

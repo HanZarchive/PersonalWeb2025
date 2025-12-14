@@ -14,34 +14,26 @@ const imagePaths = {
     accessory: 'img/accessory/acc'
 };
 
-// 开始游戏
 function startGame() {
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('game-screen').style.display = 'flex';
 }
 
-// 切换物品
 function changeItem(category, index) {
-    // 更新状态
     currentSelection[category] = index;
     
-    // 更新图片
     const layerId = category + '-layer';
     const imgPath = imagePaths[category] + index + '.png';
     document.getElementById(layerId).src = imgPath;
     
-    // 更新按钮状态
     updateButtonState(category, index);
 }
 
-// 更新按钮激活状态
 function updateButtonState(category, activeIndex) {
-    // 找到该分类的所有按钮
     const categories = document.querySelectorAll('.category');
     categories.forEach(cat => {
         const title = cat.querySelector('h3').textContent;
         
-        // 匹配分类
         let matchCategory = false;
         if (category === 'hair' && title.includes('Hairstyles')) matchCategory = true;
         if (category === 'tops' && title.includes('Tops')) matchCategory = true;
@@ -62,25 +54,19 @@ function updateButtonState(category, activeIndex) {
     });
 }
 
-// 显示结果
 function showResult() {
-    // 隐藏游戏页面
     document.getElementById('game-screen').style.display = 'none';
     
-    // 更新结果页面的图片
     document.getElementById('result-hair').src = imagePaths.hair + currentSelection.hair + '.png';
     document.getElementById('result-tops').src = imagePaths.tops + currentSelection.tops + '.png';
     document.getElementById('result-bottoms').src = imagePaths.bottoms + currentSelection.tops + '.png';
     document.getElementById('result-shoes').src = imagePaths.shoes + currentSelection.shoes + '.png';
     document.getElementById('result-accessory').src = imagePaths.accessory + currentSelection.accessory + '.png';
-    
-    // 显示结果页面
+
     document.getElementById('result-screen').style.display = 'flex';
 }
 
-// 重新开始
 function restartGame() {
-    // 重置选择
     currentSelection = {
         hair: 1,
         tops: 1,
@@ -88,15 +74,13 @@ function restartGame() {
         shoes: 1,
         accessory: 1
     };
-    
-    // 重置图片
+
     document.getElementById('hair-layer').src = 'img/hair/hair1.png';
     document.getElementById('tops-layer').src = 'img/tops/tops1.png';
     document.getElementById('bottoms-layer').src = 'img/bottoms/bottoms1.png';
     document.getElementById('shoes-layer').src = 'img/shoes/shoes1.png';
     document.getElementById('accessory-layer').src = 'img/accessory/acc1.png';
     
-    // 重置按钮状态
     const allCategories = document.querySelectorAll('.category');
     allCategories.forEach(cat => {
         const buttons = cat.querySelectorAll('.option-btn');
@@ -109,14 +93,11 @@ function restartGame() {
         });
     });
     
-    // 切换页面
     document.getElementById('result-screen').style.display = 'none';
     document.getElementById('start-screen').style.display = 'flex';
 }
 
-// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
-    // 预加载图片
     preloadImages();
 });
 
