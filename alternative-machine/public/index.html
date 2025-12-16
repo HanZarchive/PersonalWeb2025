@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
 </head>
 <body>
     <div id="control-panel">
@@ -19,8 +18,7 @@
         </div>
 
         <div id="live-preview">
-            <div id="preview-text" class="preview-content">
-                </div>
+            <div id="preview-text" class="preview-content"></div>
         </div>
 
         <div class="input-group">
@@ -35,201 +33,18 @@
             <label>DISTORTION (Skew) <span id="val-dis">0</span></label>
             <input type="range" id="disSlider" min="0" max="100" value="0">
         </div>
-        <!-- <div class="input-group">
-            <label>DECAY (Blur) <span id="val-dec">0</span></label>
-            <input type="range" id="decSlider" min="0" max="100" value="0">
-        </div> -->
 
         <button id="record-btn">Record Breaking Point</button>
     </div>
 
     <div id="visualization-wall">
         <h2 style="width:100%">COLLECTIVE THRESHOLDS</h2>
-        </div>
-
-    <!-- <script>
-        const socket = io();
-
-        // DOM元素集中管理
-        const inputs = {
-            word: document.getElementById('wordInput'),
-            rep: document.getElementById('repSlider'),
-            den: document.getElementById('denSlider'),
-            dis: document.getElementById('disSlider'),
-            // dec: document.getElementById('decSlider')
-        };
-        const displays = {
-            rep: document.getElementById('val-rep'),
-            den: document.getElementById('val-den'),
-            dis: document.getElementById('val-dis'),
-            // dec: document.getElementById('val-dec')
-        };
-        const preview = document.getElementById('preview-text');
-        const wall = document.getElementById('visualization-wall');
-        const btn = document.getElementById('record-btn');
-
-        // function generateDistortedHTML(word, count, dis) {
-        //     let html = '';
-        //     let safeCount = count > 500 ? 500 : count; // 预览时最多只生成500个词
-        //     for(let i=0; i<safeCount; i++) {
-        //         let style = '';
-
-        //         if (dis > 0) {
-        //             const skew = (Math.random() - 0.5) * dis / 2;
-        //             const scale = 1 + Math.random() * dis / 100;
-        //             style = `style="transform: skew(${skew}deg) scaleY(${scale})"`;
-        //         }
-        //         html += `<span class="distorted-word" ${style}>${word} </span>`;
-        //     }
-        //     return html;
-        // }
-
-        function generateDistortedHTML(word, count, dis) {
-            let html = '';
-            let safeCount = count > 500 ? 500 : count;
-            
-            for(let i=0; i<safeCount; i++) {
-                // 对每个字符单独处理
-                for(let j=0; j<word.length; j++) {
-                    const char = word[j];
-                    let style = '';
-                    
-                    if (dis > 0) {
-                        // 垂直偏移：越大越乱
-                        const offsetY = (Math.random() - 0.5) * dis / 10;
-                        // 轻微旋转
-                        const rotate = (Math.random() - 0.5) * dis / 8;
-                        // 轻微大小变化
-                        const scale = 1 + (Math.random() - 0.5) * dis / 200;
-                        
-                        style = `style="display:inline-block; transform:translateY(${offsetY}px) rotate(${rotate}deg) scale(${scale})"`;
-                    }
-                    html += `<span ${style}>${char}</span>`;
-                }
-                html += `<span> </span>`; // 词之间的空格
-            }
-            return html;
-        }
-
-        function generateStyle(params) {
-            // 参数归一化处理
-            const den = parseInt(params.density);
-            const dis = parseInt(params.distortion);
-            const dec = parseInt(params.decay);
-
-            return {
-                letterSpacing: (0 - (den / 15)) + 'px', 
-                lineHeight: (1.2 - (den / 90)),
-                color: (dis > 90) ? '#d00' : '#1a1a1a'
-            };
-        }
-
-        function updateLivePreview() {
-            const currentParams = {
-                density: inputs.den.value,
-                distortion: inputs.dis.value,
-            };
-
-            // 更新数字显示
-            displays.rep.innerText = inputs.rep.value;
-            displays.den.innerText = inputs.den.value + '%';
-            displays.dis.innerText = inputs.dis.value + '%';
-
-            let count = parseInt(inputs.rep.value);
-            let previewCount = count > 500 ? 500 : count;
-            const word = inputs.word.value;
-            const dis = parseInt(inputs.dis.value);
-
-            const htmlContent = generateDistortedHTML(word, previewCount, parseInt(inputs.rep.value), parseInt(inputs.dis.value));
-
-            preview.innerHTML = htmlContent;
-
-            const styles = generateStyle(currentParams);
-            Object.assign(preview.style, styles);
-        }
-// 绑定滑块事件
-        Object.values(inputs).forEach(el => el.addEventListener('input', updateLivePreview));
-        updateLivePreview(); // 初始化
-        
-        btn.addEventListener('click', () => {
-            const data = {
-                word: inputs.word.value,
-                repetition: inputs.rep.value,
-                density: inputs.den.value,
-                distortion: inputs.dis.value,
-            };
-            socket.emit('submit_threshold', data);
-            
-            // 按钮反馈效果
-            const originalText = btn.innerText;
-            btn.innerText = ">>> ARCHIVED <<<";
-            btn.style.background = "#000";
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.style.background = ""; // 恢复 CSS 里的默认颜色
-            }, 1000);
-        });
-
-        // --- 生成右侧数据块 ---
-        function createDataSample(data) {
-            const div = document.createElement('div');
-            div.className = 'data-sample';
-            
-            const content = document.createElement('div');
-            content.style.wordBreak = "break-all";
-            content.style.width = "100%";
-            content.style.height = "100%";
-            content.style.overflow = "hidden"; // 必须隐藏溢出
-
-            // 生成文字
-            let text = "";
-            // 小图里最多只显示 100 个词，不然 DOM 太重
-            let safeRep = data.params.repetition > 100 ? 100 : data.params.repetition;
-            for(let i=0; i<safeRep; i++) text += data.word + " ";
-            content.innerText = text;
-
-            // 应用样式
-            const styles = generateStyle(data.params);
-            Object.assign(content.style, styles);
-            
-            // 小图的模糊度要稍微降低一点，不然看不清
-            if(styles.filter) content.style.filter = styles.filter.replace(/[\d\.]+/, m => parseFloat(m)/2);
-
-            div.appendChild(content);
-
-            // 底部信息条
-            const meta = document.createElement('div');
-            meta.className = 'sample-meta';
-            const date = new Date(data.timestamp);
-            const timeStr = date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
-            meta.innerHTML = `<span>${timeStr}</span> <span>DEN:${data.params.density}%</span>`;
-            div.appendChild(meta);
-
-            // 插入到标题后面（即最新的排在最前面）
-            // 注意：visualization-wall 的第一个子元素是 h2 标题
-            const title = wall.querySelector('h2');
-            if (title.nextSibling) {
-                wall.insertBefore(div, title.nextSibling);
-            } else {
-                wall.appendChild(div);
-            }
-        }
-
-        // --- Socket 监听 ---
-        socket.on('load_history', (history) => {
-            // 历史数据按时间倒序排列
-            history.reverse().forEach(data => createDataSample(data));
-        });
-
-        socket.on('new_data_point', (data) => {
-            createDataSample(data);
-        });
-
-    </script> -->
+    </div>
 
     <script>
         const socket = io();
 
+        // DOM 元素
         const inputs = {
             word: document.getElementById('wordInput'),
             rep: document.getElementById('repSlider'),
@@ -245,93 +60,72 @@
         const wall = document.getElementById('visualization-wall');
         const btn = document.getElementById('record-btn');
 
-        // --- 核心算法：生成扭曲的 HTML ---
+        // 存储所有数据用于可视化
+        let allData = [];
+        let selectedSample = null;
+
+        // --- 核心算法保持不变 ---
         function generateDistortedHTML(word, count, dis) {
             let html = '';
-            // 预览限制，防止卡顿
             let safeCount = count > 600 ? 600 : count; 
             
             for(let i=0; i<safeCount; i++) {
                 let style = '';
-
-                // 只有当扭曲度大于 0 时才计算，节省性能
                 if (dis > 0) {
-                    // 1. 倾斜 (Skew): 模拟精神不稳
-                    // 范围：-dis/1.5 到 +dis/1.5 度
                     const skew = (Math.random() - 0.5) * dis / 1.5;
-                    
-                    // 2. 缩放 (Scale): 模拟墨水洇开或甚至变细
                     const scaleY = 1 + (Math.random() * dis / 100);
-                    
-                    // 3. [新增] 垂直位移 (TranslateY): 模拟打字机对不准行
-                    // 随着 dis 增加，文字会上下乱跳。范围：-dis/5 px 到 +dis/5 px
                     const translateY = (Math.random() - 0.5) * (dis / 3);
-
                     style = `style="transform: skew(${skew}deg) scaleY(${scaleY}) translateY(${translateY}px)"`;
                 }
-                
-                // 注意：这里加上了 class="distorted-word"
                 html += `<span class="distorted-word" ${style}>${word} </span>`;
             }
             return html;
         }
 
-        // --- 核心算法：生成容器样式 (密度控制) ---
         function generateStyle(params) {
             const den = parseInt(params.density);
             const dis = parseInt(params.distortion);
-
             return {
-                // 密度(Density)控制字间距和行高
-                // 负值越大，挤得越紧
                 letterSpacing: (0 - (den / 10)) + 'px', 
                 lineHeight: (1.2 - (den / 80)),
-                
-                // 极度扭曲时，文字变红，像《闪灵》的血
                 color: (dis > 85) ? '#d00' : '#1a1a1a'
             };
         }
 
-        // --- 实时预览更新 ---
         function updateLivePreview() {
-            // 1. 获取数值
             const word = inputs.word.value;
             const rep = parseInt(inputs.rep.value);
             const den = inputs.den.value;
-            const dis = parseInt(inputs.dis.value); // 确保是整数
-
-            // 2. 更新数字显示
+            const dis = parseInt(inputs.dis.value);
+            
             displays.rep.innerText = rep;
             displays.den.innerText = den + '%';
             displays.dis.innerText = dis + '%';
-
-            // 3. 生成 HTML (个体的扭曲)
-            // [修复] 之前的 bug 在这里：你传了4个参数，且错把 rep 传给了 distortion
-            // 现在只传 3 个: word, count, distortion
+            
             const htmlContent = generateDistortedHTML(word, rep, dis);
             preview.innerHTML = htmlContent;
-
-            // 4. 应用 CSS (整体的密度)
+            
             const styles = generateStyle({ density: den, distortion: dis });
             Object.assign(preview.style, styles);
         }
 
-        // 绑定滑块
         Object.values(inputs).forEach(el => el.addEventListener('input', updateLivePreview));
-        updateLivePreview(); // 初始化
+        updateLivePreview();
 
         // --- 提交数据 ---
         btn.addEventListener('click', () => {
+            console.log('>>> Button clicked!');
+            
             const data = {
                 word: inputs.word.value,
                 repetition: inputs.rep.value,
                 density: inputs.den.value,
                 distortion: inputs.dis.value,
-                timestamp: Date.now()
             };
+            
+            console.log('>>> Sending data:', data);
             socket.emit('submit_threshold', data);
             
-            // 简单的按钮反馈
             const originalText = btn.innerText;
             btn.innerText = "RECORDED";
             btn.style.background = "#d00";
@@ -341,57 +135,508 @@
             }, 1000);
         });
 
-        // --- 生成右侧数据墙 (现在逻辑和预览完全一致) ---
-        function createDataSample(data) {
-            const div = document.createElement('div');
-            div.className = 'data-sample';
+        // --- 删除功能 ---
+
+        // 1. 创建清空所有数据按钮
+        const clearBtn = document.createElement('button');
+        clearBtn.innerText = 'Clear All Data';
+        clearBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            z-index: 1000;
+        `;
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete ALL data? This cannot be undone!')) {
+                socket.emit('clear_all_data');
+            }
+        });
+        document.body.appendChild(clearBtn);
+
+        // 2. 监听清空完成
+        socket.on('data_cleared', () => {
+            allData = [];
+            renderVisualization();
+            alert('All data cleared!');
+        });
+
+        // 3. 监听单个删除完成
+        socket.on('entry_deleted', (timestamp) => {
+            allData = allData.filter(item => item.timestamp !== timestamp);
+            renderVisualization();
+            // 如果当前显示的就是被删除的，关闭详情面板
+            if (selectedSample && selectedSample.timestamp === timestamp) {
+                document.getElementById('detail-panel').style.display = 'none';
+                selectedSample = null;
+            }
+        });
+
+        function sentimentToColor(sentiment) {
+            const normalized = Math.max(-5, Math.min(5, sentiment)); // 限制范围 -5 到 5
             
-            const content = document.createElement('div');
-            content.style.wordBreak = "break-all";
-            content.style.width = "100%";
-            content.style.height = "100%";
-            content.style.overflow = "hidden";
-
-            // 1. 调用同样的 HTML 生成器
-            // 限制一下数量，防止右侧太卡
-            let safeRep = data.repetition > 150 ? 150 : data.repetition;
-            
-            // 兼容性处理：防止 data.params 结构不同
-            const dis = data.distortion || (data.params && data.params.distortion) || 0;
-            const den = data.density || (data.params && data.params.density) || 0;
-            const wd = data.word || "VOID";
-
-            content.innerHTML = generateDistortedHTML(wd, safeRep, dis);
-
-            // 2. 调用同样的 CSS 生成器
-            const styles = generateStyle({ density: den, distortion: dis });
-            Object.assign(content.style, styles);
-            
-            // 针对小图的微调
-            content.style.fontSize = "10px";
-
-            div.appendChild(content);
-
-            // Meta 信息
-            const meta = document.createElement('div');
-            meta.className = 'sample-meta';
-            const date = new Date(data.timestamp || Date.now());
-            const timeStr = date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
-            meta.innerText = `${timeStr} | DIS:${dis}%`;
-            div.appendChild(meta);
-
-            const title = wall.querySelector('h2');
-            if (title.nextSibling) {
-                wall.insertBefore(div, title.nextSibling);
+            if (Math.abs(normalized) < 0.5) {
+                // 中性：灰色
+                return { hue: 0, saturation: 0, lightness: 50 };
+            } else if (normalized < 0) {
+                // 负面：蓝色 (200-240度)
+                const intensity = Math.abs(normalized) / 5; // 0-1
+                return { hue: 220, saturation: 70 * intensity, lightness: 60 };
             } else {
-                wall.appendChild(div);
+                // 正面：红色 (0-20度)
+                const intensity = normalized / 5; // 0-1
+                return { hue: 10, saturation: 80 * intensity, lightness: 55 };
             }
         }
 
-        // Socket 监听
-        socket.on('load_history', (history) => history.reverse().forEach(createDataSample));
-        socket.on('new_data_point', (data) => createDataSample(data));
+        function renderVisualization() {
+            const title = wall.querySelector('h2');
+            wall.innerHTML = '';
+            wall.appendChild(title);    
+            
+            // 创建 canvas 容器
+            const vizCanvas = document.createElement('div');
+            vizCanvas.id = 'viz-canvas';
+            vizCanvas.style.cssText = `
+                width: 100%;
+                height: 500px;
+                position: relative;
+                background: #f5f5f5;
+                border: 1px solid #ccc;
+                overflow: hidden;
+            `;
+            
+            // 为每个数据点创建一个视觉单元
+            allData.forEach((data, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'viz-dot';
+                
+                // 新的空间布局逻辑
+                // X轴: repetition (1-500)
+                const x = (data.params.repetition / 500) * 100; // 转换为百分比
+                
+                // Y轴: density (0-100)
+                const y = (data.params.density / 100) * 100;
+            
+                // Z轴: distortion (0-100) - 通过大小和透明度模拟深度
+                const distortionFactor = data.params.distortion / 100; // 0-1
+                const baseSize = 15;
+                const size = baseSize + (distortionFactor * 25); // 15-40px，distortion越大越大
+                
+                // 颜色：基于 sentiment (-5 到 5)
+                const sentimentValue = data.analysis ? data.analysis.sentiment : 0;
+                const color = sentimentToColor(sentimentValue);
+                
+                // 透明度：基于情感强度
+                const sentimentIntensity = Math.abs(sentimentValue) / 5; // 0-1
+                const opacity = 0.4 + (sentimentIntensity * 0.6); // 0.4-1.0
+                
+                dot.style.cssText = `
+                    position: absolute;
+                    left: ${x}%;
+                    top: ${y}%;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: hsla(${color.hue}, ${color.saturation}%, ${color.lightness}%, ${opacity});
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: transform 0.2s;
+                    transform: translate(-50%, -50%);
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                `;      
+                        
+                // dot.addEventListener('mouseenter', () => {
+                //     dot.style.transform = 'translate(-50%, -50%) scale(1.3)';
+                // });
+                
+                // dot.addEventListener('mouseleave', () => {
+                //     dot.style.transform = 'translate(-50%, -50%) scale(1)';
+                // });
+                
+                // dot.addEventListener('click', () => {
+                //     showDetail(data);
+                // });
+            dot.addEventListener('mouseenter', () => {
+                dot.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                dot.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+            });
+            
+            dot.addEventListener('mouseleave', () => {
+                dot.style.transform = 'translate(-50%, -50%) scale(1)';
+                dot.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            });
+            
+            dot.addEventListener('click', () => {
+                showDetail(data);
+            });
+                vizCanvas.appendChild(dot);
+            });
+            
+            wall.appendChild(vizCanvas);
+            
+            // 创建详情面板
+            const detailPanel = document.createElement('div');
+            detailPanel.id = 'detail-panel';
+            detailPanel.style.cssText = `
+                width: 100%;
+                min-height: 200px;
+                margin-top: 20px;
+                padding: 20px;
+                background: #fff;
+                border: 1px solid #ccc;
+                display: none;
+            `;
+            wall.appendChild(detailPanel);
+        }
 
+        // 显示选中样本的详细信息
+        function showDetail(data) {
+            selectedSample = data;
+            const panel = document.getElementById('detail-panel');
+            panel.style.display = 'block';
+            
+            // 生成预览
+            const safeRep = Math.min(data.params.repetition, 200);
+            const htmlContent = generateDistortedHTML(data.word, safeRep, data.params.distortion);
+            
+            const styles = generateStyle(data.params);
+            const styleString = Object.entries(styles).map(([k, v]) => `${k}: ${v}`).join('; ');
+            
+            const date = new Date(data.timestamp);
+            const timeStr = date.toLocaleString();
+            
+            panel.innerHTML = `
+                <div style="display: flex; gap: 20px; position: relative;">
+                    <button onclick="socket.emit('delete_entry', ${data.timestamp})" 
+                            style="position: absolute; top: 0; right: 0; padding: 5px 15px; 
+                                   background: #ff4444; color: white; border: none; cursor: pointer;
+                                   font-family: 'JetBrains Mono', monospace;">
+                        Delete This Sample
+                    </button>
+                    <div style="flex: 1;">
+                        <h3>SAMPLE DETAILS</h3>
+                        <p><strong>Word:</strong> "${data.word}"</p>
+                        <p><strong>Time:</strong> ${timeStr}</p>
+                        <p><strong>Repetition:</strong> ${data.params.repetition}</p>
+                        <p><strong>Density:</strong> ${data.params.density}%</p>
+                        <p><strong>Distortion:</strong> ${data.params.distortion}%</p>
+                        ${data.analysis ? `
+                            <h4 style="margin-top: 20px;">TEXT ANALYSIS</h4>
+                            <p><strong>Sentiment:</strong> ${data.analysis.sentiment.toFixed(2)} 
+                               ${data.analysis.sentiment > 0.5 ? '(Positive)' : 
+                                 data.analysis.sentiment < -0.5 ? '(Negative)' : '(Neutral)'}</p>
+                            <p><strong>Category:</strong> ${data.analysis.category}</p>
+                        ` : ''}
+                    </div>
+                    <div style="flex: 2; overflow: hidden; max-height: 300px; border: 1px solid #ddd; padding: 10px;">
+                        <div style="${styleString} font-size: 12px;">${htmlContent}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Socket 监听
+        socket.on('load_history', (history) => {
+            allData = history;
+            renderVisualization();
+        });
+
+        socket.on('new_data_point', (data) => {
+            allData.push(data);
+            renderVisualization();
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alternative Machine</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="control-panel">
+        <h1>Tolerance of REPETITION</h1>
+        
+        <div class="input-group">
+            <label>Input a word you like:</label>
+            <input type="text" id="wordInput" value="WORK" maxlength="20">
+        </div>
+
+        <div id="live-preview">
+            <div id="preview-text" class="preview-content"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Repetition<span id="val-rep">0</span></label>
+            <input type="range" id="repSlider" min="1" max="300" value="30">
+        </div>
+        <div class="input-group">
+            <label>Density<span id="val-den">0</span></label>
+            <input type="range" id="denSlider" min="0" max="100" value="0">
+        </div>
+        <div class="input-group">
+            <label>Distortion<span id="val-dis">0</span></label>
+            <input type="range" id="disSlider" min="0" max="100" value="0">
+        </div>
+
+        <button id="record-btn">Record Breaking Point</button>
+    </div>
+
+    <div id="visualization-wall">
+        <h2 style="width:100%; color: #888;">COLLECTIVE THRESHOLDS (TOPOGRAPHY)</h2>
+        
+        <div id="viz-canvas"></div>
+
+        <div id="detail-panel" style="display:none;"></div>
+    </div>
+
+    <script>
+        const socket = io();
+
+        // DOM 元素
+        const inputs = {
+            word: document.getElementById('wordInput'),
+            rep: document.getElementById('repSlider'),
+            den: document.getElementById('denSlider'),
+            dis: document.getElementById('disSlider'),
+        };
+        const displays = {
+            rep: document.getElementById('val-rep'),
+            den: document.getElementById('val-den'),
+            dis: document.getElementById('val-dis'),
+        };
+        const preview = document.getElementById('preview-text');
+        const wall = document.getElementById('visualization-wall');
+        const btn = document.getElementById('record-btn');
+
+        let allData = [];
+        let selectedSample = null;
+
+        function generateDistortedHTML(word, count, dis) {
+            let html = '';
+            let safeCount = count > 600 ? 600 : count; 
+            
+            for(let i=0; i<safeCount; i++) {
+                let style = '';
+                if (dis > 0) {
+                    const skew = (Math.random() - 0.5) * dis / 1.5;
+                    const scaleY = 1 + (Math.random() * dis / 100);
+                    const translateY = (Math.random() - 0.5) * (dis / 3);
+                    style = `style="transform: skew(${skew}deg) scaleY(${scaleY}) translateY(${translateY}px)"`;
+                }
+                html += `<span class="distorted-word" ${style}>${word} </span>`;
+            }
+            return html;
+        }
+
+        function generateStyle(params) {
+            const den = parseInt(params.density);
+            const dis = parseInt(params.distortion);
+            return {
+                letterSpacing: (0 - (den / 10)) + 'px', 
+                lineHeight: (1.2 - (den / 80)),
+                color: (dis > 85) ? '#d00' : '#1a1a1a'
+            };
+        }
+
+        function updateLivePreview() {
+            const word = inputs.word.value;
+            const rep = parseInt(inputs.rep.value);
+            const den = inputs.den.value;
+            const dis = parseInt(inputs.dis.value);
+            
+            displays.rep.innerText = rep;
+            displays.den.innerText = den + '%';
+            displays.dis.innerText = dis + '%';
+            
+            const htmlContent = generateDistortedHTML(word, rep, dis);
+            preview.innerHTML = htmlContent;
+            
+            const styles = generateStyle({ density: den, distortion: dis });
+            Object.assign(preview.style, styles);
+        }
+
+        Object.values(inputs).forEach(el => el.addEventListener('input', updateLivePreview));
+        updateLivePreview(); // 初始化左侧预览
+
+        // --- 提交数据 ---
+        btn.addEventListener('click', () => {
+            const data = {
+                word: inputs.word.value,
+                repetition: inputs.rep.value,
+                density: inputs.den.value,
+                distortion: inputs.dis.value,
+            };
+            socket.emit('submit_threshold', data);
+            
+            const originalText = btn.innerText;
+            btn.innerText = "RECORDED";
+            btn.style.background = "#d00";
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = ""; 
+            }, 1000);
+        });
+
+        // --- 删除功能按钮 ---
+        const clearBtn = document.createElement('button');
+        clearBtn.innerText = 'Clear All Data';
+        clearBtn.style.cssText = `
+            position: fixed; bottom: 20px; right: 20px; padding: 10px 20px;
+            background: #ff4444; color: white; border: none; cursor: pointer;
+            font-family: 'JetBrains Mono', monospace; font-weight: bold; z-index: 1000;
+        `;
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete ALL data?')) {
+                socket.emit('clear_all_data');
+            }
+        });
+        document.body.appendChild(clearBtn);
+
+        // --- 2. 右侧可视化逻辑 (改为 Plotly 3D 地形图) ---
+        
+        function renderVisualization() {
+            // 如果没有数据，渲染一个空坐标轴
+            let xData = [], yData = [], zData = [], textData = [];
+            
+            if (allData.length > 0) {
+                 xData = allData.map(d => d.params.density);
+                 yData = allData.map(d => d.params.distortion);
+                 zData = allData.map(d => d.params.repetition);
+                 textData = allData.map(d => `Word: ${d.word}<br>Repetition: ${d.params.repetition}`);
+            }
+
+            // 数据 Trace
+            const trace = {
+                x: xData,
+                y: yData,
+                z: zData,
+                text: textData,
+                mode: 'markers',
+                type: 'mesh3d', // 使用 mesh3d 模拟地形
+                intensity: zData, // 颜色根据高度(Repetition)变化
+                colorscale: 'Portland', // 使用类似参考图的热力图配色
+                opacity: 0.9,
+                flatshading: true,
+                hoverinfo: 'text+x+y+z'
+            };
+
+            // 布局 Layout (黑夜模式)
+            const layout = {
+                autosize: true,
+                paper_bgcolor: 'rgba(0,0,0,0)', // 透明背景
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                margin: { l: 0, r: 0, b: 0, t: 0 },
+                scene: {
+                    xaxis: { title: 'Density', color: '#888', gridcolor: '#444' },
+                    yaxis: { title: 'Distortion', color: '#888', gridcolor: '#444' },
+                    zaxis: { title: 'Repetition Limit', color: '#888', gridcolor: '#444' },
+                    camera: { eye: {x: 1.5, y: 1.5, z: 1.2} }
+                }
+            };
+
+            const config = { displayModeBar: false, responsive: true };
+
+            // 绘制图表
+            Plotly.newPlot('viz-canvas', [trace], layout, config);
+
+            // 绑定点击事件用于显示详情
+            document.getElementById('viz-canvas').on('plotly_click', function(data){
+                const pointIndex = data.points[0].pointNumber;
+                showDetail(allData[pointIndex]);
+            });
+            
+            // 确保详情面板存在（如果是空数据状态）
+            if (!document.getElementById('detail-panel')) {
+                 const panel = document.createElement('div');
+                 panel.id = 'detail-panel';
+                 panel.style.display = 'none';
+                 wall.appendChild(panel);
+            }
+        }
+
+        // 显示详情 (保留原来的 HTML 生成逻辑)
+        function showDetail(data) {
+            selectedSample = data;
+            const panel = document.getElementById('detail-panel');
+            panel.style.display = 'block';
+            
+            // 复用原有的 generateDistortedHTML 生成右下角的预览
+            const safeRep = Math.min(data.params.repetition, 200);
+            const htmlContent = generateDistortedHTML(data.word, safeRep, data.params.distortion);
+            
+            const styles = generateStyle(data.params);
+            const styleString = Object.entries(styles).map(([k, v]) => `${k}: ${v}`).join('; ');
+            const date = new Date(data.timestamp).toLocaleString();
+            
+            panel.innerHTML = `
+                <div style="display: flex; gap: 20px; position: relative;">
+                    <button onclick="socket.emit('delete_entry', ${data.timestamp})" 
+                            style="position: absolute; top: 0; right: 0; padding: 5px 15px; 
+                                   background: #ff4444; color: white; border: none; cursor: pointer;
+                                   font-family: 'JetBrains Mono', monospace;">
+                        Delete
+                    </button>
+                    <div style="flex: 1; color: #ccc;">
+                        <h3 style="color: #fff;">SAMPLE: ${data.word}</h3>
+                        <p>Time: ${date}</p>
+                        <p>Repetition: ${data.params.repetition}</p>
+                        <p>Density: ${data.params.density}%</p>
+                        <p>Distortion: ${data.params.distortion}%</p>
+                        ${data.analysis ? `<p>Sentiment: ${data.analysis.sentiment}</p>` : ''}
+                    </div>
+                    <div style="flex: 2; overflow: hidden; max-height: 200px; border: 1px solid #444; padding: 10px; background: #eee;">
+                        <div style="${styleString} font-size: 12px; color: #000;">${htmlContent}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- Socket 监听 ---
+        socket.on('load_history', (history) => {
+            allData = history;
+            renderVisualization();
+        });
+
+        socket.on('new_data_point', (data) => {
+            allData.push(data);
+            renderVisualization();
+        });
+
+        socket.on('data_cleared', () => {
+            allData = [];
+            renderVisualization();
+            const panel = document.getElementById('detail-panel');
+            if(panel) panel.style.display = 'none';
+            alert('All data cleared!');
+        });
+
+        socket.on('entry_deleted', (timestamp) => {
+            allData = allData.filter(item => item.timestamp !== timestamp);
+            renderVisualization();
+            if (selectedSample && selectedSample.timestamp === timestamp) {
+                document.getElementById('detail-panel').style.display = 'none';
+                selectedSample = null;
+            }
+        });
+        
+        // 窗口大小调整时自适应
+        window.onresize = function() {
+            Plotly.Plots.resize('viz-canvas');
+        };
     </script>
 </body>
 </html>
