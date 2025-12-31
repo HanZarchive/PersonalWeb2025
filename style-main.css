@@ -24,37 +24,13 @@ a {
     transition: all 0.3s ease;
 }
 
-/* .bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;  
-    height: 100%;
-    background: url('pics/background1.png') no-repeat center center/cover;
-    z-index: -1;
-} */
-
 .bg {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;  
     height: 100%;
-    
-    /* 方案A: 深色径向渐变（推荐，更有深度感） */
-    background: radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 100%);
-    
-    /* 可选：添加CSS噪点纹理（轻量级的颗粒感） */
-    background-image: 
-        radial-gradient(ellipse at 50% 40%, #1a1a1a 0%, #0a0a0a 100%),
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(255, 255, 255, 0.03) 2px,
-            rgba(255, 255, 255, 0.03) 4px
-        );
-    
+    background: url('pics/background1.png') no-repeat center center/cover;
     z-index: -1;
 }
 
