@@ -5,132 +5,491 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Han Zhang - Personal Website</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=Syne+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style-main.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            color: #fff;
+            letter-spacing: 0.03em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pics/background1.png') no-repeat center center/cover;
+            z-index: -1;
+        }
+
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .nav-logo {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .nav-tagline {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+            font-weight: 200;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right a {
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-right a:hover {
+            opacity: 1;
+        }
+
+        .nav-right a.active {
+            opacity: 1;
+        }
+
+        /* Hero区域 */
+        .hero {
+            padding: 280px 48px 80px;
+            display: grid;
+            grid-template-columns: 1fr 24px 1fr;
+            gap: 0;
+        }
+
+        .hero-left {
+            grid-column: 1;
+        }
+
+        .hero-left h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 48px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            letter-spacing: 0.03em;
+        }
+
+        .hero-left p {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .hero-right {
+            grid-column: 3;
+            display: flex;
+            align-items: flex-end;
+            gap: 48px;
+        }
+
+        .hero-right h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 24px;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .social-icon img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            opacity: 0.8;
+        }
+
+        .social-icon img:hover {
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        /* 项目区域 - 2x2网格 */
+        .projects {
+            padding: 0 48px 48px;
+            display: grid;
+            grid-template-columns: 1fr 24px 1fr;
+            grid-template-rows: auto 48px auto;
+            gap: 0;
+        }
+
+        .project {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .project:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .project:nth-child(2) {
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .project:nth-child(3) {
+            grid-column: 1;
+            grid-row: 3;
+        }
+
+        .project:nth-child(4) {
+            grid-column: 3;
+            grid-row: 3;
+        }
+
+        .project-img {
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.4s ease;
+        }
+
+        /* Hover效果 - 图片变暗并显示信息 */
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .project:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-overlay h3 {
+            font-family: 'Syne Mono', monospace;
+            font-size: 28px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .project-overlay .date {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .project-overlay .keywords {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            margin-bottom: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        .project-overlay .description {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+            letter-spacing: 0.03em;
+        }
+
+        /* Footer */
+        footer {
+            height: 60px;
+            padding: 0 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .footer-left p {
+            font-family: 'Syne Mono', monospace;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+        .footer-left span {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right a {
+            opacity: 0.6;
+        }
+
+        .footer-right a:hover {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .hero-left {
+                grid-column: 1;
+            }
+
+            .hero-right {
+                grid-column: 1;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 60px;
+            }
+
+            .project:nth-child(1),
+            .project:nth-child(2),
+            .project:nth-child(3),
+            .project:nth-child(4) {
+                grid-column: 1;
+                grid-row: auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .nav-tagline {
+                font-size: 14px;
+            }
+
+            .nav-right {
+                gap: 20px;
+                font-size: 16px;
+            }
+
+            .hero {
+                padding: 100px 24px 24px;
+            }
+
+            .hero-right {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+
+            .projects {
+                padding: 0 24px 24px;
+            }
+
+            footer {
+                padding: 0 24px;
+                flex-direction: column;
+                height: auto;
+                padding: 24px;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="bg"></div>
 
     <nav>
-        <div class="nav-item">
-            <a href="about-me.html" target="_blank">About Me</a>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Han Zhang</a>
+            <span class="nav-tagline">Creative Tech + Design Research</span>
         </div>
-        <div class="nav-item">
-            <a href="#projects-section" >Works</a>
+        <div class="nav-right">
+            <a href="index.html" class="active">Works</a>
+            <a href="playground.html">Playground</a>
+            <a href="about.html">About</a>
         </div>
-        <div class="nav-item">
-            <a href="creative-coding.html" >Tech Playground</a>
-        </div>
-        <!-- <div class="nav-item">
-            <a href="mailto:gracehan2333@gmail.com" >Contact</a>
-        </div> -->
     </nav>
 
     <section class="hero">
-        <h1>Han ZHANG</h1>
-        <p>I explore how culture, tech, and design shape how we think.</p>
+        <div class="hero-left">
+            <h1>Hi, I'm Han!</h1>
+            <p>I build systems exploring <br>how culture and tech shape cognition.</p>
+        </div>
+        <div class="hero-right">
+            <h2>Let's connect!</h2>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/hanzhang233/" target="_blank" class="social-icon">
+                    <img src="pics/linkedin.png" alt="linkedin">
+                            </a>
+                <a href="mailto:gracehan2333@gmail.com" class="social-icon">
+                    <img src="pics/email.png" alt="email">
+                </a>
+                <a href="https://www.instagram.com/kaleidomoon_/" target="_blank" class="social-icon">
+                    <img src="pics/instagram.png" alt="instagram">
+                </a>
+            </div>
+        </div>
     </section>
 
-    <div class="filter-menu" id="projects-section">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="service-design">Service Design</button>
-        <button class="filter-btn" data-filter="user-experience">User Experience</button>
-        <button class="filter-btn" data-filter="interactive-installation">Interactive Installation</button>
-        <button class="filter-btn" data-filter="hardwares">Hardwares</button>
-        <button class="filter-btn" data-filter="data-visualization">Data Visualization</button>
-    </div>
-
     <section class="projects">
-
-        <div class="project" data-category="service-design hardwares user-experience data-visualization">
-            <a href="wonderland.html" class="project-img">
-                <img src="pics/wonderland-cover2.png" alt="Wonderland">
-            </a>
-            <div class="project-info">
-                <div class="project-label">Individual Work</div>
-                <h2><a href="wonderland.html">Wonderland</a></h2>
-                <div class="date">March 2024 - July 2024</div>
-                <p>A service that connects artists with inspiration from people's dreams through a community platform and a sleep mask.</p>
-                <div class="tags">
-                    <span class="tag">#Service Design</span>
-                    <span class="tag">#Hardwares</span>
-                    <span class="tag">#User Experience</span>
+        <div class="project">
+            <a href="panopticon.html" class="project-img">
+                <img src="pics/panopticon-cover2.gif" alt="panopticon">
+                <div class="project-overlay">
+                    <h3>The gaze panopticon</h3>
+                    <div class="date">December 2025</div>
+                    <div class="keywords">#ThreeJS #WebGL #Blender #Real-time connection</div>
+                    <div class="description">An interactive reversal of Foucault's Panopticon: real-time face detection transforms external surveillance into the collective power that ruptures the prison structure.</div>
                 </div>
-            </div>
+            </a>
         </div>
 
-        <div class="project" data-category="service-design hardwares">
-            <a href="fluid-drift.html" class="project-img">
-                <img src="pics/fluid drift-cover.png" alt="Fluid Drift">
-            </a>
-            <div class="project-info">
-                <div class="project-label">Individual Work</div>
-                <h2><a href="fluid-drift.html">Fluid Drift</a></h2>
-                <div class="date">December 2023 - March 2024</div>
-                <p>A service designed for digital nomads, helping them build a sense of inner order and connection to reality to improve well-being.</p>
-                <div class="tags">
-                    <span class="tag">#Service Design</span>
-                    <span class="tag">#Hardwares</span>
-                    <span class="tag">#Smell Design</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="project" data-category="interactive-installation creative-coding">
+        <div class="project">
             <a href="tolerate-it.html" class="project-img">
                 <img src="pics/tolerate it-cover.png" alt="Tolerate it?">
-            </a>
-            <div class="project-info">
-                <div class="project-label">Individual Work</div>
-                <h2><a href="tolerate-it.html">Tolerate it?</a></h2>
-                <div class="date">July 2024 - October 2024</div>
-                <p>An interactive installation that metaphorically connects the increasing tolerance for both life's hardships and caffeine.</p>
-                <div class="tags">
-                    <span class="tag">#Interactive Installation</span>
-                    <span class="tag">#Performance</span>
-                    <span class="tag">#Arduino</span>
+                <div class="project-overlay">
+                    <h3>Tolerate it?</h3>
+                    <div class="date">July 2024 - October 2024</div>
+                    <div class="keywords">#Installation #Performance</div>
+                    <div class="description">An interactive installation that metaphorically connects the increasing tolerance for both life's hardships and caffeine.</div>
                 </div>
-            </div>
+            </a>
         </div>
-        
-        <div class="project" data-category="user-experience service-design">
+
+        <div class="project">
+            <a href="semantic-collapse.html" class="project-img">
+                <img src="pics/semantic-cover.png" alt="semantic collapse">
+                <div class="project-overlay">
+                    <h3>Semantic Collapse</h3>
+                    <div class="date">December 2025</div>
+                    <div class="keywords">#Service Design #Scent</div>
+                    <div class="description">An interactive web experiment for mapping the point where typographic order collapses into visual discomfort.</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="project">
             <a href="sizzle-dialogues.html" class="project-img">
                 <img src="pics/sizzle dialogues-cover.png" alt="Sizzle Dialogues">
-            </a>
-            <div class="project-info">
-                <div class="project-label">Individual Work</div>
-                <h2><a href="sizzle-dialogues.html">Sizzle Dialogues</a></h2>
-                <div class="date">October 2024 - December 2024</div>
-                <p>Tackles communication challenges in cross-cultural families by encouraging members to co-create a dinner, fostering mutual understanding.</p>
-                <div class="tags">
-                    <span class="tag">#User Experience</span>
-                    <span class="tag">#Service Design</span>
-                    <span class="tag">#Co-Creation</span>
+                <div class="project-overlay">
+                    <h3>Sizzle Dialogues</h3>
+                    <div class="date">October 2024 - December 2024</div>
+                    <div class="keywords">#UX #Co-Creation</div>
+                    <div class="description">Tackles communication challenges in cross-cultural families by encouraging members to co-create a dinner, fostering mutual understanding.</div>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
     <footer>
-        <h2>Let's connect :)</h2>
-        <div class="contact-links">
-            <a href="mailto:gracehan2333@gmail.com">Email</a>
+        <div class="footer-left">
+            <p>Created by Han &lt;3</p>
+            <span>Last updated in Jan 2026</span>
+        </div>
+        <div class="footer-right">
             <a href="https://www.linkedin.com/in/hanzhang233/" target="_blank">LinkedIn</a>
+            <a href="mailto:gracehan2333@gmail.com">Email</a>
             <a href="https://www.instagram.com/kaleidomoon_/" target="_blank">Instagram</a>
+            <a href="#">RED</a>
         </div>
     </footer>
 
     <script>
-        // ===== 页面功能脚本 =====
         $(document).ready(function() {
-            
-            // 1. 水波纹初始化
+            // 水波纹初始化
             $('.bg').ripples({
                 resolution: 256,
                 dropRadius: 12,
@@ -147,57 +506,15 @@
                 }
             });
 
-            // 2. 筛选器逻辑 (Filter Logic)
-            $('.filter-btn').click(function() {
-                // 移除所有按钮的 active 状态
-                $('.filter-btn').removeClass('active');
-                // 给当前点击的按钮添加 active 状态
-                $(this).addClass('active');
-
-                // 获取当前点击按钮的 filter 值
-                var filterValue = $(this).attr('data-filter');
-
-                if (filterValue === 'all') {
-                    // 如果选的是 All，显示所有 project
-                    $('.project').removeClass('hidden');
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                var nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
                 } else {
-                    // 遍历所有项目
-                    $('.project').each(function() {
-                        // 获取该项目的 category 列表
-                        var projectCategories = $(this).attr('data-category');
-                        
-                        // 检查是否包含选中的 filterValue
-                        if (projectCategories && projectCategories.indexOf(filterValue) > -1) {
-                            $(this).removeClass('hidden'); // 显示
-                        } else {
-                            $(this).addClass('hidden'); // 隐藏
-                        }
-                    });
+                    nav.classList.remove('scrolled');
                 }
             });
-
-            // 3. 平滑滚动
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                });
-            });
-        });
-
-        // 放在原本的 $(document).ready(function() {...}) 外面或者里面都可以
-        window.addEventListener('scroll', function() {
-            var nav = document.querySelector('nav');
-            
-            // window.scrollY 获取当前垂直滚动的距离
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled'); // 滚动超过50px，变黑
-            } else {
-                nav.classList.remove('scrolled'); // 回到顶部，变透明
-            }
         });
     </script>
 </body>

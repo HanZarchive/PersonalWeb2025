@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The gaze panopticon | Han</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=Syne+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            color: #fff;
+            background: #0a0a0a;
+            letter-spacing: 0.03em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pics/background1.png') no-repeat center center/cover;
+            z-index: -1;
+        }
+
+        /* === 导航栏（与index完全一致）=== */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-logo {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .nav-tagline {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right a {
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-right a:hover {
+            opacity: 1;
+        }
+        .nav-right a.active {
+            opacity: 1;
+        }
+
+
+        /* === 项目内容区域 === */
+        .project-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 48px 80px;
+        }
+
+        /* 项目标题区域 */
+        .project-header {
+            margin-bottom: 80px;
+        }
+
+        .project-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .project-subtitle {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-bottom: 48px;
+            letter-spacing: 0.03em;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 48px;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            opacity: 0.7;
+            letter-spacing: 0.03em;
+            margin-bottom: 32px;
+        }
+
+        .project-meta span {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-meta .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* 内容区块 */
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .section-subtitle {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            color: #f8dae9;
+        }
+
+        .subsection-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .content-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            letter-spacing: 0.03em;
+        }
+
+        .content-text strong {
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        /* 引用块 */
+        .quote-block {
+            border-left: 3px solid #f8dae9;
+            padding-left: 32px;
+            margin: 48px 0;
+            font-family: 'Syne Mono', sans-serif;
+            font-size: 24px;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        /* 列表 */
+        .content-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .content-list li {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+            letter-spacing: 0.03em;
+        }
+
+        .content-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        /* 代码块 */
+        .code-block {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            margin: 32px 0;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        .code-block pre {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e0e0e0;
+            letter-spacing: 0.03em;
+        }
+
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        table th {
+            font-family: 'Syne Mono', monospace;
+            text-align: left;
+            padding: 16px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.9;
+        }
+
+        table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+        }
+
+        /* 高亮框 */
+        .highlight-box {
+            background: rgba(248, 218, 233, 0.1);
+            border: 1px solid rgba(248, 218, 233, 0.3);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box .title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #f8dae9;
+        }
+
+        /* 图片容器 */
+        .image-container {
+            margin: 60px 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-caption {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            opacity: 0.6;
+            margin-top: 16px;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+
+        /* 视频容器 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 60px 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 标签 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 32px 0;
+        }
+
+        .tag {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.8;
+            letter-spacing: 0.03em;
+        }
+
+        /* 两栏布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin: 32px 0;
+        }
+
+        /* 状态标签 */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            font-family: 'Syne Mono', monospace;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-left: 12px;
+        }
+
+        .status-failed {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            color: #ff6b6b;
+        }
+
+        .status-partial {
+            background: rgba(255, 180, 50, 0.2);
+            border: 1px solid rgba(255, 180, 50, 0.4);
+            color: #ffa94d;
+        }
+
+        .status-success {
+            background: rgba(50, 255, 100, 0.2);
+            border: 1px solid rgba(50, 255, 100, 0.4);
+            color: #51cf66;
+        }
+
+        /* Footer */
+        footer {
+            height: 60px;
+            padding: 0 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .footer-left span {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right a {
+            opacity: 0.6;
+        }
+
+        .footer-right a:hover {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .project-container {
+                padding: 100px 24px 60px;
+            }
+
+            .project-title {
+                font-size: 42px;
+            }
+
+            .project-subtitle {
+                font-size: 24px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .nav-tagline {
+                font-size: 14px;
+            }
+
+            .nav-right {
+                gap: 20px;
+                font-size: 16px;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .section-subtitle {
+                font-size: 20px;
+            }
+
+            footer {
+                padding: 0 24px;
+                flex-direction: column;
+                height: auto;
+                padding: 24px;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Han Zhang</a>
+            <span class="nav-tagline">Creative Tech + Design Research</span>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="active">Works</a>
+            <a href="playground.html">Playground</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <div class="project-container">
+        <!-- 项目标题区域 -->
+        <div class="project-header">
+            <h1 class="project-title">The Gaze Space</h1>
+            <p class="project-subtitle">Can surveillance become the key to its own destruction?</p>
+            
+            <div class="project-meta">
+                <span>
+                    <span class="label">Year</span>
+                    <span>2024</span>
+                </span>
+                <span>
+                    <span class="label">Duration</span>
+                    <span>3 weeks</span>
+                </span>
+                <span>
+                    <span class="label">Role</span>
+                    <span>Concept, Design, Development</span>
+                </span>
+                <span>
+                    <span class="label">Technologies</span>
+                    <span>Three.js, Socket.io, face-api.js</span>
+                </span>
+            </div>
+
+            <div class="tags">
+                <span class="tag">#Interactive Installation</span>
+                <span class="tag">#WebGL</span>
+                <span class="tag">#Face Detection</span>
+                <span class="tag">#Real-time Systems</span>
+            </div>
+        </div>
+
+        <!-- 视频展示 -->
+        <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/zipeStioaus?si=4ku6in_mx-u5ZyAv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="highlight-box">Join the gaze here: <a href="https://the-gaze-panopticon.onrender.com/audience.html" style="text-decoration: underline; color: rgba(248, 218, 233);">https://the-gaze-panopticon.onrender.com/audience.html</a><br>Try the gazed feeling: <a href="https://the-gaze-panopticon.onrender.com/index.html" style="text-decoration: underline; color: rgba(248, 218, 233);">https://the-gaze-panopticon.onrender.com/index.html</a></p>
+        <!-- 项目概述 -->
+        <section class="content-section">
+            <h2 class="section-title">1. Concept & Overview</h2>
+            
+            <h3 class="section-subtitle">Core Question</h3>
+            <div class="quote-block">
+                Can the gaze be turned into a collective power?
+            </div>
+            
+            <p class="content-text">
+                The Gaze Space is an interactive web-based installation that inverts Michel Foucault's Panopticon theory. Instead of observation creating self-policing subjects, this project asks: <strong>what if the observed could weaponize the gaze that's meant to control them?</strong>
+            </p>
+
+            <h3 class="section-subtitle">Experience Structure</h3>
+            <p class="content-text">
+                One person (the <strong>Experiencer</strong>) navigates a 3D space where they're confined within a digital Panopticon alongside a representation of their "Self." Multiple <strong>Audience members</strong> watch through their screens, and their facial attention is tracked in real-time using computer vision.
+            </p>
+            <p class="content-text">
+                As collective observation intensifies, pressure accumulates—the Panopticon structure begins to shake, the Self deforms under stress. When pressure reaches critical mass, the prison structure <strong>shatters</strong>, and the Self transforms into a luminous, free-floating form.
+            </p>
+
+            <h3 class="section-subtitle">Design Goals</h3>
+            <ul class="content-list">
+                <li>Create real-time networked interaction between 1 experiencer and multiple audience members</li>
+                <li>Use facial detection to quantify attention as measurable force</li>
+                <li>Visualize abstract concepts (pressure, surveillance) through 3D spatial experience</li>
+                <li>Build entirely web-based for accessibility—no app downloads required</li>
+            </ul>
+        </section>
+
+        <!-- 技术架构 -->
+        <section class="content-section">
+            <h2 class="section-title">2. Technical Architecture</h2>
+
+            <h3 class="section-subtitle">Tech Stack Overview</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Layer</th>
+                        <th>Technology</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3D Graphics</td>
+                        <td>Three.js r128</td>
+                        <td>Scene rendering, animation</td>
+                    </tr>
+                    <tr>
+                        <td>Real-time Communication</td>
+                        <td>Socket.io 4.5.4</td>
+                        <td>Client-server state sync</td>
+                    </tr>
+                    <tr>
+                        <td>Face Detection</td>
+                        <td>face-api.js 1.7.11</td>
+                        <td>Facial tracking</td>
+                    </tr>
+                    <tr>
+                        <td>Backend</td>
+                        <td>Node.js + Express</td>
+                        <td>Server & state management</td>
+                    </tr>
+                    <tr>
+                        <td>3D Modeling</td>
+                        <td>Blender 3.6</td>
+                        <td>Asset creation</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">System Architecture</h3>
+            <p class="content-text">
+                The system consists of three main components communicating via WebSockets:
+            </p>
+            <ul class="content-list">
+                <li><strong>Experiencer Client:</strong> First-person 3D view with PointerLockControls for WASD movement</li>
+                <li><strong>Node.js Server:</strong> Manages game state, tracks active gazers, calculates pressure accumulation, broadcasts updates</li>
+                <li><strong>Audience Clients:</strong> Third-person 3D view with OrbitControls + face detection interface</li>
+            </ul>
+        </section>
+
+        <!-- 开发挑战 -->
+        <section class="content-section">
+            <h2 class="section-title">3. Development Journey: Face Detection</h2>
+            <p class="content-text">
+                The most challenging aspect was implementing reliable face detection in the browser. This required <strong>three complete attempts</strong> before finding a working solution.
+            </p>
+
+            <h3 class="section-subtitle">Attempt 1: MediaPipe Face Mesh <span class="status-badge status-failed">FAILED</span></h3>
+            
+            <div class="highlight-box">
+                <div class="title">The Problem</div>
+                <p class="content-text">
+                    Google's MediaPipe model promised 468 facial landmarks with high accuracy. However, it relied on WebAssembly (WASM) binaries that failed to initialize.
+                </p>
+            </div>
+
+            <div class="code-block">
+                <pre>// Error encountered:
+Uncaught TypeError: can't access property "buffer", HEAP8 is undefined
+
+// Root cause:
+- WASM module failed to initialize
+- SIMD compatibility issues across browsers
+- Firefox had known bugs with MediaPipe's WASM</pre>
+            </div>
+
+            <p class="content-text">
+                <strong>Lessons Learned:</strong> WASM dependencies add fragility. Browser compatibility varies significantly. Black-box libraries are difficult to debug when core initialization fails.
+            </p>
+
+            <h3 class="section-subtitle">Attempt 2: TensorFlow.js Face Landmarks <span class="status-badge status-partial">PARTIAL</span></h3>
+            
+            <p class="content-text">
+                Pivoted to TensorFlow.js, which uses pure JavaScript/WebGL instead of WASM. Model loaded successfully, camera feed worked—but detection consistently returned <strong>0 faces</strong>.
+            </p>
+
+            <div class="code-block">
+                <pre>const detectorConfig = {
+    runtime: 'tfjs',
+    maxFaces: 1,
+    refineLandmarks: false,
+    detectionConfidence: 0.1  // Lowered to minimum
+};
+
+const faces = await detector.estimateFaces(video);
+console.log(faces.length);  // Output: 0 (always)</pre>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">Debugging Process</div>
+                <ul class="content-list">
+                    <li>Verified video dimensions were non-zero ✓</li>
+                    <li>Added delays for metadata loading ✗</li>
+                    <li>Lowered detection threshold to 0.1 ✗</li>
+                    <li>Tried different camera resolutions ✗</li>
+                    <li>Environmental requirements (lighting, angle) too strict ✗</li>
+                </ul>
+            </div>
+
+            <p class="content-text">
+                <strong>Lessons Learned:</strong> Model complexity ≠ better results. Environmental requirements matter. Asynchronous media pipeline debugging is complex.
+            </p>
+
+            <h3 class="section-subtitle">Attempt 3: face-api.js (vladmandic fork) <span class="status-badge status-success">SUCCESS</span></h3>
+            
+            <p class="content-text">
+                Finally found success with the vladmandic fork of face-api.js—a more stable, better-maintained version with simpler API.
+            </p>
+
+            <div class="code-block">
+                <pre>await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+
+const detection = await faceapi
+    .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
+    .withFaceLandmarks();
+
+if (detection) {
+    const landmarks = detection.landmarks.positions;
+    const nose = landmarks[30];
+    const leftEye = landmarks[36];
+    const rightEye = landmarks[45];
+    
+    // Calculate gaze orientation
+    const eyeCenterX = (leftEye.x + rightEye.x) / 2;
+    const offsetX = nose.x - eyeCenterX;
+    
+    const normalizedX = (offsetX / eyeDistance) * 100;
+    const isFacing = Math.abs(normalizedX) < 20;
+}</pre>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">Why This Worked?</div>
+                <ul class="content-list">
+                    <li>TinyFaceDetector is lightweight but accurate enough</li>
+                    <li>Better TypeScript definitions and bug fixes in vladmandic fork</li>
+                    <li>Pixel-based coordinates easier to work with than normalized values</li>
+                    <li>Detection latency: ~30-50ms per frame (acceptable for real-time)</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Performance Metrics</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Detection latency</td>
+                        <td>30-50ms per frame</td>
+                    </tr>
+                    <tr>
+                        <td>False positive rate</td>
+                        <td>About 5%</td>
+                    </tr>
+                    <tr>
+                        <td>Detection range</td>
+                        <td>30-100cm from camera</td>
+                    </tr>
+                    <tr>
+                        <td>Lighting requirement</td>
+                        <td>Normal indoor lighting</td>
+                    </tr>
+                    <tr>
+                        <td>Detection accuracy</td>
+                        <td>About 80% in real use</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">4. Real-Time State Synchronization</h2>
+
+            <h3 class="section-subtitle">Game State Structure</h3>
+            <div class="code-block">
+                <pre>const gameState = {
+    watchers: 0,              // Total connected audience members
+    activeGazers: new Set(),  // Currently gazing users (by socket.id)
+    totalPressure: 0,         // Accumulated pressure (0-100+)
+    phase: 'waiting',         // Current phase
+    gazePoints: []            // Historical data
+};</pre>
+            </div>
+
+            <h3 class="section-subtitle">Pressure Accumulation Logic</h3>
+            <p class="content-text">
+                When an audience member's face is detected looking at the screen, pressure accumulates. The system went through multiple iterations to balance pacing:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>gaze-start</th>
+                        <th>gaze-hold (10Hz)</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>v1</td>
+                        <td>+2.0</td>
+                        <td>+0.5</td>
+                        <td>Too fast (~20sec)</td>
+                    </tr>
+                    <tr>
+                        <td>v2</td>
+                        <td>+1.0</td>
+                        <td>+0.3</td>
+                        <td>Still fast (~30sec)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>v3 (final)</strong></td>
+                        <td><strong>+0.5</strong></td>
+                        <td><strong>+0.15</strong></td>
+                        <td><strong>Balanced (~50sec)</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <div class="title">Pacing Analysis</div>
+                <ul class="content-list">
+                    <li><strong>1 person gazing continuously:</strong> ~2.0 pressure/sec → 50 seconds to rupture</li>
+                    <li><strong>2 people gazing:</strong> Cut time in half → 25 seconds</li>
+                    <li><strong>5+ people:</strong> Dramatic acceleration → 10-15 seconds</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Phase Transitions</h3>
+            <div class="code-block">
+                <pre>function updatePhase() {
+    const p = gameState.totalPressure;
+    
+    if (p < 30) gameState.phase = 'waiting';
+    else if (p < 70) gameState.phase = 'critical';
+    else if (p < 100) gameState.phase = 'rupture';
+    // Transmutation triggered manually by experiencer
+}</pre>
+            </div>
+        </section>
+
+        <!-- 视觉效果 -->
+        <section class="content-section">
+            <h2 class="section-title">5. 3D Visual Effects</h2>
+
+            <h3 class="section-subtitle">Morph Targets (Shape Keys)</h3>
+            <p class="content-text">
+                The "Self" blob deforms based on accumulated pressure using Blender's shape keys system:
+            </p>
+            <ul class="content-list">
+                <li><strong>Base shape:</strong> Smooth organic blob</li>
+                <li><strong>Deform shape:</strong> Compressed/distorted version</li>
+                <li><strong>Interpolation:</strong> 0.0 (base) → 1.0 (fully deformed) based on pressure</li>
+            </ul>
+
+            <div class="code-block">
+                <pre>function updateBlobMorph() {
+    if (!morphTargets || morphTargets.length === 0) return;
+    
+    const normalizedPressure = Math.min(currentState.totalPressure / 100, 1.0);
+    morphTargets[0] = normalizedPressure;
+}</pre>
+            </div>
+
+            <h3 class="section-subtitle">Particle Explosion System</h3>
+            <p class="content-text">
+                When the Panopticon ruptures, it explodes into thousands of particles with radial velocity and color gradients:
+            </p>
+
+            <div class="highlight-box">
+                <div class="title">Iteration History</div>
+                <p class="content-text">
+                    5 iterations were made to enhance visibility:
+                </p>
+                <ul class="content-list">
+                    <li>Increased particle speed from 0.5 to 1.5-3.5x range</li>
+                    <li>Increased particle size from 0.3 to 0.5 (66% larger)</li>
+                    <li>Added upward velocity bias for dramatic effect</li>
+                    <li>Applied additive blending for glow effect</li>
+                    <li>Generated cyan-to-magenta color gradient</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">Transmutation Material</h3>
+            <p class="content-text">
+                In the final phase, the Self transforms into a soft, luminous, free-floating form:
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>roughness</td>
+                        <td>0.9</td>
+                        <td>Cloth-like, soft surface</td>
+                    </tr>
+                    <tr>
+                        <td>metalness</td>
+                        <td>0.0</td>
+                        <td>Organic, non-reflective</td>
+                    </tr>
+                    <tr>
+                        <td>emissive</td>
+                        <td>0xffffff</td>
+                        <td>White self-illumination</td>
+                    </tr>
+                    <tr>
+                        <td>emissiveIntensity</td>
+                        <td>3.0</td>
+                        <td>Strong glow</td>
+                    </tr>
+                    <tr>
+                        <td>opacity</td>
+                        <td>0.85</td>
+                        <td>Ethereal quality</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 测试迭代 -->
+        <section class="content-section">
+            <h2 class="section-title">6. Testing & Iteration</h2>
+
+            <h3 class="section-subtitle">Playtesting Sessions</h3>
+            
+            <div class="subsection-title">Session 1: Solo Testing</div>
+            <ul class="content-list">
+                <li><strong>Finding:</strong> Pressure accumulated too fast (15 seconds to rupture)</li>
+                <li><strong>Action:</strong> Reduced gaze-hold increment from 0.5 to 0.15</li>
+            </ul>
+
+            <div class="subsection-title">Session 2: 2-Person Test</div>
+            <ul class="content-list">
+                <li><strong>Finding:</strong> Explosion barely visible</li>
+                <li><strong>Action:</strong> Increased particle speed and size significantly</li>
+            </ul>
+
+            <div class="subsection-title">Session 3: 5-Person Test</div>
+            <ul class="content-list">
+                <li><strong>Finding:</strong> Face detection inconsistent in poor lighting</li>
+                <li><strong>Action:</strong> Added visual feedback for "gaze active" state</li>
+                <li><strong>Finding:</strong> Confusing when to trigger Transmutation</li>
+                <li><strong>Action:</strong> Added button that only appears in Rupture phase</li>
+            </ul>
+
+            <h3 class="section-subtitle">Browser Compatibility</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Browser</th>
+                        <th>Face Detection</th>
+                        <th>3D Rendering</th>
+                        <th>WebSocket</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chrome 120+</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>Firefox 121+</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>Safari 17+</td>
+                        <td>slower</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>Mobile Chrome</td>
+                        <td>✓</td>
+                        <td>30fps</td>
+                        <td>✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 图片展示 -->
+        <div class="image-container">
+            <img src="pics/panopticon-screenshot.png" alt="The Gaze Space Interface">
+            <p class="image-caption">Experiencer view showing the Panopticon structure and Self under pressure</p>
+        </div>
+
+        <!-- 反思 -->
+        <section class="content-section">
+            <h2 class="section-title">7. Reflection & Future Directions</h2>
+
+            <h3 class="section-subtitle">What Worked</h3>
+            <ul class="content-list">
+                <li>face-api.js proved reliable after trying 2 other libraries</li>
+                <li>Socket.io handled real-time sync elegantly with minimal code</li>
+                <li>Particle system created dramatic rupture after iteration</li>
+                <li>Web-based deployment made sharing easy (no install required)</li>
+                <li>Modular phase system made adding/modifying behaviors straightforward</li>
+            </ul>
+
+            <h3 class="section-subtitle">What Didn't Work</h3>
+            <ul class="content-list">
+                <li>Face detection in poor lighting remains inconsistent</li>
+                <li>Mobile performance lower than desired (30fps vs 60fps)</li>
+                <li>No persistence—state resets if server restarts</li>
+                <li>Single session—can't handle multiple simultaneous experiences</li>
+            </ul>
+
+            <h3 class="section-subtitle">Critical Reflection</h3>
+            <p class="content-text">
+                The Gaze Space intentionally uses the tools of surveillance—cameras, algorithms, quantified attention—to imagine their opposite. <strong>This contradiction remains unresolved.</strong> But perhaps that's the point: transformation doesn't come from perfect solutions, but from the willingness to question the structures we inhabit.
+            </p>
+            <p class="content-text">
+                The work reveals its own limitations. You watch through screens, mediated by the very tools of digital surveillance we live under. The face detection that enables "liberation" is the same technology used for mass surveillance in authoritarian states. But perhaps this liminal space—between constraint and freedom, between complicity and resistance—is exactly where transformation begins.
+            </p>
+
+            <h3 class="section-subtitle">Future Technical Enhancements</h3>
+            <ul class="content-list">
+                <li><strong>Alternative inputs:</strong> Eye tracking, heart rate, mouse intensity, audio volume</li>
+                <li><strong>Session persistence:</strong> Database storage of game states and histories</li>
+                <li><strong>Multi-session support:</strong> Room-based architecture for concurrent experiences</li>
+                <li><strong>WebXR integration:</strong> VR mode for experiencer, AR mode for audience</li>
+                <li><strong>Emotion detection:</strong> Map facial expressions to visual effects</li>
+                <li><strong>Physical installation:</strong> Large-scale projection with spatial audio</li>
+            </ul>
+        </section>
+
+        <!-- 链接 -->
+        <section class="content-section">
+            <h2 class="section-title">References</h2>
+            <p class="content-text">
+                <a href="https://threejs.org/docs/" style="text-decoration: underline; opacity: 0.8;">Three.js Documentation</a><br>
+                <a href="https://socket.io/docs/v4/" style="text-decoration: underline; opacity: 0.8;">Socket.io Documentation</a><br>
+                <a href="https://github.com/vladmandic/face-api" style="text-decoration: underline; opacity: 0.8;">face-api.js GitHub</a><br>
+                <a href="https://webglfundamentals.org/" style="text-decoration: underline; opacity: 0.8;">WebGL Fundamentals</a><br>
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-left">
+            <span>Created by Han &lt;3</span>
+            <span>Last updated in Jan 2026</span>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.linkedin.com/in/hanzhang233/" target="_blank">LinkedIn</a>
+            <a href="mailto:gracehan2333@gmail.com">Email</a>
+            <a href="https://www.instagram.com/kaleidomoon_/" target="_blank">Instagram</a>
+            <a href="#">RED</a>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // 水波纹初始化
+            $('.bg').ripples({
+                resolution: 256,
+                dropRadius: 12,
+                perturbance: 0.01
+            });
+
+            // 鼠标移动产生随机波纹
+            $(document).on('mousemove', function(e) {
+                if (Math.random() > 0.80 && Math.random() <= 0.90) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 12, 0.01)
+                }
+                else if (Math.random() > 0.90 && Math.random() <= 0.95) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 6, 0.005)
+                }
+            });
+
+            // 导航栏滚动效果（与index一致）
+            window.addEventListener('scroll', function() {
+                var nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

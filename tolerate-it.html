@@ -4,147 +4,616 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tolerate it? - Han Zhang</title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne+Mono:wght@300;400;500;600;700&family=Text+Me+One:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style-project.css">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=Syne+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            color: #fff;
+            background: #0a0a0a;
+            letter-spacing: 0.03em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pics/background1.png') no-repeat center center/cover;
+            z-index: -1;
+        }
+
+        /* === 导航栏 === */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-logo {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .nav-tagline {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right a {
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-right a:hover {
+            opacity: 1;
+        }
+
+        .nav-right a.active {
+            opacity: 1;
+        }
+
+        /* === 项目内容区域 === */
+        .project-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 48px 80px;
+        }
+
+        /* 项目标题区域 */
+        .project-header {
+            margin-bottom: 80px;
+        }
+
+        .project-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .project-subtitle {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-bottom: 48px;
+            letter-spacing: 0.03em;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 48px;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            opacity: 0.7;
+            letter-spacing: 0.03em;
+            margin-bottom: 32px;
+        }
+
+        .project-meta span {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-meta .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* 内容区块 */
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .section-subtitle {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            color: #FFEE32;
+        }
+
+        .subsection-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .content-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            letter-spacing: 0.03em;
+        }
+
+        .content-text strong {
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        /* 列表 */
+        .content-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .content-list li {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+            letter-spacing: 0.03em;
+        }
+
+        .content-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        /* 图片容器 */
+        .image-container {
+            margin: 60px 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-caption {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            opacity: 0.6;
+            margin-top: 16px;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+
+        /* 视频容器 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 60px 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* iframe容器（用于Notion等） */
+        .iframe-container {
+            margin: 32px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        /* 标签 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 32px 0;
+        }
+
+        .tag {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.8;
+            letter-spacing: 0.03em;
+        }
+
+        /* 两栏布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin: 32px 0;
+        }
+
+        /* Methodology标签 */
+        .methodology {
+            display: inline-block;
+            font-family: 'Syne Mono', monospace;
+            font-size: 14px;
+            padding: 8px 16px;
+            background: rgba(248, 218, 233, 0.1);
+            border: 1px solid rgba(248, 218, 233, 0.3);
+            color: #FFEE32;
+            margin: 16px 0 32px 0;
+        }
+
+        /* Footer */
+        footer {
+            height: 60px;
+            padding: 0 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .footer-left span {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right a {
+            opacity: 0.6;
+        }
+
+        .footer-right a:hover {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .project-container {
+                padding: 100px 24px 60px;
+            }
+
+            .project-title {
+                font-size: 42px;
+            }
+
+            .project-subtitle {
+                font-size: 24px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .nav-tagline {
+                font-size: 14px;
+            }
+
+            .nav-right {
+                gap: 20px;
+                font-size: 16px;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .section-subtitle {
+                font-size: 20px;
+            }
+
+            footer {
+                padding: 0 24px;
+                flex-direction: column;
+                height: auto;
+                padding: 24px;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="bg"></div>
 
     <nav>
-        <a href="index.html" class="nav-back">← Home</a>
-        <div class="nav-item">
-            <span class="tag-nav"><a href="about-me.html" class="nav-style-link">About Me</a></span>
-            <span class="tag-nav"><a href="creative-coding.html" class="nav-style-link">Tech Playground</a></span>    
-            <span class="tag-nav"><a href="index.html#projects-section" class="nav-style-link">Works</a></span>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Han Zhang</a>
+            <span class="nav-tagline">Creative Tech + Design Research</span>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="active">Works</a>
+            <a href="playground.html">Playground</a>
+            <a href="about.html">About</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <h1 class="text-ti">Tolerate it?</h1>
-        <div class="meta-info">Individual Work · July 2024 - October 2024</div>
-        <p>Tolerate it? is an interactive installation that metaphorically connects the increasing tolerance for both life's hardships and caffeine.<br>By utilizing Arduino for real-time ECG readings and Processing for visualization, the installation intuitively reflects the performer's stress levels.<br>Through this work, I aim to convey that enduring suffering doesn't guarantee success or happiness but instead fosters tolerance, potentially leading to an unhealthy state.</p>
-    </section>
-
-<section class="hero"> 
-    <div class="video-container">
-        <iframe 
-            src="https://www.youtube.com/embed/ynhN1gsm8b0?si=1H75s_pDXJVcSqwQ" 
-            title="YouTube video player" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-        </iframe>
-    </div>
-</section>
-
-    <!--RESEARCH-->
-    <section>
-        <h1>RESEARCH - Growing caffeine dependence</h1>
-        <p>After beginning work, coffee has played an increasingly vital role in my life. Initially, it was simply a straightforward tool for me to stay alert, but now, having coffee has become a natural habit in my life, as ordinary as breathing. It has subtly integrated into my daily routine, becoming a part of my existence.</p>
-        <h2 class="text-ti"># I become a coffee enthusiast</h2>
-        <div class ="project-img">
-            <img src="pics/ti-p101.png">
-        </div>
-        <h3 class="text-ti"># Am I an exception?</h3>
-        <span class="methodology">■ Methodology: Desk Research; Questionnaire (N=117)</span>
-        <div class ="project-img">
-            <img src="pics/ti-p102.png">
-        </div>
-    </section>
-
-    <section>
-        <h1>RESEARCH - The correlation between hardship and coffee</h1>
-        <p>Suffering is merely suffering; it is we humans who have always endowed it with other meanings. Enduring pain does not necessarily lead to success, but it will certainly increase our tolerance, allowing us to bear more and more pain. However, such a process is both meaningless and lamentable.</p>
-        <h2 class="text-ti"># The mechanism of caffeine</h2>
-        <h4>## Normally...</h4>
-        <div class ="project-img2">
-            <img src="pics/ti-p201.png">
-        </div>
-        <h4>## After Drinking coffee...</h4>
-        <div class ="project-img2">
-            <img src="pics/ti-p202.png">
-        </div>
-        <h4>## After Long-term caffeine intake...</h4>
-        <div class ="project-img2">
-            <img src="pics/ti-p203.png">
-        </div>
-        <h2 class="text-ti"># Self-motivation analysis</h2>
-        <div class="grid-3">
-            <div class="card-split">
-                <div class ="project-img">
-                    <img src="pics/ti-p204.png">
-                </div> 
+    <div class="project-container">
+        <!-- 项目标题区域 -->
+        <div class="project-header">
+            <h1 class="project-title">Tolerate it?</h1>
+            <p class="project-subtitle">Metaphorically connecting the increasing tolerance for both life's hardships and caffeine</p>
+            
+            <div class="project-meta">
+                <span>
+                    <span class="label">Type</span>
+                    <span>Individual Work</span>
+                </span>
+                <span>
+                    <span class="label">Duration</span>
+                    <span>July 2024 - October 2024</span>
+                </span>
+                <span>
+                    <span class="label">Role</span>
+                    <span>Concept, Design, Development</span>
+                </span>
+                <span>
+                    <span class="label">Technologies</span>
+                    <span>Arduino, Processing</span>
+                </span>
             </div>
-            <div class="card-split">
-                <br><br><p>Initially, I couldn't stand the bitterness of coffee. But as I faced academic and work challenges, I often imagined that I could overcome the difficulties just as I had learned to tolerate the taste of coffee. Gradually, I came to see the bitterness of coffee as an inevitable part of the journey towards success and happiness.</p>
-            </div>
-        </div>
-        <h3 class="text-ti"># What happens when one's tolerance for suffering increases?</h3>
-        <p>That is called LEARNED HELPLESSNESS - a maladaptive adaptation to the tolerance of suffering.<br>Persistent uncontrollable negative events lead to a sense of powerlessness and resignation, creating a negative psychological loop, potentially harming health.</p>
-        <div class ="project-img2">
-            <img src="pics/ti-p205.png">
-        </div> 
-        <div class="grid-1">
-            <div class="card-split">
-                <h4>## People's imagination</h4>
-                <div class ="project-img">
-                    <img src="pics/ti-p206.png">
-                </div> 
-            </div>
-            <div class="card-split">
-                <h4>## But the fact is...</h4>
-                <div class ="project-img">
-                    <img src="pics/ti-p207.png">
-                </div> 
-            </div>
-        </div>
-    </section>
 
-    <section>
-        <h1>DESIGN</h1>
-        <h2 class="text-ti"># Installation concept</h2>
-        <p>The performer controls the infusion of coffee liquid into silicone tubes covering the body at three different flow rates, symbolizing the gradual development of caffeine tolerance. During each infusion, the performer passively endures the disruptive blare of alarms, while their ECG fluctuates from intense spikes to eventual stability—representing the increasing resilience to life's hardships.</p>
-        <div class ="project-img">
-            <img src="pics/ti-p301.png">
-        </div> 
-        <h2 class="text-ti"># Hardware setting</h2>
-        <h4>## Circuit diagram of the ECG sensor</h4>
-        <div class ="project-img2">
-            <img src="pics/ti-p302.png">
-        </div> 
-        <h2 class="text-ti"># Software setting</h2>
-        <p>See my detailed code here:</p>
-        <!-- <script src="https://gist.github.com/HanZarchive/05134e59627f6aae4b12ca9a6dbe99f4.js"></script> -->
-        <iframe src="https://triangular-gosling-61d.notion.site/ebd/2abbdf7375e88029b95efb915d7fe01d" width="100%" height="600" frameborder="0" allowfullscreen></iframe>
-        <h4>## # Visual effects sample</h4>       
-        <!-- <script src="https://gist.github.com/HanZarchive/4a9006fd5c4a0d31d00c4e350d3ab60f.js"></script> -->
-        <div class ="project-img">
-            <img src="pics/ti-p401.png">
-        </div> 
-        <h2 class="text-ti">Physical experiments</h2>
-        <div class ="project-img">
-            <img src="pics/ti-p402.png">
-        </div> 
-    </section>
+            <div class="tags">
+                <span class="tag">#Interactive Installation</span>
+                <span class="tag">#Performance</span>
+                <span class="tag">#Hardware</span>
+                <span class="tag">#ECG Sensors</span>
+            </div>
 
-    <section>
-        <h1>FINAL EFFECT</h1>
-        <div class ="project-img">
-            <img src="pics/ti-p501.png">
-        </div> 
-        <div class ="project-img">
-            <img src="pics/ti-p502.png">
-        </div> 
-        <p>
-            Initially, the performer activates the pump, symbolizing caffeine intake as coffee flows through the tubing. An alarm sounds, which represents the hardships encountered in life, and the performer's heart rate spikes with discomfort. In subsequent interactions, rising coffee concentration indicates growing caffeine tolerance. Despite a more urgent alarm, the performer's expression and heart rate stabilize, showing adaptation to life's hardships.
-        </p>
-        <div class ="project-img">
-            <img src="pics/ti-p503.png">
-        </div> 
-        <p>See the full video here:</p>
+            <p class="content-text">
+                Tolerate it? is an interactive installation that metaphorically connects the increasing tolerance for both life's hardships and caffeine. By utilizing Arduino for real-time ECG readings and Processing for visualization, the installation intuitively reflects the performer's stress levels. Through this work, I aim to convey that enduring suffering doesn't guarantee success or happiness but instead fosters tolerance, potentially leading to an unhealthy state.
+            </p>
+        </div>
+
+        <!-- 视频展示 -->
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/ynhN1gsm8b0?si=1H75s_pDXJVcSqwQ" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- RESEARCH - Growing caffeine dependence -->
+        <section class="content-section">
+            <h2 class="section-title">1. Research - Growing Caffeine Dependence</h2>
+            <p class="content-text">
+                After beginning work, coffee has played an increasingly vital role in my life. Initially, it was simply a straightforward tool for me to stay alert, but now, having coffee has become a natural habit in my life, as ordinary as breathing. It has subtly integrated into my daily routine, becoming a part of my existence.
+            </p>
+
+            <h3 class="section-subtitle"># I Become a Coffee Enthusiast</h3>
+            <div class="image-container">
+                <img src="pics/ti-p101.png" alt="Coffee consumption timeline">
+            </div>
+
+            <h3 class="section-subtitle"># Am I an Exception?</h3>
+            <span class="methodology">■ Methodology: Desk Research; Questionnaire (N=117)</span>
+            <div class="image-container">
+                <img src="pics/ti-p102.png" alt="Survey results on coffee consumption">
+            </div>
+        </section>
+
+        <!-- RESEARCH - The correlation -->
+        <section class="content-section">
+            <h2 class="section-title">2. Research - The Correlation Between Hardship and Coffee</h2>
+            <p class="content-text">
+                Suffering is merely suffering; it is we humans who have always endowed it with other meanings. Enduring pain does not necessarily lead to success, but it will certainly increase our tolerance, allowing us to bear more and more pain. However, such a process is both meaningless and lamentable.
+            </p>
+
+            <h3 class="section-subtitle"># The Mechanism of Caffeine</h3>
+            
+            <div class="subsection-title">## Normally...</div>
+            <div class="image-container">
+                <img src="pics/ti-p201.png" alt="Normal brain mechanism">
+            </div>
+
+            <div class="subsection-title">## After Drinking Coffee...</div>
+            <div class="image-container">
+                <img src="pics/ti-p202.png" alt="Brain mechanism after coffee">
+            </div>
+
+            <div class="subsection-title">## After Long-term Caffeine Intake...</div>
+            <div class="image-container">
+                <img src="pics/ti-p203.png" alt="Long-term caffeine effects">
+            </div>
+
+            <h3 class="section-subtitle"># Self-Motivation Analysis</h3>
+            <div class="two-column">
+                <div class="image-container">
+                    <img src="pics/ti-p204.png" alt="Self-motivation diagram">
+                </div>
+                <div>
+                    <p class="content-text">
+                        Initially, I couldn't stand the bitterness of coffee. But as I faced academic and work challenges, I often imagined that I could overcome the difficulties just as I had learned to tolerate the taste of coffee. Gradually, I came to see the bitterness of coffee as an inevitable part of the journey towards success and happiness.
+                    </p>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle"># What Happens When One's Tolerance for Suffering Increases?</h3>
+            <p class="content-text">
+                That is called <strong>LEARNED HELPLESSNESS</strong> - a maladaptive adaptation to the tolerance of suffering. Persistent uncontrollable negative events lead to a sense of powerlessness and resignation, creating a negative psychological loop, potentially harming health.
+            </p>
+            
+            <div class="image-container">
+                <img src="pics/ti-p205.png" alt="Learned helplessness cycle">
+            </div>
+
+            <div class="two-column">
+                <div>
+                    <div class="subsection-title">## People's Imagination</div>
+                    <div class="image-container">
+                        <img src="pics/ti-p206.png" alt="Expected outcome">
+                    </div>
+                </div>
+                <div>
+                    <div class="subsection-title">## But the Fact Is...</div>
+                    <div class="image-container">
+                        <img src="pics/ti-p207.png" alt="Actual outcome">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DESIGN -->
+        <section class="content-section">
+            <h2 class="section-title">3. Design</h2>
+
+            <h3 class="section-subtitle"># Installation Concept</h3>
+            <p class="content-text">
+                The performer controls the infusion of coffee liquid into silicone tubes covering the body at three different flow rates, symbolizing the gradual development of caffeine tolerance. During each infusion, the performer passively endures the disruptive blare of alarms, while their ECG fluctuates from intense spikes to eventual stability—representing the increasing resilience to life's hardships.
+            </p>
+            
+            <div class="image-container">
+                <img src="pics/ti-p301.png" alt="Installation concept diagram">
+            </div>
+
+            <h3 class="section-subtitle"># Hardware Setting</h3>
+            <div class="subsection-title">## Circuit Diagram of the ECG Sensor</div>
+            <div class="image-container">
+                <img src="pics/ti-p302.png" alt="ECG sensor circuit diagram">
+            </div>
+
+            <h3 class="section-subtitle"># Software Setting</h3>
+            <p class="content-text">See my detailed code here:</p>
+            <div class="iframe-container">
+                <iframe src="https://triangular-gosling-61d.notion.site/ebd/2abbdf7375e88029b95efb915d7fe01d"></iframe>
+            </div>
+
+            <div class="subsection-title">## Visual Effects Sample</div>
+            <div class="image-container">
+                <img src="pics/ti-p401.png" alt="Visual effects sample">
+            </div>
+
+            <h3 class="section-subtitle"># Physical Experiments</h3>
+            <div class="image-container">
+                <img src="pics/ti-p402.png" alt="Physical experiments">
+            </div>
+        </section>
+
+        <!-- FINAL EFFECT -->
+        <section class="content-section">
+            <h2 class="section-title">4. Final Effect</h2>
+            
+            <div class="image-container">
+                <img src="pics/ti-p501.png" alt="Final installation view 1">
+            </div>
+            
+            <div class="image-container">
+                <img src="pics/ti-p502.png" alt="Final installation view 2">
+            </div>
+
+            <p class="content-text">
+                Initially, the performer activates the pump, symbolizing caffeine intake as coffee flows through the tubing. An alarm sounds, which represents the hardships encountered in life, and the performer's heart rate spikes with discomfort. In subsequent interactions, rising coffee concentration indicates growing caffeine tolerance. Despite a more urgent alarm, the performer's expression and heart rate stabilize, showing adaptation to life's hardships.
+            </p>
+
+            <div class="image-container">
+                <img src="pics/ti-p503.png" alt="Performance sequence">
+            </div>
+
+            <p class="content-text">See the full video here:</p>
             <div class="video-container">
                 <iframe 
                     src="https://www.youtube.com/embed/ynhN1gsm8b0?si=1H75s_pDXJVcSqwQ" 
@@ -155,24 +624,50 @@
                     allowfullscreen>
                 </iframe>
             </div>
-    </section>
+        </section>
+    </div>
 
     <footer>
-        <h2>Thank you!</h2>
-        <a href="index.html" class="back-link">← Home</a>
+        <div class="footer-left">
+            <span>Created by Han &lt;3</span>
+            <span>Last updated in Jan 2026</span>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.linkedin.com/in/hanzhang233/" target="_blank">LinkedIn</a>
+            <a href="mailto:gracehan2333@gmail.com">Email</a>
+            <a href="https://www.instagram.com/kaleidomoon_/" target="_blank">Instagram</a>
+            <a href="#">RED</a>
+        </div>
     </footer>
 
     <script>
-            // 放在原本的 $(document).ready(function() {...}) 外面或者里面都可以
-        window.addEventListener('scroll', function() {
-            var nav = document.querySelector('nav');
-            
-            // window.scrollY 获取当前垂直滚动的距离
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled'); // 滚动超过50px，变黑
-            } else {
-                nav.classList.remove('scrolled'); // 回到顶部，变透明
-            }
+        $(document).ready(function() {
+            // 水波纹初始化
+            $('.bg').ripples({
+                resolution: 256,
+                dropRadius: 12,
+                perturbance: 0.01
+            });
+
+            // 鼠标移动产生随机波纹
+            $(document).on('mousemove', function(e) {
+                if (Math.random() > 0.80 && Math.random() <= 0.90) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 12, 0.01)
+                }
+                else if (Math.random() > 0.90 && Math.random() <= 0.95) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 6, 0.005)
+                }
+            });
+
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                var nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
         });
     </script>
 </body>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threshold | Han</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=Syne+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 使用你提供的项目分页 CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            font-weight: 400;
+            overflow-x: hidden;
+            color: #fff;
+            background: #0a0a0a;
+            letter-spacing: 0.03em;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pics/background1.png') no-repeat center center/cover;
+            z-index: -1;
+        }
+
+        /* 导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 48px;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent;
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-logo {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .nav-tagline {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .nav-right a {
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+        .nav-right a:hover,
+        .nav-right a.active {
+            opacity: 1;
+        }
+
+        /* 项目内容区域 */
+        .project-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 48px 80px;
+        }
+
+        /* 项目标题区域 */
+        .project-header {
+            margin-bottom: 80px;
+        }
+
+        .project-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 56px;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .project-subtitle {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 400;
+            opacity: 0.85;
+            margin-bottom: 48px;
+            letter-spacing: 0.03em;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 48px;
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            opacity: 0.7;
+            letter-spacing: 0.03em;
+            margin-bottom: 32px;
+        }
+
+        .project-meta span {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .project-meta .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* 内容区块 */
+        .content-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 36px;
+            font-weight: 500;
+            margin-bottom: 32px;
+        }
+
+        .section-subtitle {
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            color: #f8dae9;
+        }
+
+        .subsection-title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .content-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            letter-spacing: 0.03em;
+        }
+
+        .content-text strong {
+            font-weight: 600;
+            opacity: 1;
+        }
+
+        /* 引用块 */
+        .quote-block {
+            border-left: 3px solid #f8dae9;
+            padding-left: 32px;
+            margin: 48px 0;
+            font-family: 'Syne Mono', monospace;
+            font-size: 24px;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        /* 列表 */
+        .content-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .content-list li {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+            letter-spacing: 0.03em;
+        }
+
+        .content-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        /* 高亮框 */
+        .highlight-box {
+            background: rgba(248, 218, 233, 0.1);
+            border: 1px solid rgba(248, 218, 233, 0.3);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box .title {
+            font-family: 'Syne Mono', monospace;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #f8dae9;
+        }
+
+        /* 图片容器 */
+        .image-container {
+            margin: 60px 0;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .image-caption {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            opacity: 0.6;
+            margin-top: 16px;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+
+        /* 视频容器 */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 60px 0;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* 标签 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 32px 0;
+        }
+
+        .tag {
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            opacity: 0.8;
+            letter-spacing: 0.03em;
+        }
+
+        /* 两栏布局 */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin: 32px 0;
+        }
+
+        /* Footer */
+        footer {
+            height: 60px;
+            padding: 0 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .footer-left span {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            opacity: 0.6;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 36px;
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .footer-right a {
+            opacity: 0.6;
+        }
+
+        .footer-right a:hover {
+            opacity: 1;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1024px) {
+            .project-container {
+                padding: 100px 24px 60px;
+            }
+
+            .project-title {
+                font-size: 42px;
+            }
+
+            .project-subtitle {
+                font-size: 24px;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 24px;
+            }
+
+            .nav-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .nav-tagline {
+                font-size: 14px;
+            }
+
+            .nav-right {
+                gap: 20px;
+                font-size: 16px;
+            }
+
+            .project-meta {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .section-subtitle {
+                font-size: 20px;
+            }
+
+            footer {
+                padding: 0 24px;
+                flex-direction: column;
+                height: auto;
+                padding: 24px;
+                gap: 16px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+
+    <nav>
+        <div class="nav-left">
+            <a href="index.html" class="nav-logo">Han Zhang</a>
+            <span class="nav-tagline">Creative Tech + Design Research</span>
+        </div>
+        <div class="nav-right">
+            <a href="index.html" class="active">Works</a>
+            <a href="playground.html">Playground</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <div class="project-container">
+        <!-- 项目标题区域 -->
+        <div class="project-header">
+            <h1 class="project-title">Threshold</h1>
+            <p class="project-subtitle">Tolerance of Repetition: A Typography Visualization</p>
+            
+            <div class="project-meta">
+                <span>
+                    <span class="label">Year</span>
+                    <span>2024</span>
+                </span>
+                <span>
+                    <span class="label">Duration</span>
+                    <span>2 weeks</span>
+                </span>
+                <span>
+                    <span class="label">Role</span>
+                    <span>Concept, Design, Development</span>
+                </span>
+                <span>
+                    <span class="label">Technologies</span>
+                    <span>Socket.io, Plotly.js, Node.js</span>
+                </span>
+            </div>
+
+            <div class="tags">
+                <span class="tag">#Data Visualization</span>
+                <span class="tag">#Typography</span>
+                <span class="tag">#Real-time Systems</span>
+                <span class="tag">#Critical Design</span>
+            </div>
+        </div>
+
+        <!-- 链接 -->
+        <p class="highlight-box">Experience Threshold: <a href="https://threshold-repetition.onrender.com/" style="text-decoration: underline; color: rgba(248, 218, 233);">https://threshold-repetition.onrender.com/</a></p>
+
+        <!-- 概念展示 -->
+        <div class="image-container">
+            <img src="pics/threshold-concept.png" alt="Threshold Concept Visualization">
+            <p class="image-caption">Three-dimensional visualization space: Repetition, Density, and Distortion</p>
+        </div>
+
+        <!-- 项目概述 -->
+        <section class="content-section">
+            <h2 class="section-title">1. Inspiration & Concept</h2>
+            
+            <h3 class="section-subtitle">Semantic Satiation Fear</h3>
+            <div class="quote-block">
+                When a word is repeated too many times, it dissolves into meaninglessness—becoming strange and visually disturbing.
+            </div>
+            
+            <p class="content-text">
+                This project explores <strong>semantic satiation</strong>—a psychological phenomenon where repetition transforms meaning into noise. Inspired by the visual disturbance in texts like "All work and no play makes Jack a dull boy," Threshold asks: <strong>what happens when we visualize this linguistic breakdown?</strong>
+            </p>
+
+            <h3 class="section-subtitle">Core Questions</h3>
+            <ul class="content-list">
+                <li>How can we quantify the threshold at which repetition becomes meaningless?</li>
+                <li>What visual patterns emerge from different types of linguistic repetition?</li>
+                <li>Can typography become a data visualization medium for psychological phenomena?</li>
+            </ul>
+
+            <h3 class="section-subtitle">Design Goals</h3>
+            <ul class="content-list">
+                <li>Create real-time typographic visualization system</li>
+                <li>Map three linguistic dimensions (repetition, density, distortion) to 3D space</li>
+                <li>Enable collective data contribution through web interface</li>
+                <li>Build entirely browser-based for accessibility</li>
+            </ul>
+        </section>
+
+        <!-- 技术架构 -->
+        <section class="content-section">
+            <h2 class="section-title">2. Technical Architecture</h2>
+
+            <h3 class="section-subtitle">Tech Stack</h3>
+            <p class="content-text">
+                The system consists of three main layers working together to create real-time visualization:
+            </p>
+            <ul class="content-list">
+                <li><strong>Socket.io:</strong> Real-time bidirectional communication between users and server</li>
+                <li><strong>Plotly.js:</strong> 3D front-end visualization with interactive controls</li>
+                <li><strong>Node.js + Express:</strong> Backend server managing data streams and state</li>
+            </ul>
+
+            <h3 class="section-subtitle">System Flow</h3>
+            <div class="two-column">
+                <div>
+                    <div class="subsection-title">Input Stage</div>
+                    <p class="content-text">
+                        Users input any text through a simple web interface. The system analyzes three parameters in real-time:
+                    </p>
+                    <ul class="content-list">
+                        <li>Repetition count</li>
+                        <li>Text density (compression)</li>
+                        <li>Visual distortion level</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="subsection-title">Output Stage</div>
+                    <p class="content-text">
+                        The visualization updates instantly, plotting each submission as a point in 3D space with color representing intensity.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 可视化系统 -->
+        <section class="content-section">
+            <h2 class="section-title">3. Visualization System</h2>
+
+            <h3 class="section-subtitle">Three-Dimensional Mapping</h3>
+            <p class="content-text">
+                Each text submission is analyzed and mapped to a coordinate in 3D space:
+            </p>
+
+            <div class="highlight-box">
+                <div class="title">X-Axis: Repetition</div>
+                <p class="content-text">
+                    How many times words/phrases repeat. Higher values indicate more repetitive text.
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">Y-Axis: Density</div>
+                <p class="content-text">
+                    The visual compression of text. Calculated based on character spacing and line density.
+                </p>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">Z-Axis: Distortion</div>
+                <p class="content-text">
+                    The degree of visual/typographic distortion—irregular spacing, overlapping characters, or formatting breaks.
+                </p>
+            </div>
+
+            <h3 class="section-subtitle">Color Encoding</h3>
+            <p class="content-text">
+                The color gradient (blue → yellow → red) represents the <strong>breaking point threshold</strong>—where text transitions from meaningful to disturbing. This creates an intuitive heat map of semantic satiation intensity.
+            </p>
+        </section>
+
+        <!-- 图片展示 -->
+        <div class="image-container">
+            <img src="pics/threshold-visualization.png" alt="3D Visualization Interface">
+            <p class="image-caption">Real-time 3D visualization showing collective submissions mapped across three dimensions</p>
+        </div>
+
+        <!-- 用户体验 -->
+        <section class="content-section">
+            <h2 class="section-title">4. User Experience Flow</h2>
+
+            <div class="subsection-title">Step 1: Input</div>
+            <p class="content-text">
+                Users enter any text—a word, phrase, or repeated pattern—into the input field. The interface provides visual feedback as parameters adjust in real-time.
+            </p>
+
+            <div class="subsection-title">Step 2: Adjust Parameters</div>
+            <p class="content-text">
+                Three sliders allow users to manually adjust repetition, density, and distortion values, providing control over their contribution to the collective visualization.
+            </p>
+
+            <div class="subsection-title">Step 3: Record Breaking Point</div>
+            <p class="content-text">
+                When users feel the text has crossed the threshold into meaninglessness, they press "Record Breaking Point." This captures their personal tolerance level and adds it to the dataset.
+            </p>
+
+            <div class="subsection-title">Step 4: Collective Visualization</div>
+            <p class="content-text">
+                All submissions appear as points in the shared 3D space, creating a growing map of collective tolerance thresholds. Patterns emerge showing common breaking points across different users.
+            </p>
+        </section>
+
+        <!-- 开发过程 -->
+        <section class="content-section">
+            <h2 class="section-title">5. Development Process</h2>
+
+            <h3 class="section-subtitle">Iteration 1: Static Prototype</h3>
+            <p class="content-text">
+                Initial prototype focused on single-user experience with pre-defined text samples. This allowed testing of the core visualization logic without real-time complexity.
+            </p>
+
+            <h3 class="section-subtitle">Iteration 2: Real-time Communication</h3>
+            <p class="content-text">
+                Implemented Socket.io for live data streaming. Encountered challenges with state synchronization across multiple clients—solved by implementing server-side data validation and broadcast queuing.
+            </p>
+
+            <h3 class="section-subtitle">Iteration 3: Visual Refinement</h3>
+            <p class="content-text">
+                Adjusted Plotly.js camera angles, color gradients, and point sizing for optimal readability. Added tooltip interactions showing sample text on hover.
+            </p>
+
+            <div class="highlight-box">
+                <div class="title">Technical Challenge: Performance</div>
+                <p class="content-text">
+                    With 100+ data points, rendering performance degraded. Solution: Implemented point clustering for distant points and level-of-detail rendering based on camera distance.
+                </p>
+            </div>
+        </section>
+
+        <!-- 反思 -->
+        <section class="content-section">
+            <h2 class="section-title">6. Reflection & Insights</h2>
+
+            <h3 class="section-subtitle">What Worked</h3>
+            <ul class="content-list">
+                <li>Real-time visualization created engaging collective experience</li>
+                <li>Three-dimensional mapping revealed unexpected patterns in data</li>
+                <li>Socket.io handled concurrent users smoothly</li>
+                <li>Typography as visualization medium proved conceptually rich</li>
+            </ul>
+
+            <h3 class="section-subtitle">What Didn't Work</h3>
+            <ul class="content-list">
+                <li>Distortion calculation remained subjective—hard to quantify precisely</li>
+                <li>Mobile interactions with 3D visualization were clunky</li>
+                <li>No persistent data storage—resets on server restart</li>
+                <li>Color gradient could be more perceptually uniform</li>
+            </ul>
+
+            <h3 class="section-subtitle">Critical Reflection</h3>
+            <p class="content-text">
+                Threshold transforms a psychological phenomenon into a collective data experience. The project reveals how individual thresholds cluster and diverge—some users reach satiation quickly, others endure extreme repetition. <strong>This variability itself becomes the insight:</strong> there's no universal breaking point, only a cloud of personal tolerances.
+            </p>
+            <p class="content-text">
+                The work also questions the nature of visualization itself. Is this really "data visualization," or is it <strong>data performance</strong>—a shared ritual of linguistic breakdown? The act of inputting repetitive text becomes meditative, almost absurd. Perhaps that's the point: to make visible the invisible threshold where meaning collapses.
+            </p>
+
+            <h3 class="section-subtitle">Future Directions</h3>
+            <ul class="content-list">
+                <li><strong>NLP Integration:</strong> Automatic semantic analysis to detect satiation threshold algorithmically</li>
+                <li><strong>Persistent Database:</strong> Store historical data for longitudinal pattern analysis</li>
+                <li><strong>VR/AR Mode:</strong> Immersive 3D space where users walk through the data cloud</li>
+                <li><strong>Generative Output:</strong> Use collected data to generate new distorted texts at threshold points</li>
+                <li><strong>Cross-linguistic Study:</strong> Compare satiation thresholds across different languages</li>
+            </ul>
+        </section>
+
+        <!-- 链接 -->
+        <section class="content-section">
+            <h2 class="section-title">References</h2>
+            <p class="content-text">
+                <a href="https://socket.io/docs/v4/" style="text-decoration: underline; opacity: 0.8;">Socket.io Documentation</a><br>
+                <a href="https://plotly.com/javascript/" style="text-decoration: underline; opacity: 0.8;">Plotly.js Documentation</a><br>
+                <a href="https://en.wikipedia.org/wiki/Semantic_satiation" style="text-decoration: underline; opacity: 0.8;">Semantic Satiation (Wikipedia)</a><br>
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-left">
+            <span>Created by Han &lt;3</span>
+            <span>Last updated in Jan 2026</span>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.linkedin.com/in/hanzhang233/" target="_blank">LinkedIn</a>
+            <a href="mailto:gracehan2333@gmail.com">Email</a>
+            <a href="https://www.instagram.com/kaleidomoon_/" target="_blank">Instagram</a>
+            <a href="#">RED</a>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // 水波纹初始化
+            $('.bg').ripples({
+                resolution: 256,
+                dropRadius: 12,
+                perturbance: 0.01
+            });
+
+            // 鼠标移动产生随机波纹
+            $(document).on('mousemove', function(e) {
+                if (Math.random() > 0.80 && Math.random() <= 0.90) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 12, 0.01)
+                }
+                else if (Math.random() > 0.90 && Math.random() <= 0.95) {
+                    $('.bg').ripples('drop', e.clientX, e.clientY, 6, 0.005)
+                }
+            });
+
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                var nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
