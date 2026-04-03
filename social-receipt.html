@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Receipt</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f0e8;
+    --paper-dark: #e8e2d4;
+    --ink: #1a1814;
+    --ink-light: #4a4540;
+    --platform-bg: #0d1117;
+    --platform-text: #e2e8f0;
+    --platform-accent: #3b82f6;
+    --platform-dim: #64748b;
+    --receipt-bg: #fafaf8;
+    --receipt-border: #c8c4bc;
+    --podcast-warm: #7c5c3a;
+    --rule: #c0bab0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  /* PAGE WRAPPER */
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  /* TITLE BLOCK */
+  .title-block {
+    text-align: center;
+    margin-bottom: 80px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .title-block h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .title-block .subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-light);
+    letter-spacing: 0.02em;
+  }
+
+  /* PROSE */
+  .prose {
+    margin: 40px 0;
+  }
+
+  .prose p {
+    margin-bottom: 1.4em;
+    color: var(--ink);
+  }
+
+  .prose p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* PLATFORM NOTIFICATION */
+  .platform-notification {
+    margin: 48px 0;
+    background: var(--platform-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+
+  .platform-header {
+    background: #161b22;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #30363d;
+  }
+
+  .platform-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .platform-title-bar {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--platform-dim);
+    margin-left: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .platform-body {
+    padding: 24px 28px;
+  }
+
+  .platform-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--platform-dim);
+    margin-bottom: 14px;
+  }
+
+  .platform-body p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--platform-text);
+    line-height: 1.6;
+  }
+
+  .platform-body .highlight {
+    color: var(--platform-accent);
+    font-weight: 500;
+  }
+
+  .platform-timestamp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--platform-dim);
+    margin-top: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  /* RECEIPT */
+  .receipt {
+    margin: 48px auto;
+    max-width: 420px;
+    background: var(--receipt-bg);
+    border: 1px solid var(--receipt-border);
+    font-family: 'IBM Plex Mono', monospace;
+    position: relative;
+  }
+
+  .receipt::before {
+    content: '';
+    display: block;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--paper-dark) 0px,
+      var(--paper-dark) 8px,
+      var(--receipt-bg) 8px,
+      var(--receipt-bg) 16px
+    );
+  }
+
+  .receipt::after {
+    content: '';
+    display: block;
+    height: 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--paper-dark) 0px,
+      var(--paper-dark) 8px,
+      var(--receipt-bg) 8px,
+      var(--receipt-bg) 16px
+    );
+  }
+
+  .receipt-inner {
+    padding: 24px 28px;
+  }
+
+  .receipt-header {
+    text-align: center;
+    border-bottom: 1px dashed var(--receipt-border);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+
+  .receipt-header .brand {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .receipt-header .meta {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.06em;
+    line-height: 1.8;
+  }
+
+  .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+
+  .receipt-table th {
+    font-weight: 400;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--receipt-border);
+    text-align: left;
+  }
+
+  .receipt-table th:last-child,
+  .receipt-table td:last-child {
+    text-align: right;
+  }
+
+  .receipt-table td {
+    padding: 6px 0;
+    color: var(--ink);
+    line-height: 1.4;
+    font-size: 10px;
+    border-bottom: 1px dotted #e0dcd4;
+    vertical-align: top;
+  }
+
+  .receipt-table td:first-child {
+    padding-right: 12px;
+    max-width: 200px;
+  }
+
+  .receipt-table .pts {
+    color: var(--ink-light);
+    font-size: 9px;
+  }
+
+  .receipt-note {
+    font-size: 9px;
+    color: var(--ink-light);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    border-top: 1px dashed var(--receipt-border);
+    padding-top: 12px;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* PODCAST TRANSCRIPT */
+  .podcast {
+    margin: 48px 0;
+    padding: 28px 32px;
+    border-left: 3px solid var(--podcast-warm);
+    background: #fdf7f0;
+    position: relative;
+  }
+
+  .podcast-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--podcast-warm);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .podcast-label::before {
+    content: '▶';
+    font-size: 8px;
+  }
+
+  .podcast p {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: #3d2e1e;
+    line-height: 1.8;
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 56px 0;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .divider span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--rule);
+    letter-spacing: 0.1em;
+  }
+
+  /* END MARK */
+  .end-mark {
+    text-align: center;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .end-mark span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-light);
+    text-transform: uppercase;
+  }
+
+  /* FADE IN ANIMATION */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .platform-notification,
+  .receipt,
+  .podcast,
+  .prose {
+    animation: fadeUp 0.6s ease both;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="title-block">
+    <h1>Social Receipt</h1>
+    <p class="subtitle">A Speculative Fiction</p>
+  </div>
+
+  <!-- NOTIFICATION 1 -->
+  <div class="platform-notification">
+    <div class="platform-header">
+      <div class="platform-dot dot-red"></div>
+      <div class="platform-dot dot-yellow"></div>
+      <div class="platform-dot dot-green"></div>
+      <span class="platform-title-bar">Pinduo+ Relationship Intelligence System</span>
+    </div>
+    <div class="platform-body">
+      <div class="platform-label">System Notification &nbsp;|&nbsp; 2031.03.14 / 09:02 AM</div>
+      <p>Congratulations, Lin Meiyun. Your Social Credit Score has reached <span class="highlight">Tier 4: Trusted Connector</span>. You have successfully facilitated 312 referral transactions in the past 90 days. Your circle is thriving. Keep going.</p>
+    </div>
+  </div>
+
+  <!-- PROSE 1 -->
+  <div class="prose">
+    <p>Lin Meiyun keeps the notification open while she makes coffee. She screenshots it and almost sends it to her mother before stopping herself. Her mother would want to know how she got there. She would have to explain the group chats, the forwarded links, the friends she messaged after years of silence. She puts her phone face-down on the counter.</p>
+    <p>From her earbuds, Shen Jia's voice fills the kitchen.</p>
+  </div>
+
+  <!-- PODCAST 1 -->
+  <div class="podcast">
+    <div class="podcast-label">Your Circle, Your Currency &nbsp;|&nbsp; Ep. 214</div>
+    <p>"Here's what I want you to think about today. Every connection you nurture is an investment. Not in the transactional sense, not in the cold, algorithmic sense that we've all been warned about. I mean investment in the deepest, most human sense of the word. When you reach out to someone you've been neglecting, you are saying: I see you. I still count you. You matter to my world."</p>
+  </div>
+
+  <!-- PROSE 2 -->
+  <div class="prose">
+    <p>Lin Meiyun pours water into the machine. She found Shen Jia's podcast two years ago, around the same time Pinduo+ launched its Relationship Intelligence System. At the time she had thought the two were opposites: the platform extracting, the podcast healing. Now she is not sure the distinction holds.</p>
+    <p>She forwards the morning episode to four people. The app registers it as four Warmth Points.</p>
+  </div>
+
+  <!-- RECEIPT 1 -->
+  <div class="receipt">
+    <div class="receipt-inner">
+      <div class="receipt-header">
+        <div class="brand">Social Receipt</div>
+        <div class="meta">
+          Pinduo+ Relationship Intelligence System<br>
+          2031.03.14 &nbsp;|&nbsp; Recipient: Lin Meiyun (LM-8847-CC)
+        </div>
+      </div>
+      <table class="receipt-table">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Rel. Value</th>
+            <th>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Forwarded referral: Aunt Zhou</td>
+            <td class="pts">340 pts</td>
+            <td class="pts">68 pts</td>
+          </tr>
+          <tr>
+            <td>Group invite: Former colleague Chen</td>
+            <td class="pts">210 pts</td>
+            <td class="pts">42 pts</td>
+          </tr>
+          <tr>
+            <td>Shared episode: Ex-roommate Fang</td>
+            <td class="pts">190 pts</td>
+            <td class="pts">38 pts</td>
+          </tr>
+          <tr>
+            <td>Gifted membership: Mother</td>
+            <td class="pts">500 pts</td>
+            <td class="pts">0 pts</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="receipt-note">Note: Gifted memberships generate no commission for the sender. This is your choice. This is generosity.</div>
+    </div>
+  </div>
+
+  <div class="divider"><span>§</span></div>
+
+  <!-- PROSE 3 -->
+  <div class="prose">
+    <p>The receipts began appearing six months after the platform launched. They were not a platform feature. Someone had built them independently, a design intervention that scraped Pinduo+'s API and rendered each user's relational activity as a paper receipt: itemized, timestamped, totaled. The creator never identified herself. The file appeared on a design forum with a single line of description: <em>what it looks like when your relationships have a price.</em></p>
+    <p>Lin Meiyun printed hers on the first day. She taped it to her refrigerator, then took it down, then taped it up again. She could not decide whether it made her feel accused or clarified.</p>
+    <p>Her score kept climbing regardless.</p>
+  </div>
+
+  <!-- PODCAST 2 -->
+  <div class="podcast">
+    <div class="podcast-label">Your Circle, Your Currency &nbsp;|&nbsp; Ep. 214</div>
+    <p>"People ask me all the time: Shen Jia, isn't this just gamification? Isn't the platform doing exactly what you say you're helping us resist?"</p>
+    <p style="margin-top: 12px;">"And I say: the platform is a tool. What matters is your intention inside it. Are you reaching out because an algorithm told you to? Or are you reaching out because you genuinely want to reconnect? Only you know the answer to that. And I think most of you, most of the time, actually do care. That's not nothing. That's actually everything."</p>
+  </div>
+
+  <div class="divider"><span>§</span></div>
+
+  <!-- PROSE 4 -->
+  <div class="prose">
+    <p>Her former roommate Fang calls on a Tuesday. They have not spoken in three years. Lin Meiyun watches the name appear on her screen and understands immediately that Fang has also received a receipt.</p>
+    <p>She answers anyway.</p>
+    <p>"I saw it," Fang says, without saying hello. "The thing you sent me."</p>
+    <p>"The podcast episode?"</p>
+    <p>"The other thing. The receipt thing. Someone put it in our old group chat."</p>
+    <p>A pause. Lin Meiyun watches the Warmth Points counter in the corner of her screen tick upward as the call continues. Duration: a metric. She does not mention this to Fang.</p>
+    <p>"I forwarded you the episode because I was thinking about you," Lin Meiyun says. This is true. It is also worth 38 points.</p>
+    <p>"I know," Fang says. "That's the thing. I believe you. I just don't know what to do with both things being true at the same time."</p>
+  </div>
+
+  <!-- RECEIPT 2 -->
+  <div class="receipt">
+    <div class="receipt-inner">
+      <div class="receipt-header">
+        <div class="brand">Social Receipt</div>
+        <div class="meta">
+          Pinduo+ Relationship Intelligence System<br>
+          2031.03.14 &nbsp;|&nbsp; Recipient: Lin Meiyun (LM-8847-CC)
+        </div>
+      </div>
+      <table class="receipt-table">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Rel. Value</th>
+            <th>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Voice call: Former roommate Fang</td>
+            <td class="pts">780 pts</td>
+            <td class="pts">156 pts</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="receipt-note">Note: Long-form voice interactions generate premium Relationship Value. Your connection with this user shows significant depth indicators. Consider scheduling a recurring check-in.</div>
+    </div>
+  </div>
+
+  <div class="divider"><span>§</span></div>
+
+  <!-- PROSE 5 -->
+  <div class="prose">
+    <p>There is a researcher named Ruha Benjamin who wrote, two decades ago, that discriminatory design rarely announces itself as discrimination. It embeds its logic into the texture of ordinary life, into the forms and interfaces through which people navigate their days, until the logic feels like common sense. Lin Meiyun has not read Benjamin. But she has lived, for the past two years, inside the argument.</p>
+    <p>The Social Receipt does not accuse her. It describes her. That is its precision, and also its cruelty: it takes everything she has done, including the things she meant, and translates them into a single legible column. It does not distinguish between the call she made because she missed someone and the link she forwarded because she needed points. The receipt does not care about her intentions. The receipt only knows what she produced.</p>
+    <p>Shen Jia would say: but you know. You know your own intentions. The receipt cannot take that from you.</p>
+    <p>Lin Meiyun thinks: the receipt does not need to take anything. It just shows you what you already left on the table.</p>
+  </div>
+
+  <!-- PODCAST 3 -->
+  <div class="podcast">
+    <div class="podcast-label">Your Circle, Your Currency &nbsp;|&nbsp; Ep. 214</div>
+    <p>"Here's my challenge for this week. Look at your social feed. Pick three people you haven't spoken to in over six months. Send them something. Not a referral. Not a link. Just a voice message. Tell them you thought of them. That's it. No agenda. Just presence."</p>
+    <p style="margin-top: 12px;">"And if the platform gives you points for it, that's okay. The points don't make the gesture less real. You made the gesture. You did that. Own it."</p>
+  </div>
+
+  <div class="divider"><span>§</span></div>
+
+  <!-- PROSE 6 -->
+  <div class="prose">
+    <p>The receipt from Fang's call sits in Lin Meiyun's notification tray. 156 points. Enough to unlock Tier 5 by the end of the month.</p>
+    <p>She calls her mother next. This one, she knows, will generate nothing. Gifted memberships, the receipt had noted, produce no commission for the sender. She had bought her mother a subscription three months ago, not because of the points, but because her mother was lonely and the platform had communities for that: interest groups, neighborhood threads, recipe exchanges. She had thought she was giving her something.</p>
+    <p>Her mother picks up on the first ring.</p>
+    <p>"Meiyun. I listened to that podcast you sent."</p>
+    <p>"What did you think?"</p>
+    <p>"I think she's very good at making you feel like you're already doing the right thing." A pause. "Is that what you needed to hear today?"</p>
+    <p>Lin Meiyun does not answer immediately. Outside, the city moves through its morning. Somewhere, 312 social transactions have her name on them. Somewhere, a paper receipt is taped to someone's wall and coming back to her in ways she did not plan for.</p>
+    <p>"I don't know," she says finally. "I think I just wanted to call you."</p>
+    <p>"That's enough," her mother says. "That's more than enough."</p>
+    <p>The Warmth Points counter does not move.</p>
+  </div>
+
+  <!-- RECEIPT 3 -->
+  <div class="receipt">
+    <div class="receipt-inner">
+      <div class="receipt-header">
+        <div class="brand">Social Receipt</div>
+        <div class="meta">
+          Pinduo+ Relationship Intelligence System<br>
+          2031.03.14 &nbsp;|&nbsp; Recipient: Lin Meiyun (LM-8847-CC)
+        </div>
+      </div>
+      <table class="receipt-table">
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Rel. Value</th>
+            <th>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Voice call: Mother</td>
+            <td class="pts">1,240 pts</td>
+            <td class="pts">0 pts</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="receipt-note">This transaction was classified as a non-monetizable personal interaction.<br>Thank you for staying human.</div>
+    </div>
+  </div>
+
+  <div class="end-mark">
+    <span>End</span>
+  </div>
+
+</div>
+</body>
+</html>
