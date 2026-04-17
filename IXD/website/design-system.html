@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System — Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    /* 16:9 slide */
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: var(--bg-page);
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 0;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* ── Left spine ── */
+    .spine {
+      grid-column: 1;
+      grid-row: 1 / 4;
+      background: var(--cool-800);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px 24px;
+      gap: 8px;
+    }
+
+    .spine-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--text-light);
+      line-height: 1.15;
+    }
+
+    .spine-sub {
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+      color: rgba(245,240,234,0.40);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .spine-accent {
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    /* ── Section label ── */
+    .sec-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+
+    /* ── Cell base ── */
+    .cell {
+      padding: 20px 22px;
+      border-right: 1px solid var(--neutral-200);
+      border-bottom: 1px solid var(--neutral-200);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .cell:last-child,
+    .cell.no-border-right { border-right: none; }
+    .cell.no-border-bottom { border-bottom: none; }
+
+    /* ══════════════════════════════
+       ROW 1
+    ══════════════════════════════ */
+
+    /* R1C1 — Colors */
+    .cell-colors {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .swatch-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .swatch-row {
+      display: flex;
+      gap: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      height: 22px;
+    }
+
+    .swatch {
+      flex: 1;
+    }
+
+    .activity-strip {
+      display: flex;
+      border-radius: 3px;
+      overflow: hidden;
+      height: 18px;
+      margin-top: 6px;
+    }
+
+    .act-chip {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 600;
+    }
+
+    /* R1C2 — Fonts */
+    .cell-fonts {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .font-trio {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .font-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .font-tag {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--accent);
+      width: 44px;
+      flex-shrink: 0;
+    }
+
+    .font-name {
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .font-desc {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-left: 56px;
+      margin-top: 1px;
+    }
+
+    /* R1C3 — Type scale */
+    .cell-scale {
+      grid-column: 4;
+      grid-row: 1;
+    }
+
+    .scale-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .scale-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .scale-px {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      color: var(--accent);
+      width: 54px;
+      flex-shrink: 0;
+    }
+
+    .scale-sample {
+      color: var(--text-dark);
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════
+       ROW 2
+    ══════════════════════════════ */
+
+    /* R2C1 — Badges */
+    .cell-badges {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    /* R2C2 — Dropdown */
+    .cell-dropdown {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .dd-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(247, 240, 232, 0.48);
+      backdrop-filter: blur(32px) saturate(1.8);
+      border: 1px solid rgba(255,255,255,0.65);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255,0.55) inset;
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .dd-icon { width: 13px; height: 13px; object-fit: contain; flex-shrink: 0; }
+    .dd-label { flex: 1; font-family: var(--font-mono); font-size: var(--text-micro); font-weight: 500; color: #031F25; }
+    .dd-chevron { width: 9px; height: 9px; object-fit: contain; opacity: 0.50; }
+
+    /* R2C3 — Grid */
+    .cell-grid {
+      grid-column: 4;
+      grid-row: 2;
+    }
+
+    .grid-vis {
+      display: flex;
+      gap: 3px;
+      margin-top: 8px;
+      margin-bottom: 6px;
+    }
+
+    .grid-col {
+      flex: 1;
+      height: 80px;
+      background: rgba(196,80,26,0.10);
+      border-radius: 2px;
+    }
+
+    .grid-specs {
+      font-family: var(--font-mono);
+      font-size: var(--text-micro);
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ══════════════════════════════
+       ROW 3 — Species Cards (full width)
+    ══════════════════════════════ */
+    .cell-cards {
+      grid-column: 2 / 5;
+      grid-row: 3;
+      border-bottom: none;
+      border-right: none;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 22px;
+      overflow: hidden;
+    }
+
+    .cards-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* mini species card */
+    .mini-card {
+      width: 148px;
+      flex-shrink: 0;
+      outline: 1px solid #031F25;
+      overflow: hidden;
+      background: rgba(255,255,255,0.10);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mini-card__photo {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .mini-card__body {
+      flex: 1;
+      padding: 8px 10px;
+      background: rgba(247,240,232,0.90);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .mini-card__name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      line-height: 1;
+      color: var(--text-dark);
+    }
+
+    .mini-card__footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .mini-card__badges { display: flex; flex-direction: column; gap: 3px; }
+
+    .mini-badge {
+      display: inline-flex;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 7.5px;
+      font-weight: 500;
+      color: white;
+      padding: 2px 4px;
+    }
+
+    .mini-readmore {
+      font-family: var(--font-mono);
+      font-size: 7.5px;
+      font-weight: 400;
+      text-decoration: underline;
+      color: var(--text-dark);
+    }
+
+    /* nav demo strip */
+    .nav-demo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 36px;
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(3,31,37,0.12);
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .nav-logo-d { font-family: var(--font-display); font-size: 15px; color: #031F25; }
+    .nav-links-d { display: flex; align-items: center; gap: 12px; }
+    .nav-link-d { font-family: var(--font-display); font-size: 13px; color: rgba(3,31,37,0.38); }
+    .nav-link-d.active { color: #031F25; text-decoration: underline; text-underline-offset: 2px; }
+    .nav-slash-d { font-family: var(--font-display); font-size: 13px; color: rgba(3,31,37,0.20); }
+
+    .search-d {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 8px;
+      height: 24px;
+      background: rgba(247,247,247,0.65);
+      border-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .search-d span { font-family: var(--font-body); font-size: 11px; color: #645E59; opacity: 0.6; }
+  </style>
+</head>
+<body>
+
+<div class="slide">
+
+  <!-- ── Left spine ── -->
+  <div class="spine">
+    <div class="spine-title">Where to<br>Find Wildlife</div>
+    <div class="spine-accent"></div>
+    <div class="spine-sub">Design System</div>
+  </div>
+
+  <!-- ══ ROW 1 ══ -->
+
+  <!-- Colors -->
+  <div class="cell cell-colors">
+    <div class="sec-label">Color System</div>
+    <div class="swatch-stack">
+      <div class="swatch-row">
+        <div class="swatch" style="background:#F8EDE2;"></div>
+        <div class="swatch" style="background:#F2D4B5;"></div>
+        <div class="swatch" style="background:#E8A84C;"></div>
+        <div class="swatch" style="background:#D4882A;"></div>
+        <div class="swatch" style="background:#B86B1D;"></div>
+        <div class="swatch" style="background:#8C4E15;"></div>
+        <div class="swatch" style="background:#4D2A0C;"></div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#D4E4EA;"></div>
+        <div class="swatch" style="background:#BACDD6;"></div>
+        <div class="swatch" style="background:#9EB5BF;"></div>
+        <div class="swatch" style="background:#7D9AA6;"></div>
+        <div class="swatch" style="background:#45636E;"></div>
+        <div class="swatch" style="background:#334D57;"></div>
+        <div class="swatch" style="background:#1A2E35;"></div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch" style="background:#F5F0EA;"></div>
+        <div class="swatch" style="background:#EDE5DA;"></div>
+        <div class="swatch" style="background:#D8CCBE;"></div>
+        <div class="swatch" style="background:#BFB2A1;"></div>
+        <div class="swatch" style="background:#8A7D6D;"></div>
+        <div class="swatch" style="background:#6E6356;"></div>
+        <div class="swatch" style="background:#2A2520;"></div>
+      </div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:8px;">Warm · Cool · Neutral</div>
+    <div class="activity-strip" style="margin-top:10px;">
+      <div class="act-chip" style="background:#C4501A;color:white;">Peak</div>
+      <div class="act-chip" style="background:#D4882A;color:white;">High</div>
+      <div class="act-chip" style="background:#E8A84C;color:#2A2520;">Med</div>
+      <div class="act-chip" style="background:#F2D4B5;color:#2A2520;">Low</div>
+      <div class="act-chip" style="background:#F8EDE2;color:#2A2520;border:1px solid var(--neutral-200);">Min</div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:5px;">Activity Scale</div>
+  </div>
+
+  <!-- Fonts -->
+  <div class="cell cell-fonts">
+    <div class="sec-label">Typography — Fonts</div>
+    <div class="font-trio">
+      <div>
+        <div class="font-item">
+          <span class="font-tag">Display</span>
+          <span class="font-name" style="font-family:var(--font-display);font-size:22px;">IM Fell DW Pica</span>
+        </div>
+        <div class="font-desc">Titles · Headings · Highlights · wt 400</div>
+      </div>
+      <div>
+        <div class="font-item">
+          <span class="font-tag">Mono</span>
+          <span class="font-name" style="font-family:var(--font-mono);font-size:18px;">IBM Plex Mono</span>
+        </div>
+        <div class="font-desc">Labels · Badges · UI · Captions · wt 300–600</div>
+      </div>
+      <div>
+        <div class="font-item">
+          <span class="font-tag">Body</span>
+          <span class="font-name" style="font-family:var(--font-body);font-size:22px;">Spectral</span>
+        </div>
+        <div class="font-desc">Long-form descriptions · Search · wt 300–500</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type Scale -->
+  <div class="cell cell-scale no-border-right">
+    <div class="sec-label">Type Scale</div>
+    <div class="scale-list">
+      <div class="scale-row">
+        <span class="scale-px">56px · disp</span>
+        <span class="scale-sample" style="font-family:var(--font-display);font-size:32px;">Large Mammals</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">36px · disp</span>
+        <span class="scale-sample" style="font-family:var(--font-display);font-size:24px;">Species</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">24px · disp</span>
+        <span class="scale-sample" style="font-family:var(--font-display);font-size:17px;">Where to find wildlife</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">20px · disp</span>
+        <span class="scale-sample" style="font-family:var(--font-display);font-size:14px;">Small Mammals</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">16px · body</span>
+        <span class="scale-sample" style="font-family:var(--font-body);font-size:12px;">Large mammals are among the most iconic inhabitants.</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">14px · mono</span>
+        <span class="scale-sample" style="font-family:var(--font-mono);font-size:11px;">Yosemite · Amphibians</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">12px · mono</span>
+        <span class="scale-sample" style="font-family:var(--font-mono);font-size:10px;">PEAK ACTIVITY · 81–100%</span>
+      </div>
+      <div class="scale-row">
+        <span class="scale-px">11px · mono</span>
+        <span class="scale-sample" style="font-family:var(--font-mono);font-size:9px;">Jan Feb Mar Apr May Jun</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ROW 2 ══ -->
+
+  <!-- Badges -->
+  <div class="cell cell-badges">
+    <div class="sec-label">Badges &amp; Tags</div>
+    <div class="badge-group" style="margin-top:8px;">
+      <span class="species-card__badge badge-peak">Peak Activity</span>
+      <span class="species-card__badge badge-high">High Activity</span>
+      <span class="species-card__badge badge-medium">Medium Activity</span>
+      <span class="species-card__badge badge-low">Low Activity</span>
+    </div>
+    <div class="badge-group" style="margin-top:6px;">
+      <span class="species-card__season">Spring</span>
+      <span class="species-card__season">Summer</span>
+      <span class="species-card__season">Autumn</span>
+      <span class="species-card__season">Winter</span>
+    </div>
+    <div class="nav-demo">
+      <span class="nav-logo-d">Where to find wildlife</span>
+      <div class="nav-links-d">
+        <span class="nav-link-d active">Map</span>
+        <span class="nav-slash-d">/</span>
+        <span class="nav-link-d">Species</span>
+        <div class="search-d">
+          <span>🔍</span>
+          <span>Parks, Species...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dropdown -->
+  <div class="cell cell-dropdown">
+    <div class="sec-label">Dropdowns</div>
+    <div style="margin-top:8px; display:flex; flex-direction:column; gap:8px;">
+      <div class="dd-demo">
+        <img src="assets/park.svg" class="dd-icon" alt="">
+        <span class="dd-label">Yosemite</span>
+        <img src="assets/dropdown.svg" class="dd-chevron" alt="">
+      </div>
+      <div class="dd-demo" style="margin-bottom:0;">
+        <img src="assets/species.svg" class="dd-icon" alt="">
+        <span class="dd-label">Amphibians</span>
+        <img src="assets/dropdown.svg" class="dd-chevron" alt="">
+      </div>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:8px;color:var(--text-muted);margin-top:8px;line-height:1.7;">
+      IBM Plex Mono 14px · wt 500<br>
+      blur(32px) saturate(1.8)<br>
+      bg rgba(247,240,232,0.48)
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="cell cell-grid no-border-right">
+    <div class="sec-label">Grid System</div>
+    <div class="grid-vis">
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+      <div class="grid-col"></div>
+    </div>
+    <div class="grid-specs">
+      6 Columns &nbsp;·&nbsp; 48px Margin &nbsp;·&nbsp; 24px Gutter<br>
+      Col = (100vw − 96px − 120px) / 6
+    </div>
+  </div>
+
+  <!-- ══ ROW 3 — Species Cards ══ -->
+  <div class="cell cell-cards">
+    <div class="sec-label">Species Card</div>
+    <div class="cards-row">
+
+      <div class="mini-card">
+        <img class="mini-card__photo" src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=300&q=80" alt="Large Mammals">
+        <div class="mini-card__body">
+          <div class="mini-card__name">Large Mammals</div>
+          <div class="mini-card__footer">
+            <div class="mini-card__badges">
+              <span class="mini-badge" style="background:#D4882A;">High Activity</span>
+              <span class="mini-badge" style="background:#314C51;">Autumn</span>
+            </div>
+            <span class="mini-readmore">Read more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <img class="mini-card__photo" src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=300&q=80" alt="Small Mammals">
+        <div class="mini-card__body">
+          <div class="mini-card__name">Small Mammals</div>
+          <div class="mini-card__footer">
+            <div class="mini-card__badges">
+              <span class="mini-badge" style="background:#E53935;">Peak Activity</span>
+              <span class="mini-badge" style="background:#314C51;">Spring</span>
+            </div>
+            <span class="mini-readmore">Read more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <img class="mini-card__photo" src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=300&q=80" alt="Raptors">
+        <div class="mini-card__body">
+          <div class="mini-card__name">Raptors</div>
+          <div class="mini-card__footer">
+            <div class="mini-card__badges">
+              <span class="mini-badge" style="background:#E8A84C;color:#2A2520;">Medium Activity</span>
+              <span class="mini-badge" style="background:#314C51;">Winter</span>
+            </div>
+            <span class="mini-readmore">Read more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <img class="mini-card__photo" src="https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=300&q=80" alt="Amphibians">
+        <div class="mini-card__body">
+          <div class="mini-card__name">Amphibians</div>
+          <div class="mini-card__footer">
+            <div class="mini-card__badges">
+              <span class="mini-badge" style="background:#E53935;">Peak Activity</span>
+              <span class="mini-badge" style="background:#314C51;">Summer</span>
+            </div>
+            <span class="mini-readmore">Read more</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <img class="mini-card__photo" src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=300&q=80" alt="Butterflies">
+        <div class="mini-card__body">
+          <div class="mini-card__name">Butterflies &amp; Moths</div>
+          <div class="mini-card__footer">
+            <div class="mini-card__badges">
+              <span class="mini-badge" style="background:#E8A84C;color:#2A2520;">Medium Activity</span>
+              <span class="mini-badge" style="background:#314C51;">Summer</span>
+            </div>
+            <span class="mini-readmore">Read more</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- outline card (dark bg) -->
+      <div style="flex:1; border: 1px dashed var(--neutral-300); border-radius:0; padding:16px; display:flex; flex-direction:column; justify-content:flex-end; gap:6px; background:var(--cool-800);">
+        <div style="font-family:var(--font-mono);font-size:8px;color:rgba(245,240,234,0.45);letter-spacing:0.10em;text-transform:uppercase;">Card specs</div>
+        <div style="font-family:var(--font-mono);font-size:9px;color:rgba(245,240,234,0.65);line-height:1.8;">
+          241 × 320px<br>
+          outline 1px #031F25<br>
+          Photo 160px · Body 160px<br>
+          bg rgba(247,240,232,0.90)
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

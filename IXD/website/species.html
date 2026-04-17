@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Species — Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .species-category-section {
+      margin-bottom: 52px;
+    }
+    .species-category-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--neutral-300);
+    }
+    .species-category-header h2 {
+      font-family: var(--font-display);
+      font-size: var(--text-heading);
+      color: var(--text-dark);
+    }
+    .species-category-header .count {
+      font-family: var(--font-mono);
+      font-size: var(--text-caption);
+      color: var(--text-muted);
+    }
+    .species-subgroup-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .subgroup-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .subgroup-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+    .subgroup-card__image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .subgroup-card__body {
+      padding: 16px 20px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .subgroup-card__name {
+      font-family: var(--font-display);
+      font-size: var(--text-subtitle);
+      color: var(--text-dark);
+    }
+    .subgroup-card__meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .subgroup-card__desc {
+      font-family: var(--font-body);
+      font-size: var(--text-small);
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo"><a href="index.html">Where to find wildlife</a></div>
+    <nav class="site-nav">
+      <a href="map.html" class="link-hover">Map</a>
+      <a href="species.html" class="link-hover active">Species</a>
+      <div class="search-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Parks, Species...">
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-content">
+    <div class="species-page">
+      <h1 class="species-page__title">Species</h1>
+      <p class="species-page__subtitle">Wildlife groups observed across U.S. National Parks</p>
+
+      <!-- Filter chips -->
+      <div class="species-filter-bar">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="mammals">Mammals</button>
+        <button class="filter-chip" data-filter="birds">Birds</button>
+        <button class="filter-chip" data-filter="reptiles-amphibians">Reptiles &amp; Amphibians</button>
+        <button class="filter-chip" data-filter="insects">Insects &amp; Invertebrates</button>
+        <button class="filter-chip" data-filter="fish-aquatic">Fish &amp; Aquatic Life</button>
+      </div>
+
+      <!-- Mammals -->
+      <div class="species-category-section" data-category="mammals">
+        <div class="species-category-header">
+          <h2>Mammals</h2>
+          <span class="count">2 groups</span>
+        </div>
+        <div class="species-subgroup-grid">
+          <div class="subgroup-card" data-group="large-mammals">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=600&q=80" alt="Large Mammals">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Large Mammals</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-peak">Peak Activity</span>
+                <span class="species-card__season">Autumn</span>
+              </div>
+              <div class="subgroup-card__desc">Includes elk, black bear, bison, mountain lion, moose, and wolf. Most active during dawn and dusk.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="small-mammals">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1507666405895-422eee7d517f?w=600&q=80" alt="Small Mammals">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Small Mammals</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-high">High Activity</span>
+                <span class="species-card__season">Spring</span>
+              </div>
+              <div class="subgroup-card__desc">Includes squirrels, raccoons, river otters, beavers, and marmots. Often spotted near water and forest edges.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Birds -->
+      <div class="species-category-section" data-category="birds">
+        <div class="species-category-header">
+          <h2>Birds</h2>
+          <span class="count">3 groups</span>
+        </div>
+        <div class="species-subgroup-grid">
+          <div class="subgroup-card" data-group="raptors">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1463852247062-1bbca38f7805?w=600&q=80" alt="Raptors">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Raptors</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-medium">Medium Activity</span>
+                <span class="species-card__season">Winter</span>
+              </div>
+              <div class="subgroup-card__desc">Eagles, hawks, falcons, and owls. Hunt in open meadows, cliff edges, and along river corridors.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="waterbirds">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1551085254-e96b210db58a?w=600&q=80" alt="Waterbirds">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Waterbirds</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-high">High Activity</span>
+                <span class="species-card__season">Autumn</span>
+              </div>
+              <div class="subgroup-card__desc">Herons, egrets, Canada geese, mergansers, and loons. Concentrated near lakes, rivers, and wetlands.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="songbirds">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=600&q=80" alt="Songbirds">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Songbirds &amp; Others</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-peak">Peak Activity</span>
+                <span class="species-card__season">Spring</span>
+              </div>
+              <div class="subgroup-card__desc">Mountain bluebirds, warblers, finches, thrushes, and woodpeckers. Peak during spring migration.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reptiles & Amphibians -->
+      <div class="species-category-section" data-category="reptiles-amphibians">
+        <div class="species-category-header">
+          <h2>Reptiles &amp; Amphibians</h2>
+          <span class="count">2 groups</span>
+        </div>
+        <div class="species-subgroup-grid">
+          <div class="subgroup-card" data-group="reptiles">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=600&q=80" alt="Reptiles">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Reptiles</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-medium">Medium Activity</span>
+                <span class="species-card__season">Summer</span>
+              </div>
+              <div class="subgroup-card__desc">Rattlesnakes, garter snakes, lizards, and desert tortoises. Activity peaks in warm dry months.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="amphibians">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=600&q=80" alt="Amphibians">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Amphibians</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-peak">Peak Activity</span>
+                <span class="species-card__season">Summer</span>
+              </div>
+              <div class="subgroup-card__desc">Pacific tree frogs, spotted salamanders, tiger salamanders, and toads. Most active near water after rains.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insects & Invertebrates -->
+      <div class="species-category-section" data-category="insects">
+        <div class="species-category-header">
+          <h2>Insects &amp; Invertebrates</h2>
+          <span class="count">2 groups</span>
+        </div>
+        <div class="species-subgroup-grid">
+          <div class="subgroup-card" data-group="butterflies">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=600&q=80" alt="Butterflies & Moths">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Butterflies &amp; Moths</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-medium">Medium Activity</span>
+                <span class="species-card__season">Summer</span>
+              </div>
+              <div class="subgroup-card__desc">Monarch, swallowtail, and fritillary butterflies; luna and sphinx moths. Visible in meadows and wildflower zones.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="other-insects">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1550159930-40066082a4fc?w=600&q=80" alt="Other Insects">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Other Insects</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-low">Low Activity</span>
+                <span class="species-card__season">Summer</span>
+              </div>
+              <div class="subgroup-card__desc">Dragonflies, beetles, grasshoppers, and fireflies. Found in diverse habitats from ponds to grasslands.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fish & Aquatic Life -->
+      <div class="species-category-section" data-category="fish-aquatic">
+        <div class="species-category-header">
+          <h2>Fish &amp; Aquatic Life</h2>
+          <span class="count">2 groups</span>
+        </div>
+        <div class="species-subgroup-grid">
+          <div class="subgroup-card" data-group="fish">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=600&q=80" alt="Fish">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Fish</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-high">High Activity</span>
+                <span class="species-card__season">Summer</span>
+              </div>
+              <div class="subgroup-card__desc">Sockeye salmon, rainbow trout, cutthroat trout, and steelhead. Tracked in rivers, lakes, and coastal streams.</div>
+            </div>
+          </div>
+          <div class="subgroup-card" data-group="marine-mammals">
+            <img class="subgroup-card__image" src="https://images.unsplash.com/photo-1606567595334-d39972c85dbe?w=600&q=80" alt="Marine Mammals">
+            <div class="subgroup-card__body">
+              <div class="subgroup-card__name">Marine Mammals</div>
+              <div class="subgroup-card__meta">
+                <span class="species-card__badge badge-medium">Medium Activity</span>
+                <span class="species-card__season">Spring</span>
+              </div>
+              <div class="subgroup-card__desc">River otters, mink, and aquatic-adapted species near park waterways. Best spotted at dawn along riverbanks.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const chips = document.querySelectorAll('.filter-chip');
+    const sections = document.querySelectorAll('.species-category-section');
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        sections.forEach(sec => {
+          if (filter === 'all' || sec.dataset.category === filter) {
+            sec.style.display = '';
+          } else {
+            sec.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    document.querySelectorAll('.subgroup-card').forEach(card => {
+      card.addEventListener('click', () => {
+        window.location.href = 'park.html';
+      });
+    });
+  </script>
+</body>
+</html>

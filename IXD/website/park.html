@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Death Valley — Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo"><a href="index.html">Where to find wildlife</a></div>
+    <nav class="site-nav">
+      <a href="map.html" class="link-hover">Map</a>
+      <a href="species.html" class="link-hover">Species</a>
+      <div class="search-bar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Parks, Species...">
+      </div>
+    </nav>
+  </header>
+
+  <!-- Park Detail -->
+  <div class="page-content">
+    <div class="park-page">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="index.html" class="link-hover">Parks</a> / <span>Death Valley</span>
+      </div>
+
+      <h1 class="park-page__title">Death Valley</h1>
+      <p class="park-page__status">Active</p>
+
+      <div class="park-detail">
+        <!-- Left column -->
+        <div class="park-info">
+          <p class="park-description">
+            In this below-sea-level basin, steady drought and record summer heat make Death Valley a land of extremes. Yet, each extreme has a striking contrast. Towering peaks are frosted with winter snow. Rare rainstorms bring vast fields of wildflowers. Lush oases harbor tiny fish and refuge for wildlife and humans. Despite its morbid name, a great diversity of life thrives in Death Valley.
+          </p>
+          <img class="park-landscape" src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80" alt="Death Valley landscape">
+        </div>
+
+        <!-- Right column — Most active species -->
+        <div class="park-species-section">
+          <h3>Most active species</h3>
+          <div class="park-species-grid">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1585468274952-66591eb14165?w=400&q=80" alt="Bighorn Sheep">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=400&q=80" alt="Coyote">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1504450874802-0ba2bcd659e3?w=400&q=80" alt="Desert Tortoise">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1551085254-e96b210db58a?w=400&q=80" alt="Roadrunner">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=400&q=80" alt="Sidewinder">
+            <img class="park-species-thumb" src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=400&q=80" alt="Kit Fox">
+          </div>
+          <a href="species.html" class="show-more-link link-hover">Show more ></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Species thumb click — navigate to species page
+    document.querySelectorAll('.park-species-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        window.location.href = 'species.html';
+      });
+    });
+  </script>
+</body>
+</html>

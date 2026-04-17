@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where to find wildlife</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    /* ── Background ─────────────────────────────────────────────── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: url("bg1.png") center / cover no-repeat;
+      z-index: 0;
+    }
+
+    /* ── Navbar trigger strip ───────────────────────────────────── */
+    #nav-trigger {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 8px;
+      z-index: 300;
+    }
+
+    /* ── Navigation bar ─────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 299;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+      background: rgba(16, 30, 16, 0.84);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transform: translateY(-100%);
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    nav.visible { transform: translateY(0); }
+
+    .nav-brand {
+      color: #e8dfc5;
+      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #e8dfc5;
+      font-size: 13.5px;
+      font-family: Arial, sans-serif;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      opacity: 0.88;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; text-decoration: underline; }
+
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 20px;
+      padding: 6px 16px;
+    }
+    .nav-search svg { flex-shrink: 0; opacity: 0.65; }
+    .nav-search input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #e8dfc5;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      width: 150px;
+    }
+    .nav-search input::placeholder { color: rgba(232, 223, 197, 0.5); }
+
+    /* ── Scene ──────────────────────────────────────────────────── */
+    .scene {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* ── Animal stickers ────────────────────────────────────────── */
+    .animal {
+      position: absolute;
+      cursor: pointer;
+      transition:
+        transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter   0.28s ease;
+      transform-origin: bottom center;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .animal:hover {
+      transform: scale(1.18);
+      filter:
+        drop-shadow(0 0 10px rgba(255, 215, 100, 0.95))
+        drop-shadow(0 0 26px rgba(255, 175, 40, 0.65))
+        drop-shadow(0 0 50px rgba(255, 150, 20, 0.35));
+      z-index: 50 !important;
+    }
+    /* Flying bird scales from center, not bottom */
+    .animal.flying {
+      transform-origin: center;
+    }
+    .animal.flying:hover {
+      transform: scale(1.18);
+    }
+
+    /* ── Modal overlay ──────────────────────────────────────────── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 18, 8, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px;
+    }
+    .overlay.open { display: flex; }
+
+    /* ── Species Card — Redesign ────────────────────────────────── */
+    @keyframes cardPop {
+      from { opacity: 0; transform: scale(0.72) translateY(28px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0);    }
+    }
+
+    .card {
+      position: relative;
+      width: 310px;
+      border-radius: 18px;
+      overflow: visible; /* close button pokes out top */
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55);
+      animation: cardPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    /* Close — white circle, floating above card center */
+    .card-close {
+      position: absolute;
+      top: -18px; left: 50%;
+      transform: translateX(-50%);
+      width: 36px; height: 36px;
+      background: #fff;
+      border: none;
+      border-radius: 50%;
+      color: #444;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .card-close:hover {
+      background: #f0f0f0;
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    /* ── Top photo section ───────────────────── */
+    .card-top {
+      position: relative;
+      height: 248px;
+      border-radius: 18px 18px 0 0;
+      overflow: hidden;
+    }
+
+    .card-photo {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Gradient for text legibility */
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        170deg,
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0.22) 30%,
+        rgba(0,0,0,0.78) 100%
+      );
+      padding: 14px 16px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-subtitle {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      color: rgba(255,255,255,0.68);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .card-title {
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: auto;
+    }
+
+    .card-score-row {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+      margin-bottom: 10px;
+      align-self: center;
+    }
+
+    .score-num {
+      font-family: Georgia, serif;
+      font-size: 56px;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .score-denom {
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+
+    .card-badges {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge-diff {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(160, 35, 35, 0.72);
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      padding: 5px 12px 5px 8px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .badge-diff.low      { background: rgba(28, 80, 165, 0.75); }
+    .badge-diff.moderate { background: rgba(165, 98, 18, 0.78); }
+    .badge-diff.high     { background: rgba(160, 35, 35, 0.72); }
+
+    .badge-diff-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #ff6868;
+      flex-shrink: 0;
+    }
+    .badge-diff.low .badge-diff-dot     { background: #88aaff; }
+    .badge-diff.moderate .badge-diff-dot{ background: #ffa040; }
+
+    .badge-reviews {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: rgba(255,255,255,0.88);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .badge-reviews-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #ccff44;
+      flex-shrink: 0;
+    }
+
+    /* Favorite heart */
+    .card-fav {
+      position: absolute;
+      top: 13px; right: 14px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #ccff44;
+      cursor: pointer;
+      filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+      transition: transform 0.2s;
+      z-index: 5;
+    }
+    .card-fav:hover { transform: scale(1.2); }
+
+    /* Prev / Next arrows */
+    .card-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: rgba(50,50,50,0.48);
+      border: none; border-radius: 50%;
+      width: 28px; height: 28px;
+      color: #fff; font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+      z-index: 5;
+    }
+    .card-nav:hover { background: rgba(50,50,50,0.82); }
+    .card-nav-prev { left: 8px; }
+    .card-nav-next { right: 8px; }
+
+    /* ── Junction circle ──────────────────────── */
+    .card-junction {
+      position: relative;
+      height: 0;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .junction-btn {
+      position: absolute;
+      top: -22px;
+      width: 44px; height: 44px;
+      background: #1b4fff;
+      border: 4px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 17px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 18px rgba(27,79,255,0.45);
+    }
+
+    /* ── Bottom blue section ──────────────────── */
+    .card-bottom {
+      background: #1b4fff;
+      padding: 30px 20px 22px;
+      border-radius: 0 0 18px 18px;
+    }
+
+    .card-type-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .type-icon { font-size: 18px; opacity: 0.9; }
+
+    .card-stats { display: flex; flex-direction: column; gap: 10px; }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stat-bar {
+      display: flex;
+      gap: 2px;
+      width: 20px;
+      align-items: flex-end;
+      height: 18px;
+    }
+
+    .stat-bar span {
+      display: inline-block;
+      width: 4px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 2px;
+    }
+
+    .stat-label {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      flex: 1;
+    }
+
+    .stat-value {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg"></div>
+
+  <!-- Hover trigger strip (top 8px) -->
+  <div id="nav-trigger"></div>
+
+  <!-- Navigation Bar -->
+  <nav id="navbar">
+    <span class="nav-brand">Where to find wildlife</span>
+    <div class="nav-links">
+      <a href="#">Map</a>
+      <a href="#">Species</a>
+    </div>
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+           stroke="#e8dfc5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" placeholder="Parks, Species...">
+    </div>
+  </nav>
+
+  <!-- Wildlife Scene -->
+  <div class="scene">
+
+    <!-- Elk (image 18) — left, large -->
+    <img class="animal" src="image 18.png" alt="Elk"
+         style="left:2vw; bottom:0; height:75vh; z-index:5;"
+         data-name="Ungulates"
+         data-activity="Moderate Activity"
+         data-season="Summer"
+         data-score="4.6" data-sightings="412"
+         data-habitat="Mountain Meadows" data-type="Large Wildlife">
+
+    <!-- Bear (image 19) — center-left, standing -->
+    <img class="animal" src="image 19.png" alt="Black Bear"
+         style="left:29vw; bottom:20vh; height:57vh; z-index:4;"
+         data-name="Large Mammals"
+         data-activity="Low Activity"
+         data-season="Autumn"
+         data-score="4.9" data-sightings="891"
+         data-habitat="Forest Interior" data-type="Large Mammals">
+
+    <!-- Otter (image 20) — right, large -->
+    <img class="animal" src="image 20.png" alt="River Otter"
+         style="left:63vw; bottom:0; height:70vh; z-index:6;"
+         data-name="Semi-aquatic Mammals"
+         data-activity="High Activity"
+         data-season="Spring"
+         data-score="4.7" data-sightings="324"
+         data-habitat="Riverside & Wetlands" data-type="Semi-aquatic">
+
+    <!-- Owl (image 22) — bottom-left, on rock -->
+    <img class="animal" src="image 22.png" alt="Great Horned Owl"
+         style="left:1vw; bottom:0; height:34vh; z-index:8;"
+         data-name="Birds of Prey"
+         data-activity="High Activity"
+         data-season="Winter"
+         data-score="4.5" data-sightings="567"
+         data-habitat="Old-growth Forest" data-type="Nocturnal Birds">
+
+    <!-- Canada Goose (image 23) — center -->
+    <img class="animal" src="image 23.png" alt="Canada Goose"
+         style="left:46vw; bottom:20vh; height:25vh; z-index:5;"
+         data-name="Waterfowl"
+         data-activity="Moderate Activity"
+         data-season="Spring"
+         data-score="4.3" data-sightings="1203"
+         data-habitat="Lakes & Ponds" data-type="Waterfowl">
+
+    <!-- Mountain Bluebird (image 24) — flying, top center -->
+    <img class="animal flying" src="image 24.png" alt="Mountain Bluebird"
+         style="left:39vw; top:7vh; height:17vh; z-index:7;"
+         data-name="Songbirds"
+         data-activity="High Activity"
+         data-season="Summer"
+         data-score="4.8" data-sightings="742"
+         data-habitat="Alpine Meadows" data-type="Songbirds">
+
+    <!-- Painted Turtle (image 25) — bottom, near owl -->
+    <img class="animal" src="image 25.png" alt="Painted Turtle"
+         style="left:15vw; bottom:0; height:10vh; z-index:9;"
+         data-name="Reptiles"
+         data-activity="Low Activity"
+         data-season="Summer"
+         data-score="4.1" data-sightings="289"
+         data-habitat="Freshwater Shores" data-type="Reptiles">
+
+    <!-- Bullfrog (image 26) — bottom center -->
+    <img class="animal" src="image 26.png" alt="Bullfrog"
+         style="left:37vw; bottom:5vh; height:12vh; z-index:9;"
+         data-name="Amphibians"
+         data-activity="Moderate Activity"
+         data-season="Spring"
+         data-score="4.4" data-sightings="634"
+         data-habitat="Wetlands & Bogs" data-type="Amphibians">
+
+    <!-- Monarch Butterfly (image 28) — bottom center-left -->
+    <img class="animal" src="image 28.png" alt="Monarch Butterfly"
+         style="left:27vw; bottom:21vh; height:10vh; z-index:8;"
+         data-name="Insects"
+         data-activity="High Activity"
+         data-season="Summer"
+         data-score="4.7" data-sightings="856"
+         data-habitat="Wildflower Fields" data-type="Insects">
+
+    <!-- Sockeye Salmon (image 29) — right, mid-height -->
+    <img class="animal" src="image 29.png" alt="Sockeye Salmon"
+         style="left:71vw; bottom:26vh; height:13vh; z-index:7;"
+         data-name="Fish"
+         data-activity="High Activity"
+         data-season="Autumn"
+         data-score="4.6" data-sightings="445"
+         data-habitat="Mountain Streams" data-type="Fish">
+
+  </div>
+
+  <!-- Species Card Modal -->
+  <div class="overlay" id="overlay">
+    <div class="card" id="card">
+
+      <!-- Close — floats above card, centered -->
+      <button class="card-close" id="card-close" aria-label="Close">✕</button>
+
+      <!-- Top: photo + info overlay -->
+      <div class="card-top">
+        <img class="card-photo" id="card-photo" src="" alt="">
+        <button class="card-fav">♥</button>
+        <div class="card-overlay">
+          <div class="card-subtitle" id="card-subtitle"></div>
+          <h2 class="card-title" id="card-title"></h2>
+          <div class="card-score-row">
+            <span class="score-num" id="card-score"></span>
+            <span class="score-denom">/5</span>
+          </div>
+          <div class="card-badges">
+            <div class="badge-diff" id="card-diff-badge">
+              <div class="badge-diff-dot"></div>
+              <span id="card-diff-label"></span>
+            </div>
+            <div class="badge-reviews">
+              <div class="badge-reviews-dot"></div>
+              <span id="card-sightings"></span>
+            </div>
+          </div>
+        </div>
+        <button class="card-nav card-nav-prev">‹</button>
+        <button class="card-nav card-nav-next">›</button>
+      </div>
+
+      <!-- Junction circle -->
+      <div class="card-junction">
+        <div class="junction-btn">↓</div>
+      </div>
+
+      <!-- Bottom: blue stats -->
+      <div class="card-bottom">
+        <div class="card-type-row">
+          <span class="type-icon">🐾</span>
+          <span id="card-type"></span>
+        </div>
+        <div class="card-stats">
+          <div class="stat-row">
+            <div class="stat-bar">
+              <span style="height:7px"></span>
+              <span style="height:13px"></span>
+            </div>
+            <span class="stat-label">Activity Level</span>
+            <span class="stat-value" id="card-activity"></span>
+          </div>
+          <div class="stat-row">
+            <div class="stat-bar">
+              <span style="height:5px"></span>
+              <span style="height:10px"></span>
+              <span style="height:16px"></span>
+            </div>
+            <span class="stat-label">Peak Season</span>
+            <span class="stat-value" id="card-season"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ── Navbar ──────────────────────────────────────────────────────────────
+    const navbar     = document.getElementById('navbar');
+    const navTrigger = document.getElementById('nav-trigger');
+    let hideTimer = null;
+
+    function showNav() {
+      clearTimeout(hideTimer);
+      navbar.classList.add('visible');
+    }
+
+    function scheduleHide() {
+      hideTimer = setTimeout(() => navbar.classList.remove('visible'), 180);
+    }
+
+    navTrigger.addEventListener('mouseenter', showNav);
+    navTrigger.addEventListener('mouseleave', scheduleHide);
+    navbar.addEventListener('mouseenter', showNav);
+    navbar.addEventListener('mouseleave', scheduleHide);
+
+    // ── Species Card Modal ──────────────────────────────────────────────────
+    const overlay       = document.getElementById('overlay');
+    const cardPhoto     = document.getElementById('card-photo');
+    const cardTitle     = document.getElementById('card-title');
+    const cardSubtitle  = document.getElementById('card-subtitle');
+    const cardScore     = document.getElementById('card-score');
+    const cardDiffBadge = document.getElementById('card-diff-badge');
+    const cardDiffLabel = document.getElementById('card-diff-label');
+    const cardSightings = document.getElementById('card-sightings');
+    const cardType      = document.getElementById('card-type');
+    const cardAct       = document.getElementById('card-activity');
+    const cardSeas      = document.getElementById('card-season');
+    const cardClose     = document.getElementById('card-close');
+
+    document.querySelectorAll('.animal').forEach(img => {
+      img.addEventListener('click', e => {
+        e.stopPropagation();
+        cardPhoto.src            = img.src;
+        cardPhoto.alt            = img.alt;
+        cardSubtitle.textContent = img.dataset.habitat || 'Wildlife Reserve';
+        cardTitle.textContent    = img.dataset.name;
+        cardScore.textContent    = img.dataset.score  || '4.8';
+        cardType.textContent     = img.dataset.type   || img.dataset.name;
+        cardAct.textContent      = img.dataset.activity;
+        cardSeas.textContent     = img.dataset.season;
+        cardSightings.textContent = (img.dataset.sightings || '300') + ' sightings';
+
+        // Difficulty badge style based on activity level
+        const act = (img.dataset.activity || '').toLowerCase();
+        cardDiffBadge.className = 'badge-diff';
+        if (act.includes('low')) {
+          cardDiffBadge.classList.add('low');
+          cardDiffLabel.textContent = 'Elusive';
+        } else if (act.includes('high')) {
+          cardDiffBadge.classList.add('high');
+          cardDiffLabel.textContent = 'Active';
+        } else {
+          cardDiffBadge.classList.add('moderate');
+          cardDiffLabel.textContent = 'Common';
+        }
+
+        // Re-trigger entry animation
+        const card = document.getElementById('card');
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = '';
+        overlay.classList.add('open');
+      });
+    });
+
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+    cardClose.addEventListener('click', () => overlay.classList.remove('open'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') overlay.classList.remove('open');
+    });
+  </script>
+
+</body>
+</html>

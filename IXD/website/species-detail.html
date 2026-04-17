@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Species Detail — Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo"><a href="index.html">Where to find wildlife</a></div>
+    <nav class="site-nav">
+      <div class="view-toggle">
+        <a href="map.html" class="toggle-btn">Map</a>
+        <span class="toggle-slash">/</span>
+        <a href="index.html" class="toggle-btn active">Species</a>
+      </div>
+      <div class="search-bar" id="search-bar">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" id="search-input" placeholder="Parks, Species..." autocomplete="off">
+        <div class="search-results" id="search-results"></div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Species Detail Page -->
+  <main class="species-detail-page" id="species-detail-page">
+    <div class="species-detail__grid">
+      <!-- Left: hero image -->
+      <div class="species-detail__media">
+        <img id="species-image" src="" alt="">
+      </div>
+
+      <!-- Right: text content -->
+      <div class="species-detail__content">
+        <nav class="species-detail__breadcrumb">
+          <a href="index.html" class="link-hover">Species</a>
+          <span class="breadcrumb-sep">/</span>
+          <span id="species-breadcrumb-name"></span>
+        </nav>
+
+        <h1 class="species-detail__title" id="species-title"></h1>
+
+        <div class="species-detail__meta">
+          <span class="species-card__badge" id="species-activity-badge"></span>
+          <span class="species-card__season" id="species-season-badge"></span>
+        </div>
+
+        <p class="species-detail__description" id="species-description"></p>
+
+        <div class="species-detail__examples">
+          <h3 class="species-detail__examples-title">Commonly Seen</h3>
+          <ul class="species-detail__examples-list" id="species-examples"></ul>
+        </div>
+
+        <a href="#" class="species-detail__cta" id="species-map-link">
+          <span class="species-detail__cta-label">See where to find them on the map</span>
+          <span class="species-detail__cta-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Not found fallback -->
+  <div class="species-not-found" id="species-not-found" hidden>
+    <h1>Species Not Found</h1>
+    <p>We couldn't find the species you were looking for.</p>
+    <a href="index.html" class="species-detail__cta">
+      <span class="species-detail__cta-label">Back to home</span>
+      <span class="species-detail__cta-arrow">&rarr;</span>
+    </a>
+  </div>
+
+  <script src="js/species-data.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/species-detail.js"></script>
+</body>
+</html>

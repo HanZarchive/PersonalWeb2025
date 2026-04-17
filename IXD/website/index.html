@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="site-logo"><a href="index.html">Where to find wildlife</a></div>
+    <nav class="site-nav">
+      <div class="view-toggle">
+        <a href="map.html" class="toggle-btn">Map</a>
+        <span class="toggle-slash">/</span>
+        <a href="index.html" class="toggle-btn active">Species</a>
+      </div>
+      <div class="search-bar" id="search-bar">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" placeholder="Parks, Species..." autocomplete="off">
+      </div>
+    </nav>
+  </header>
+
+  <section class="home-hero">
+    <div class="home-hero__bg"></div>
+
+    <!-- 1. Black Bear — Large Mammals -->
+    <div class="animal-cutout" data-species="large-mammals"
+         style="left:22%; bottom:10%; width:196px; height:268px;">
+      <img src="assets/Large Mammals.png" alt="Black Bear">
+    </div>
+
+    <!-- 2. Mountain Bluebird — Songbirds & Others — flying top center -->
+    <div class="animal-cutout" data-species="songbirds"
+         style="left:42%; top:7%; width:155px; height:124px;">
+      <img src="assets/Songbirds & Others.png" alt="Mountain Bluebird">
+    </div>
+
+    <!-- 3. Canada Goose — Waterbirds -->
+    <div class="animal-cutout" data-species="waterbirds"
+         style="left:47%; bottom:19%; width:196px; height:180px;">
+      <img src="assets/Waterbirds.png" alt="Canada Goose">
+    </div>
+
+    <!-- 4. River Otter — Small Mammals — right side standing -->
+    <div class="animal-cutout" data-species="small-mammals"
+         style="right:13%; bottom:12%; width:164px; height:214px;">
+      <img src="assets/Small Mammals.png" alt="River Otter">
+    </div>
+
+    <!-- 5. Salmon — Fish — far right, leaping -->
+    <div class="animal-cutout" data-species="fish"
+         style="right:3%; bottom:30%; width:110px; height:82px;">
+      <img src="assets/Fish.png" alt="Salmon">
+    </div>
+
+    <!-- 6. Great Horned Owl — Raptors — lower left on log -->
+    <div class="animal-cutout" data-species="raptors"
+         style="left:1%; bottom:2%; width:158px; height:196px;">
+      <img src="assets/Raptors.png" alt="Great Horned Owl">
+    </div>
+
+    <!-- 7. Monarch Butterfly — Butterflies & Moths — mid-left -->
+    <div class="animal-cutout" data-species="butterflies"
+         style="left:19%; bottom:34%; width:112px; height:102px;">
+      <img src="assets/Butterflies & Moths.png" alt="Monarch Butterfly">
+    </div>
+
+    <!-- 8. Honeybee — Other Insects — flying, mid area -->
+    <div class="animal-cutout" data-species="other-insects"
+         style="left:34%; bottom:43%; width:92px; height:82px;">
+      <img src="assets/Other insects.png" alt="Honeybee">
+    </div>
+
+    <!-- 9. Bullfrog — Amphibians — lower center -->
+    <div class="animal-cutout" data-species="amphibians"
+         style="left:37%; bottom:8%; width:88px; height:80px;">
+      <img src="assets/Amphibians.png" alt="Bullfrog">
+    </div>
+
+    <!-- 10. Painted Turtle — Reptiles — lower left-center -->
+    <div class="animal-cutout" data-species="reptiles"
+         style="left:13%; bottom:2%; width:124px; height:92px;">
+      <img src="assets/Reptiles.png" alt="Painted Turtle">
+    </div>
+
+
+    <!-- ── Species info cards (one per group) ── -->
+
+    <div class="species-card" id="card-large-mammals">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?w=460&q=85" alt="Large Mammals">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Large Mammals</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-high">High Activity</span>
+            <span class="species-card__season">Autumn</span>
+          </div>
+          <a href="species-detail.html?species=large-mammals" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-small-mammals">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=460&q=85" alt="Small Mammals">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Small Mammals</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-peak">Peak Activity</span>
+            <span class="species-card__season">Spring</span>
+          </div>
+          <a href="species-detail.html?species=small-mammals" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-raptors">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?w=460&q=85" alt="Raptors">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Raptors</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-medium">Medium Activity</span>
+            <span class="species-card__season">Winter</span>
+          </div>
+          <a href="species-detail.html?species=raptors" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-waterbirds">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1551085254-e96b210db58a?w=460&q=85" alt="Waterbirds">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Waterbirds</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-high">High Activity</span>
+            <span class="species-card__season">Autumn</span>
+          </div>
+          <a href="species-detail.html?species=waterbirds" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-songbirds">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1452570053594-1b985d6ea890?w=460&q=85" alt="Songbirds">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Songbirds &amp; Others</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-peak">Peak Activity</span>
+            <span class="species-card__season">Spring</span>
+          </div>
+          <a href="species-detail.html?species=songbirds" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-reptiles">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1497752531616-c3afd9760a11?w=460&q=85" alt="Reptiles">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Reptiles</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-low">Low Activity</span>
+            <span class="species-card__season">Summer</span>
+          </div>
+          <a href="species-detail.html?species=reptiles" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-amphibians">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1559253664-ca249d4608c6?w=460&q=85" alt="Amphibians">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Amphibians</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-peak">Peak Activity</span>
+            <span class="species-card__season">Summer</span>
+          </div>
+          <a href="species-detail.html?species=amphibians" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-butterflies">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1558642452-9d2a7deb7f62?w=460&q=85" alt="Butterflies & Moths">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Butterflies &amp; Moths</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-medium">Medium Activity</span>
+            <span class="species-card__season">Summer</span>
+          </div>
+          <a href="species-detail.html?species=butterflies" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-other-insects">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1550159930-40066082a4fc?w=460&q=85" alt="Other Insects">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Other Insects</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-high">High Activity</span>
+            <span class="species-card__season">Summer</span>
+          </div>
+          <a href="species-detail.html?species=other-insects" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="species-card" id="card-fish">
+      <div class="species-card__photo-wrap">
+        <img src="https://images.unsplash.com/photo-1535591273668-578e31182c4f?w=460&q=85" alt="Fish">
+      </div>
+      <div class="species-card__body">
+        <div class="species-card__name">Fish</div>
+        <div class="species-card__footer">
+          <div class="species-card__badges">
+            <span class="species-card__badge badge-high">High Activity</span>
+            <span class="species-card__season">Summer</span>
+          </div>
+          <a href="species-detail.html?species=fish" class="species-card__readmore">Read more</a>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <script src="js/species-data.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

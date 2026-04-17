@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nav Toggle Mockups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+DW+Pica&family=Spectral:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'IM Fell DW Pica', serif;
+      background: #1a2e35;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .section {
+      width: 100%;
+      padding: 48px 0 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .label {
+      color: rgba(247,240,232,0.4);
+      font-family: 'Spectral', serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* Shared header shell */
+    .header-shell {
+      width: 900px;
+      height: 60px;
+      background: rgba(3,31,37,0.50);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      border-radius: 4px;
+    }
+    .logo {
+      font-family: 'IM Fell DW Pica', serif;
+      font-size: 24px;
+      color: #F7F0E8;
+      letter-spacing: 0.24px;
+      white-space: nowrap;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .search-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 200px;
+      padding: 9px 14px;
+      background: rgba(247,247,247,0.60);
+      border-radius: 12px;
+      color: #645E59;
+      font-family: 'Spectral', serif;
+      font-size: 15px;
+    }
+    .search-pill svg { flex-shrink: 0; }
+
+    /* ── Option A: Pill Segmented Control ── */
+    .toggle-a {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 3px;
+      gap: 0;
+    }
+    .toggle-a a {
+      font-family: 'IM Fell DW Pica', serif;
+      font-size: 16px;
+      color: rgba(247,240,232,0.50);
+      padding: 5px 20px;
+      border-radius: 18px;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.16px;
+      white-space: nowrap;
+    }
+    .toggle-a a.active {
+      background: rgba(247,240,232,0.18);
+      color: #F7F0E8;
+    }
+
+    /* ── Option B: Underline Tabs ── */
+    .toggle-b {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .toggle-b a {
+      font-family: 'IM Fell DW Pica', serif;
+      font-size: 16px;
+      letter-spacing: 0.16px;
+      text-decoration: none;
+      padding-bottom: 4px;
+      white-space: nowrap;
+      position: relative;
+    }
+    .toggle-b a.active {
+      color: #F7F0E8;
+      border-bottom: 1.5px solid #F7F0E8;
+    }
+    .toggle-b a:not(.active) {
+      color: rgba(247,240,232,0.45);
+    }
+    .toggle-b a:not(.active):hover {
+      color: rgba(247,240,232,0.75);
+    }
+
+    /* ── Option C: Slash Divider ── */
+    .toggle-c {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .toggle-c a {
+      font-family: 'IM Fell DW Pica', serif;
+      font-size: 16px;
+      letter-spacing: 0.16px;
+      text-decoration: none;
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+    .toggle-c a.active {
+      color: #F7F0E8;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .toggle-c a:not(.active) {
+      color: rgba(247,240,232,0.40);
+    }
+    .toggle-c .divider {
+      color: rgba(247,240,232,0.25);
+      font-size: 14px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Option A -->
+  <div class="section">
+    <div class="label">Option A — Pill Segmented Control（胶囊切换）</div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-a">
+          <a href="#">Map</a>
+          <a href="#" class="active">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-a">
+          <a href="#" class="active">Map</a>
+          <a href="#">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="section">
+    <div class="label">Option B — Underline Tabs（下划线标签）</div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-b">
+          <a href="#">Map</a>
+          <a href="#" class="active">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-b">
+          <a href="#" class="active">Map</a>
+          <a href="#">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="section">
+    <div class="label">Option C — Slash Divider（斜线分隔）</div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-c">
+          <a href="#">Map</a>
+          <span class="divider">/</span>
+          <a href="#" class="active">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+    <div class="header-shell">
+      <div class="logo">Where to find wildlife</div>
+      <div class="nav-right">
+        <div class="toggle-c">
+          <a href="#" class="active">Map</a>
+          <span class="divider">/</span>
+          <a href="#">Species</a>
+        </div>
+        <div class="search-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#645E59" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Parks, Species...
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map — Where to Find Wildlife</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* Map page: transparent header */
+    .site-header {
+      background: transparent;
+    }
+
+    /* Heatmap gradient overlay on map */
+    /* .leaflet-container {
+      background: #d4e4c8;
+    } */
+    .heatmap-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 400;
+      pointer-events: none;
+      mix-blend-mode: multiply;
+      opacity: 0.7;
+      transition: opacity 0.5s ease;
+    }
+    /* Custom map tiles styling for nature feel */
+    .leaflet-tile-pane {
+      filter: saturate(0.8) brightness(1.02);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="site-logo"><a href="index.html">Where to find wildlife</a></div>
+    <nav class="site-nav">
+      <div class="view-toggle">
+        <a href="map.html" class="toggle-btn active">Map</a>
+        <span class="toggle-slash">/</span>
+        <a href="index.html" class="toggle-btn">Species</a>
+      </div>
+      <div class="search-bar" id="search-bar">
+        <span class="search-icon">&#x1F50D;</span>
+        <input type="text" placeholder="Parks, Species..." autocomplete="off">
+      </div>
+    </nav>
+  </header>
+
+  <!-- Map Page -->
+  <div class="map-page">
+    <div class="map-container">
+      <div id="map"></div>
+
+      <!-- Dropdowns -->
+      <div class="map-controls">
+        <div class="map-dropdown" id="park-dropdown">
+          <div class="map-dropdown__trigger">
+            <img src="assets/park.svg" class="map-icon" alt="">
+            <span class="map-dropdown__label">Yosemite</span>
+            <img src="assets/dropdown.svg" class="map-chevron" alt="">
+          </div>
+          <ul class="map-dropdown__list">
+            <li class="map-dropdown__item selected" data-value="yosemite">Yosemite</li>
+            <li class="map-dropdown__item" data-value="yellowstone">Yellowstone</li>
+            <li class="map-dropdown__item" data-value="death-valley">Death Valley</li>
+            <li class="map-dropdown__item" data-value="glacier">Glacier</li>
+            <li class="map-dropdown__item" data-value="grand-canyon">Grand Canyon</li>
+            <li class="map-dropdown__item" data-value="zion">Zion</li>
+          </ul>
+        </div>
+        <div class="map-dropdown" id="species-dropdown">
+          <div class="map-dropdown__trigger">
+            <img src="assets/species.svg" class="map-icon" alt="">
+            <span class="map-dropdown__label">Amphibians</span>
+            <img src="assets/dropdown.svg" class="map-chevron" alt="">
+          </div>
+          <ul class="map-dropdown__list">
+            <li class="map-dropdown__item selected" data-value="amphibians">Amphibians</li>
+            <li class="map-dropdown__item" data-value="large-mammals">Large Mammals</li>
+            <li class="map-dropdown__item" data-value="small-mammals">Small Mammals</li>
+            <li class="map-dropdown__item" data-value="reptiles">Reptiles</li>
+            <li class="map-dropdown__item" data-value="fish">Fish</li>
+            <li class="map-dropdown__item" data-value="birds">Birds</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Activity Legend -->
+      <div class="activity-legend">
+        <h4>Activity Legend</h4>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#E53935;"></div>
+          <span class="legend-label">Peak</span>
+          <span class="legend-range">81–100%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#FF5722;"></div>
+          <span class="legend-label">High</span>
+          <span class="legend-range">61–80%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#FF9800;"></div>
+          <span class="legend-label">Medium</span>
+          <span class="legend-range">41–60%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#FFC107;"></div>
+          <span class="legend-label">Low</span>
+          <span class="legend-range">21–40%</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-color" style="background:#FFEB3B;"></div>
+          <span class="legend-label">Minimal</span>
+          <span class="legend-range">0–20%</span>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-container">
+        <div class="timeline-bars" id="timeline-bars">
+          <!-- 12 bars for months, heights set by JS -->
+          <div class="timeline-bar" data-month="0"></div>
+          <div class="timeline-bar" data-month="1"></div>
+          <div class="timeline-bar" data-month="2"></div>
+          <div class="timeline-bar" data-month="3"></div>
+          <div class="timeline-bar" data-month="4"></div>
+          <div class="timeline-bar" data-month="5"></div>
+          <div class="timeline-bar" data-month="6"></div>
+          <div class="timeline-bar" data-month="7"></div>
+          <div class="timeline-bar" data-month="8"></div>
+          <div class="timeline-bar" data-month="9"></div>
+          <div class="timeline-bar" data-month="10"></div>
+          <div class="timeline-bar" data-month="11"></div>
+        </div>
+        <div class="timeline-slider-track" id="timeline-track">
+          <div class="timeline-slider-fill" id="timeline-fill"></div>
+          <div class="timeline-slider-thumb" id="timeline-thumb"></div>
+        </div>
+        <div class="timeline-ticks" id="timeline-ticks">
+          <div class="timeline-tick" data-month="0"><span>Jan</span></div>
+          <div class="timeline-tick" data-month="1"><span>Feb</span></div>
+          <div class="timeline-tick" data-month="2"><span>Mar</span></div>
+          <div class="timeline-tick" data-month="3"><span>Apr</span></div>
+          <div class="timeline-tick" data-month="4"><span>May</span></div>
+          <div class="timeline-tick active" data-month="5"><span>Jun</span></div>
+          <div class="timeline-tick" data-month="6"><span>Jul</span></div>
+          <div class="timeline-tick" data-month="7"><span>Aug</span></div>
+          <div class="timeline-tick" data-month="8"><span>Sep</span></div>
+          <div class="timeline-tick" data-month="9"><span>Oct</span></div>
+          <div class="timeline-tick" data-month="10"><span>Nov</span></div>
+          <div class="timeline-tick" data-month="11"><span>Dec</span></div>
+        </div>
+      </div>
+
+      <!-- Bottom gradient for timeline readability -->
+      <div class="map-bottom-gradient"></div>
+
+      <!-- Canvas for heatmap -->
+      <canvas class="heatmap-overlay" id="heatmap-canvas"></canvas>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/species-data.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/map.js?v=4"></script>
+</body>
+</html>
