@@ -108,7 +108,7 @@ async function drawHeatmap(monthIndex) {
 
     try {
       // 去后端拉取数据
-      const response = await fetch(`http://localhost:3000/api/heatmap?park=${parkKey}&species=${species}&month=${realMonth}`);
+      const response = await fetch(`/api/heatmap?park=${parkKey}&species=${species}&month=${realMonth}`);
       if (!response.ok) throw new Error("获取热力图数据失败");
       const realData = await response.json();
 
