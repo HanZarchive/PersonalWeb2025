@@ -1,9 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
+const path = require('path');
 
 const app = express();
 app.use(cors());
+
+// Serve static frontend files from the website/ root (one level up from js/)
+app.use(express.static(path.join(__dirname, '..')));
 
 // 💡 核心：内存缓存池 (In-Memory Cache)
 // 结构示例： { 'yosemite_amphibians_06': [坐标数组], ... }
